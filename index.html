@@ -313,4 +313,87 @@
                     <div style="font-size:0.5rem;color:#333">${s===0?'TOP':'OFF'}</div>
                 </div>`;
             }
-    
+            root.innerHTML += `<div class="ex-card">
+                <div class="ex-header">
+                    <div class="ex-title-row">
+                        <div class="ex-title">${ex.n}</div>
+                        <div class="rest-trigger" onclick="triggerRest(this, 120)">START REST</div>
+                    </div>
+                    <div class="ex-ai-pres">${AI.getSetInstruction(ex.n)}</div>
+                </div>
+                ${setsHtml}
+            </div>`;
+        });
+    }
+
+    function graphLoop() {
+        MUSCLES.forEach(m => {
+            const node = db.b[m] || {ts: 0, vol: 0};
+            const mpsVal = AI.mps(node.ts, node.vol);
+            const can = document.getElementById(`c-${m}`); if(!can) return;
+            const ctx = can.getContext('2d'), w = can.width = can.offsetWidth, h = can.height = can.offsetHeight;
+            ctx.clearRect(0, 0, w, h); ctx.strokeStyle = '#111'; ctx.beginPath();
+            for(let x=0; x<w; x++){
+                const tx = (x/w)*96; const valX = AI.mps(Date.now() - (tx * 3600000), node.vol);
+                const y = h - ((valX-5)*(h/30)); if(x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+            } ctx.stroke();
+            const tHrs = (Date.now() - node.ts) / 3600000; const mx = (tHrs/96)*w;
+            if(mx < w && node.ts > 0) { ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(mx, h - ((mpsVal-5)*(h/30)), 3, 0, Math.PI*2); ctx.fill(); }
+        });
+        requestAnimationFrame(graphLoop);
+    }
+
+    function saveSet(id, f, v) { if(!db.s[id]) db.s[id]={w:'',r:''}; db.s[id][f]=v; localStorage.setItem('a18_s', JSON.stringify(db.s)); AI.runInference(); }
+
+    function commitSession() {
+        const day = PROTOCOL[db.idx]; let vol = 0; let data = [];
+        day.ex.forEach((ex, exIdx) => {
+            let sets = [];
+            for(let s=0; s<ex.s; s++){
+                const v = db.s[`${db.idx}_${exIdx}_${s}`];
+                if(v && v.w && v.r) { vol += (v.w * v.r); sets.push(v); }
+            }
+            if(sets.length) data.push({n: ex.n, sets});
+        });
+        if(!data.length) return alert("EMPTY SESSION");
+        day.target.forEach(m => db.b[m] = {ts: Date.now(), vol: vol});
+        db.h.push({ts: Date.now(), day: day.name, vol, data});
+        db.s = {}; localStorage.setItem('a18_h', JSON.stringify(db.h));
+        localStorage.setItem('a18_b', JSON.stringify(db.b)); localStorage.setItem('a18_s', '{}');
+        alert("SESSION SECURED."); init();
+    }
+
+    function nav(t) {
+        document.getElementById('v-terminal').style.display = t==='terminal' ? 'block' : 'none';
+        document.getElementById('v-meta').style.display = t==='meta' ? 'block' : 'none';
+        document.getElementById('v-heatmap').style.display = t==='heatmap' ? 'block' : 'none';
+        if(t==='meta') renderMetadata();
+    }
+
+    function renderMetadata() {
+        const last7 = db.h.filter(h => (Date.now() - h.ts) < 7*24*3600000);
+        const last30 = db.h.filter(h => (Date.now() - h.ts) < 30*24*3600000);
+        document.getElementById('weekly-report').innerHTML = `
+            <div class="rep-tile"><div class="rep-lab">Volume (7d)</div><div class="rep-val">${(last7.reduce((a,b)=>a+b.vol, 0)/1000).toFixed(1)}k</div></div>
+            <div class="rep-tile"><div class="rep-lab">Efficiency</div><div class="rep-val">${(100-AI.calcACWR()*10).toFixed(0)}%</div></div>`;
+        document.getElementById('monthly-report').innerHTML = `
+            <div class="rep-tile"><div class="rep-lab">Total Tonnage</div><div class="rep-val">${(last30.reduce((a,b)=>a+b.vol, 0)/1000).toFixed(1)}T</div></div>
+            <div class="rep-tile"><div class="rep-lab">Status</div><div class="rep-val">ELITE</div></div>`;
+
+        const hofRoot = document.getElementById('hof-engine'); hofRoot.innerHTML = '';
+        Object.entries(AI.getHallOfFame()).forEach(([n, d]) => {
+            hofRoot.innerHTML += `<div class="hof-card"><div class="hof-name">${n}</div><div class="hof-stat">${d.w} KG</div></div>`;
+        });
+
+        const log = document.getElementById('raw-history'); log.innerHTML = '';
+        db.h.slice(-10).reverse().forEach(h => {
+            log.innerHTML += `<div style="background:#080808; padding:15px; border-bottom:1px solid #111; display:flex; justify-content:space-between;">
+                <div><div style="font-size:0.8rem;color:#eee">${h.day}</div><div style="font-size:0.5rem;color:#444">${new Date(h.ts).toDateString()}</div></div>
+                <div style="font-family:var(--font-mono); color:var(--accent);">${(h.vol/1000).toFixed(2)}k</div></div>`;
+        });
+    }
+
+    init();
+</script>
+</body>
+</html>
