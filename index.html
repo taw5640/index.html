@@ -2,12 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="theme-color" content="#000000">
+    <meta name="theme-color" content="#d4af37">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="apple-touch-icon" href="https://via.placeholder.com/192/d4af37/000000?text=A">
     
-    <link rel="manifest" href='data:application/json,{"name":"AETHER v18","short_name":"AETHER","start_url":".","display":"standalone","background_color":"#000000","theme_color":"#d4af37","icons":[{"src":"https://via.placeholder.com/192/d4af37/000000?text=A","sizes":"192x192","type":"image/png"}]}'>
+    <link rel="manifest" href='data:application/json,{"name":"AETHER v18 QUANTUM","short_name":"AETHER","start_url":".","display":"standalone","background_color":"#000000","theme_color":"#d4af37","icons":[{"src":"https://via.placeholder.com/192/d4af37/000000?text=A","sizes":"192x192","type":"image/png"}]}'>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>AETHER v18 | TOTAL CONTROL</title>
@@ -26,7 +25,11 @@
 
         header { padding: 20px 25px; border-bottom: 1px solid #111; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: rgba(0,0,0,0.9); backdrop-filter: blur(25px); z-index: 5000; }
         .logo { font-weight: 700; letter-spacing: 5px; color: var(--accent); font-size: 0.8rem; font-family: var(--font-mono); }
-        .status-tag { font-family: var(--font-mono); font-size: 0.55rem; color: #444; }
+        
+        /* مؤشر حالة الحفظ */
+        .sync-status { font-family: var(--font-mono); font-size: 0.5rem; padding: 2px 8px; border: 1px solid #333; border-radius: 4px; }
+        .sync-online { color: var(--safe); border-color: var(--safe); }
+        .sync-offline { color: var(--danger); border-color: var(--danger); }
 
         /* AI ENGINE CORE */
         .ai-core { margin: 15px; padding: 30px; background: #040404; border: 1px solid #151515; border-bottom: 3px solid var(--accent); position: relative; }
@@ -61,7 +64,6 @@
         .ex-title { font-size: 0.95rem; font-weight: 500; color: #fff; }
         .ex-ai-pres { font-size: 0.65rem; color: var(--safe); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 1px; }
 
-        /* FIX: REST TIMER POSITION */
         .rest-trigger { padding: 5px 10px; background: #000; border: 1px solid #222; color: var(--info); font-family: var(--font-mono); font-size: 0.6rem; cursor: pointer; }
 
         .set-row { display: grid; grid-template-columns: 30px 1fr 1fr 40px; gap: 10px; align-items: center; margin-bottom: 8px; }
@@ -69,7 +71,7 @@
         .s-input { background: #000; border: 1px solid #111; padding: 10px; }
         input { background: transparent; border: none; color: var(--accent); font-family: var(--font-mono); font-size: 1.1rem; width: 100%; outline: none; text-align: center; }
 
-        /* METADATA REPORTS (ORIGINAL STYLE) */
+        /* METADATA REPORTS */
         #v-meta { display: none; padding: 20px; }
         .report-section { background: var(--panel); padding: 25px; margin-bottom: 20px; border: 1px solid #111; border-left: 2px solid var(--info); }
         .report-title { font-family: var(--font-mono); font-size: 0.6rem; color: var(--info); letter-spacing: 3px; margin-bottom: 15px; }
@@ -91,7 +93,6 @@
 
         .btn-lock { width: calc(100% - 30px); margin: 15px; padding: 22px; background: var(--accent); color: #000; font-family: var(--font-mono); font-weight: 700; border: none; letter-spacing: 5px; cursor: pointer; text-transform: uppercase; }
         
-        /* HALL OF FAME SPECIFIC */
         .hof-card { background: #080808; padding: 15px; border-bottom: 1px solid #111; display: flex; justify-content: space-between; align-items: center; }
         .hof-name { font-size: 0.8rem; color: #fff; }
         .hof-stat { font-family: var(--font-mono); color: var(--accent); font-weight: 700; }
@@ -102,19 +103,19 @@
 <div class="app-container">
     <header>
         <div class="logo">AETHER_v18_QUANTUM</div>
-        <div class="status-tag" id="sys-clock">00:00:00</div>
+        <div id="sync-status" class="sync-status sync-online">LOCAL_VAULT</div>
     </header>
 
     <div id="v-terminal">
         <div class="ai-core">
             <div class="ai-header"><span class="ai-pulse"></span> SYSTEM_PRESCRIPTION_ENGINE</div>
-            <div id="ai-main-cmd" class="ai-main-command">INITIALIZING ANALYTICS...</div>
-            <div id="ai-log" class="ai-analysis-log">Scanning historical volume metrics and CNS fatigue indices. Ready for synchronization.</div>
+            <div id="ai-main-cmd" class="ai-main-command">INITIALIZING...</div>
+            <div id="ai-log" class="ai-analysis-log">Vault verified. Offline persistence active.</div>
             <div class="ai-metrics-grid">
                 <div class="m-tile"><div class="m-lab">CNS_DRIVE</div><div class="m-val" id="m-cns">0%</div></div>
                 <div class="m-tile"><div class="m-lab">MPS_SAT</div><div class="m-val" id="m-mps">0%</div></div>
                 <div class="m-tile"><div class="m-lab">SESSION_D</div><div class="m-val" id="m-density">0.0</div></div>
-                <div class="m-tile"><div class="m-lab">RECOVERY_H</div><div class="m-val" id="m-rec">--</div></div>
+                <div class="m-tile"><div class="m-lab">UPTIME</div><div class="m-val" id="m-rec">--</div></div>
             </div>
         </div>
 
@@ -149,17 +150,14 @@
             <div class="report-title">WEEKLY_ANALYTICS_SUMMARY</div>
             <div class="report-grid" id="weekly-report"></div>
         </div>
-        
         <div class="report-section" style="border-left-color: var(--accent);">
             <div class="report-title">MONTHLY_STRUCTURAL_SHIFT</div>
             <div class="report-grid" id="monthly-report"></div>
         </div>
-
         <div class="report-section" style="border-left-color: var(--safe);">
-            <div class="report-title">🏆 HALL_OF_FAME (ALL-TIME PRs)</div>
+            <div class="report-title">🏆 HALL_OF_FAME</div>
             <div id="hof-engine"></div>
         </div>
-
         <div class="report-title" style="padding-left:15px">RAW_SESSION_HISTORY</div>
         <div id="raw-history" style="margin-top: 10px;"></div>
     </div>
@@ -172,6 +170,25 @@
 </div>
 
 <script>
+    // --- DATABASE & SYNC ENGINE ---
+    let db = {
+        idx: parseInt(localStorage.getItem('a18_idx')) || 0,
+        h: JSON.parse(localStorage.getItem('a18_h')) || [],
+        b: JSON.parse(localStorage.getItem('a18_b')) || {},
+        s: JSON.parse(localStorage.getItem('a18_s')) || {},
+        startTime: Date.now()
+    };
+
+    function persist() {
+        localStorage.setItem('a18_idx', db.idx);
+        localStorage.setItem('a18_h', JSON.stringify(db.h));
+        localStorage.setItem('a18_b', JSON.stringify(db.b));
+        localStorage.setItem('a18_s', JSON.stringify(db.s));
+        document.getElementById('sync-status').innerText = navigator.onLine ? "CLOUD_SYNC_ON" : "LOCAL_VAULT";
+        document.getElementById('sync-status').className = `sync-status ${navigator.onLine ? 'sync-online' : 'sync-offline'}`;
+    }
+
+    // --- PROTOCOL DATA ---
     const PROTOCOL = [
         { id: 1, name: "PUSH 1", target: ["Chest", "Shoulders", "Triceps"], ex: [{n: "Triceps Overhead", s: 2}, {n: "Shoulder Press (M)", s: 2}, {n: "Chest Incline (M)", s: 3}, {n: "Chest Flat DB", s: 2}, {n: "Lateral Raises", s: 2}, {n: "Incline Flyes", s: 2}, {n: "Triceps Pushdown", s: 2}] },
         { id: 2, name: "PULL 1", target: ["Back", "Biceps"], ex: [{n: "T-Bar Row", s: 2}, {n: "Lat Pulldown", s: 3}, {n: "Bicep Preacher DB", s: 2}, {n: "Seated Row", s: 2}, {n: "Seated Row", s: 2}, {n: "Bicep Incline DB", s: 2}, {n: "Shrugs (Cable)", s: 2}, {n: "Rear Delt Flye", s: 2}] },
@@ -184,16 +201,21 @@
     ];
 
     const MUSCLES = ["Chest", "Back", "Quads", "Hamstrings", "Shoulders", "Biceps", "Triceps"];
-    
-    let db = {
-        idx: 0,
-        h: JSON.parse(localStorage.getItem('a18_h')) || [],
-        b: JSON.parse(localStorage.getItem('a18_b')) || {},
-        s: JSON.parse(localStorage.getItem('a18_s')) || {},
-        startTime: Date.now()
-    };
 
+    // --- AI ENGINE ---
     const AI = {
+        calcACWR: () => {
+            if(db.h.length < 5) return 1.0;
+            const acute = db.h.slice(-7).reduce((a,b)=>a+b.vol, 0) / 7;
+            const chronic = db.h.slice(-28).reduce((a,b)=>a+b.vol, 0) / 28;
+            return acute / (chronic || 1);
+        },
+        mps: (ts, vol = 0) => {
+            if (!ts) return 5;
+            const t = (Date.now() - ts) / 3600000;
+            if (t > 96) return 5.0;
+            return (Math.pow(t, 2.2) * Math.exp(-t * (0.13))) * 2.1 + 5;
+        },
         runInference: () => {
             const acwr = AI.calcACWR();
             const day = PROTOCOL[db.idx];
@@ -205,57 +227,15 @@
             document.getElementById('m-density').innerText = (currentVol / (durationHrs * 1000 || 1)).toFixed(1);
 
             if (day.rest) {
-                document.getElementById('ai-main-cmd').innerText = "SYSTEM_REBOOT_ACTIVE";
-                document.getElementById('ai-log').innerText = "Neural reset in progress. No session data required.";
+                document.getElementById('ai-main-cmd').innerText = "SYSTEM_REBOOT";
+                document.getElementById('ai-log').innerText = "Neural recovery in progress.";
                 return;
             }
 
-            let mpsTotal = 0;
-            day.target.forEach(m => mpsTotal += AI.mps(db.b[m]?.ts || 0, db.b[m]?.vol || 0));
-            mpsTotal /= (day.target.length || 1);
-            document.getElementById('m-mps').innerText = mpsTotal.toFixed(1) + "%";
-
-            if (acwr > 1.5) {
-                document.getElementById('ai-main-cmd').innerText = "FATIGUE_OVERLOAD";
-                document.getElementById('ai-log').innerText = "System stress high. Prioritize RPE 7-8 today.";
-            } else if (cns > 85) {
-                document.getElementById('ai-main-cmd').innerText = "READY_FOR_OVERLOAD";
-                document.getElementById('ai-log').innerText = "Optimal CNS drive detected. Target current PRs.";
-            } else {
-                document.getElementById('ai-main-cmd').innerText = "STEADY_PROGRESSION";
-                document.getElementById('ai-log').innerText = "Maintain volume. Focus on strict mechanical tension.";
-            }
+            document.getElementById('ai-main-cmd').innerText = acwr > 1.3 ? "FATIGUE_WARNING" : "STEADY_PROGRESSION";
+            document.getElementById('ai-log').innerText = acwr > 1.3 ? "High stress detected. Watch RPE." : "Metrics stable. Execute protocol.";
+            
             AI.renderHeatmap();
-        },
-        getHallOfFame: () => {
-            let prs = {};
-            db.h.forEach(session => {
-                session.data.forEach(ex => {
-                    const maxW = Math.max(...ex.sets.map(s => parseFloat(s.w) || 0));
-                    if (!prs[ex.n] || maxW > prs[ex.n].w) prs[ex.n] = { w: maxW, d: new Date(session.ts).toLocaleDateString() };
-                });
-            });
-            return prs;
-        },
-        getSetInstruction: (name) => {
-            const history = db.h.slice().reverse().filter(h => h.data.find(e => e.n === name));
-            if (!history.length) return "COLLECTING_BIO_DATA...";
-            const last = history[0].data.find(e => e.n === name);
-            const avgReps = last.sets.reduce((a,b)=>a+parseFloat(b.r), 0) / last.sets.length;
-            if (avgReps >= 12) return `🔥 BUMP +2.5kg`;
-            return `GOAL: ${Math.ceil(avgReps + 1)} REPS`;
-        },
-        mps: (ts, vol = 0) => {
-            if (!ts) return 5;
-            const t = (Date.now() - ts) / 3600000;
-            if (t > 96) return 5.0;
-            return (Math.pow(t, 2.2) * Math.exp(-t * (0.13))) * 2.1 + 5;
-        },
-        calcACWR: () => {
-            if(db.h.length < 5) return 1.0;
-            const acute = db.h.slice(-7).reduce((a,b)=>a+b.vol, 0) / 7;
-            const chronic = db.h.slice(-28).reduce((a,b)=>a+b.vol, 0) / 28;
-            return acute / (chronic || 1);
         },
         renderHeatmap: () => {
             MUSCLES.forEach(m => {
@@ -267,18 +247,11 @@
         }
     };
 
-    function triggerRest(el, sec) {
-        let timer = sec; el.innerText = `REST: ${timer}s`;
-        const int = setInterval(() => {
-            timer--; el.innerText = `REST: ${timer}s`;
-            if (timer <= 0) { clearInterval(int); el.innerText = "READY!"; if(navigator.vibrate) navigator.vibrate(300); }
-        }, 1000);
-    }
-
+    // --- UI RENDERERS ---
     function init() {
-        renderBio(); renderNav(); renderWorkout(); 
+        renderBio(); renderNav(); renderWorkout();
         requestAnimationFrame(graphLoop);
-        setInterval(() => { document.getElementById('sys-clock').innerText = new Date().toLocaleTimeString(); AI.runInference(); }, 1000);
+        setInterval(() => { AI.runInference(); persist(); }, 2000);
     }
 
     function renderBio() {
@@ -291,7 +264,7 @@
         PROTOCOL.forEach((p, i) => {
             const el = document.createElement('div');
             el.className = `nav-item ${db.idx === i ? 'active' : ''}`;
-            el.onclick = () => { db.idx = i; db.startTime = Date.now(); renderWorkout(); renderNav(); AI.runInference(); };
+            el.onclick = () => { db.idx = i; db.startTime = Date.now(); renderWorkout(); renderNav(); persist(); };
             el.innerHTML = `<span>UNIT-0${i+1}</span><h6>${p.name}</h6>`;
             root.appendChild(el);
         });
@@ -317,33 +290,15 @@
                 <div class="ex-header">
                     <div class="ex-title-row">
                         <div class="ex-title">${ex.n}</div>
-                        <div class="rest-trigger" onclick="triggerRest(this, 120)">START REST</div>
+                        <div class="rest-trigger" onclick="triggerRest(this, 120)">REST</div>
                     </div>
-                    <div class="ex-ai-pres">${AI.getSetInstruction(ex.n)}</div>
                 </div>
                 ${setsHtml}
             </div>`;
         });
     }
 
-    function graphLoop() {
-        MUSCLES.forEach(m => {
-            const node = db.b[m] || {ts: 0, vol: 0};
-            const mpsVal = AI.mps(node.ts, node.vol);
-            const can = document.getElementById(`c-${m}`); if(!can) return;
-            const ctx = can.getContext('2d'), w = can.width = can.offsetWidth, h = can.height = can.offsetHeight;
-            ctx.clearRect(0, 0, w, h); ctx.strokeStyle = '#111'; ctx.beginPath();
-            for(let x=0; x<w; x++){
-                const tx = (x/w)*96; const valX = AI.mps(Date.now() - (tx * 3600000), node.vol);
-                const y = h - ((valX-5)*(h/30)); if(x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
-            } ctx.stroke();
-            const tHrs = (Date.now() - node.ts) / 3600000; const mx = (tHrs/96)*w;
-            if(mx < w && node.ts > 0) { ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(mx, h - ((mpsVal-5)*(h/30)), 3, 0, Math.PI*2); ctx.fill(); }
-        });
-        requestAnimationFrame(graphLoop);
-    }
-
-    function saveSet(id, f, v) { if(!db.s[id]) db.s[id]={w:'',r:''}; db.s[id][f]=v; localStorage.setItem('a18_s', JSON.stringify(db.s)); AI.runInference(); }
+    function saveSet(id, f, v) { if(!db.s[id]) db.s[id]={w:'',r:''}; db.s[id][f]=v; persist(); }
 
     function commitSession() {
         const day = PROTOCOL[db.idx]; let vol = 0; let data = [];
@@ -358,9 +313,30 @@
         if(!data.length) return alert("EMPTY SESSION");
         day.target.forEach(m => db.b[m] = {ts: Date.now(), vol: vol});
         db.h.push({ts: Date.now(), day: day.name, vol, data});
-        db.s = {}; localStorage.setItem('a18_h', JSON.stringify(db.h));
-        localStorage.setItem('a18_b', JSON.stringify(db.b)); localStorage.setItem('a18_s', '{}');
-        alert("SESSION SECURED."); init();
+        db.s = {}; persist();
+        alert("SESSION LOCKED."); init();
+    }
+
+    function triggerRest(el, sec) {
+        let timer = sec; el.innerText = `${timer}s`;
+        const int = setInterval(() => {
+            timer--; el.innerText = `${timer}s`;
+            if (timer <= 0) { clearInterval(int); el.innerText = "READY"; if(navigator.vibrate) navigator.vibrate(300); }
+        }, 1000);
+    }
+
+    function graphLoop() {
+        MUSCLES.forEach(m => {
+            const node = db.b[m] || {ts: 0, vol: 0};
+            const can = document.getElementById(`c-${m}`); if(!can) return;
+            const ctx = can.getContext('2d'), w = can.width = can.offsetWidth, h = can.height = can.offsetHeight;
+            ctx.clearRect(0, 0, w, h); ctx.strokeStyle = '#222'; ctx.beginPath();
+            for(let x=0; x<w; x++){
+                const tx = (x/w)*96; const valX = AI.mps(Date.now() - (tx * 3600000), node.vol);
+                const y = h - ((valX-5)*(h/30)); if(x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+            } ctx.stroke();
+        });
+        requestAnimationFrame(graphLoop);
     }
 
     function nav(t) {
@@ -372,24 +348,15 @@
 
     function renderMetadata() {
         const last7 = db.h.filter(h => (Date.now() - h.ts) < 7*24*3600000);
-        const last30 = db.h.filter(h => (Date.now() - h.ts) < 30*24*3600000);
         document.getElementById('weekly-report').innerHTML = `
-            <div class="rep-tile"><div class="rep-lab">Volume (7d)</div><div class="rep-val">${(last7.reduce((a,b)=>a+b.vol, 0)/1000).toFixed(1)}k</div></div>
-            <div class="rep-tile"><div class="rep-lab">Efficiency</div><div class="rep-val">${(100-AI.calcACWR()*10).toFixed(0)}%</div></div>`;
-        document.getElementById('monthly-report').innerHTML = `
-            <div class="rep-tile"><div class="rep-lab">Total Tonnage</div><div class="rep-val">${(last30.reduce((a,b)=>a+b.vol, 0)/1000).toFixed(1)}T</div></div>
-            <div class="rep-tile"><div class="rep-lab">Status</div><div class="rep-val">ELITE</div></div>`;
-
-        const hofRoot = document.getElementById('hof-engine'); hofRoot.innerHTML = '';
-        Object.entries(AI.getHallOfFame()).forEach(([n, d]) => {
-            hofRoot.innerHTML += `<div class="hof-card"><div class="hof-name">${n}</div><div class="hof-stat">${d.w} KG</div></div>`;
-        });
-
+            <div class="rep-tile"><div class="rep-lab">Vol (7d)</div><div class="rep-val">${(last7.reduce((a,b)=>a+b.vol, 0)/1000).toFixed(1)}k</div></div>
+            <div class="rep-tile"><div class="rep-lab">Sessions</div><div class="rep-val">${last7.length}</div></div>`;
+        
         const log = document.getElementById('raw-history'); log.innerHTML = '';
         db.h.slice(-10).reverse().forEach(h => {
             log.innerHTML += `<div style="background:#080808; padding:15px; border-bottom:1px solid #111; display:flex; justify-content:space-between;">
-                <div><div style="font-size:0.8rem;color:#eee">${h.day}</div><div style="font-size:0.5rem;color:#444">${new Date(h.ts).toDateString()}</div></div>
-                <div style="font-family:var(--font-mono); color:var(--accent);">${(h.vol/1000).toFixed(2)}k</div></div>`;
+                <div><div style="font-size:0.8rem;color:#eee">${h.day}</div></div>
+                <div style="font-family:var(--font-mono); color:var(--accent);">${(h.vol/1000).toFixed(1)}k</div></div>`;
         });
     }
 
