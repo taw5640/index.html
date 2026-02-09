@@ -7,10 +7,10 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="https://via.placeholder.com/192/d4af37/000000?text=A">
     
-    <link rel="manifest" href='data:application/json,{"name":"AETHER v18","short_name":"AETHER","start_url":".","display":"standalone","background_color":"#000000","theme_color":"#d4af37","icons":[{"src":"https://via.placeholder.com/192/d4af37/000000?text=A","sizes":"192x192","type":"image/png"},{"src":"https://via.placeholder.com/512/d4af37/000000?text=AETHER","sizes":"512x512","type":"image/png"}]}'>
+    <link rel="manifest" href='data:application/json,{"name":"AETHER v18","short_name":"AETHER","start_url":".","display":"standalone","background_color":"#000000","theme_color":"#d4af37","icons":[{"src":"https://via.placeholder.com/192/d4af37/000000?text=A","sizes":"192x192","type":"image/png"}]}'>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AETHER v18 | HALL OF FAME</title>
+    <title>AETHER v18 | TOTAL CONTROL</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;500;700&family=Outfit:wght@100;300;400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -28,7 +28,7 @@
         .logo { font-weight: 700; letter-spacing: 5px; color: var(--accent); font-size: 0.8rem; font-family: var(--font-mono); }
         .status-tag { font-family: var(--font-mono); font-size: 0.55rem; color: #444; }
 
-        /* HYPER-AI ENGINE */
+        /* AI ENGINE CORE */
         .ai-core { margin: 15px; padding: 30px; background: #040404; border: 1px solid #151515; border-bottom: 3px solid var(--accent); position: relative; }
         .ai-header { font-family: var(--font-mono); font-size: 0.5rem; color: var(--accent); letter-spacing: 3px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
         .ai-pulse { width: 10px; height: 10px; background: #fff; border-radius: 50%; box-shadow: 0 0 20px #fff; animation: glow 1.5s infinite; }
@@ -42,19 +42,13 @@
         .m-lab { font-size: 0.45rem; color: #333; text-transform: uppercase; margin-bottom: 5px; letter-spacing: 1px; }
         .m-val { font-family: var(--font-mono); font-size: 0.65rem; color: var(--text); }
 
-        /* BIO VISUALS */
+        /* BIO VISUALIZER */
         .bio-matrix { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 15px 15px; }
         .bio-node { background: var(--panel); padding: 15px; border: 1px solid #111; }
         .node-head { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.5rem; color: var(--accent); margin-bottom: 10px; }
         canvas { width: 100% !important; height: 45px !important; }
 
-        /* HEATMAP */
-        #v-heatmap { display: none; padding: 20px; text-align: center; }
-        .heatmap-wrap { background: #050505; border: 1px solid #111; padding: 30px; border-radius: 4px; position: relative; }
-        .muscle-svg { width: 100%; max-width: 300px; height: auto; }
-        .muscle-path { fill: #1a1a1a; transition: fill 1.5s ease; stroke: #000; stroke-width: 0.5; }
-        
-        /* TRAINING UI */
+        /* TRAINING INTERFACE */
         .nav-scroller { display: flex; overflow-x: auto; padding: 10px 15px; gap: 10px; scrollbar-width: none; }
         .nav-item { flex: 0 0 100px; padding: 12px; background: #030303; border: 1px solid #111; cursor: pointer; text-align: center; }
         .nav-item.active { border-color: var(--accent); background: #080808; }
@@ -62,32 +56,45 @@
 
         .ex-list { padding: 0 15px; }
         .ex-card { background: var(--panel); padding: 25px; margin-bottom: 15px; border: 1px solid #111; position: relative; }
-        .ex-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
-        .ex-title { font-size: 0.9rem; font-weight: 400; color: #fff; }
-        .ex-ai-pres { font-size: 0.6rem; color: var(--safe); font-family: var(--font-mono); text-transform: uppercase; }
+        .ex-header { display: flex; flex-direction: column; gap: 5px; margin-bottom: 20px; }
+        .ex-title-row { display: flex; justify-content: space-between; align-items: center; }
+        .ex-title { font-size: 0.95rem; font-weight: 500; color: #fff; }
+        .ex-ai-pres { font-size: 0.65rem; color: var(--safe); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 1px; }
+
+        /* FIX: REST TIMER POSITION */
+        .rest-trigger { padding: 5px 10px; background: #000; border: 1px solid #222; color: var(--info); font-family: var(--font-mono); font-size: 0.6rem; cursor: pointer; }
 
         .set-row { display: grid; grid-template-columns: 30px 1fr 1fr 40px; gap: 10px; align-items: center; margin-bottom: 8px; }
         .s-num { font-family: var(--font-mono); font-size: 0.6rem; color: #222; }
         .s-input { background: #000; border: 1px solid #111; padding: 10px; }
         input { background: transparent; border: none; color: var(--accent); font-family: var(--font-mono); font-size: 1.1rem; width: 100%; outline: none; text-align: center; }
 
-        .rest-timer-box { position: absolute; top: 10px; right: 10px; font-family: var(--font-mono); font-size: 0.6rem; color: var(--info); cursor: pointer; border: 1px solid #222; padding: 4px 8px; }
-
-        /* METADATA & HALL OF FAME */
+        /* METADATA REPORTS (ORIGINAL STYLE) */
         #v-meta { display: none; padding: 20px; }
         .report-section { background: var(--panel); padding: 25px; margin-bottom: 20px; border: 1px solid #111; border-left: 2px solid var(--info); }
         .report-title { font-family: var(--font-mono); font-size: 0.6rem; color: var(--info); letter-spacing: 3px; margin-bottom: 15px; }
-        .hof-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
-        .hof-card { background: #080808; padding: 15px; border: 1px solid #111; display: flex; justify-content: space-between; align-items: center; }
-        .hof-ex { font-size: 0.8rem; color: #fff; }
-        .hof-val { font-family: var(--font-mono); color: var(--accent); font-weight: 700; }
-        .hof-date { font-size: 0.5rem; color: #444; margin-top: 4px; }
+        .report-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .rep-tile { text-align: left; }
+        .rep-lab { font-size: 0.5rem; color: #444; text-transform: uppercase; }
+        .rep-val { font-size: 1.3rem; font-family: var(--font-mono); color: var(--accent); }
 
+        /* HEATMAP */
+        #v-heatmap { display: none; padding: 20px; text-align: center; }
+        .heatmap-wrap { background: #050505; border: 1px solid #111; padding: 30px; border-radius: 4px; position: relative; }
+        .muscle-svg { width: 100%; max-width: 300px; height: auto; }
+        .muscle-path { fill: #1a1a1a; transition: fill 1.5s ease; stroke: #000; stroke-width: 0.5; }
+
+        /* DOCK */
         .dock { position: fixed; bottom: 0; width: 100%; max-width: 600px; background: rgba(0,0,0,0.98); display: flex; justify-content: space-around; padding: 30px; border-top: 1px solid #111; z-index: 6000; }
-        .dock-btn { font-family: var(--font-mono); font-size: 0.6rem; color: #444; letter-spacing: 4px; text-transform: uppercase; cursor: pointer; }
+        .dock-btn { font-family: var(--font-mono); font-size: 0.6rem; color: #444; letter-spacing: 4px; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
         .dock-btn.active { color: var(--accent); }
 
         .btn-lock { width: calc(100% - 30px); margin: 15px; padding: 22px; background: var(--accent); color: #000; font-family: var(--font-mono); font-weight: 700; border: none; letter-spacing: 5px; cursor: pointer; text-transform: uppercase; }
+        
+        /* HALL OF FAME SPECIFIC */
+        .hof-card { background: #080808; padding: 15px; border-bottom: 1px solid #111; display: flex; justify-content: space-between; align-items: center; }
+        .hof-name { font-size: 0.8rem; color: #fff; }
+        .hof-stat { font-family: var(--font-mono); color: var(--accent); font-weight: 700; }
     </style>
 </head>
 <body>
@@ -101,12 +108,12 @@
     <div id="v-terminal">
         <div class="ai-core">
             <div class="ai-header"><span class="ai-pulse"></span> SYSTEM_PRESCRIPTION_ENGINE</div>
-            <div id="ai-main-cmd" class="ai-main-command">INITIALIZING...</div>
-            <div id="ai-log" class="ai-analysis-log">Scanning historical volume and PR Hall of Fame.</div>
+            <div id="ai-main-cmd" class="ai-main-command">INITIALIZING ANALYTICS...</div>
+            <div id="ai-log" class="ai-analysis-log">Scanning historical volume metrics and CNS fatigue indices. Ready for synchronization.</div>
             <div class="ai-metrics-grid">
                 <div class="m-tile"><div class="m-lab">CNS_DRIVE</div><div class="m-val" id="m-cns">0%</div></div>
                 <div class="m-tile"><div class="m-lab">MPS_SAT</div><div class="m-val" id="m-mps">0%</div></div>
-                <div class="m-tile"><div class="m-lab">DENSITY</div><div class="m-val" id="m-density">0.0</div></div>
+                <div class="m-tile"><div class="m-lab">SESSION_D</div><div class="m-val" id="m-density">0.0</div></div>
                 <div class="m-tile"><div class="m-lab">RECOVERY_H</div><div class="m-val" id="m-rec">--</div></div>
             </div>
         </div>
@@ -119,15 +126,15 @@
     </div>
 
     <div id="v-heatmap">
-        <div class="ai-header" style="justify-content:center; margin-bottom:20px;"><span class="ai-pulse"></span> BIOMETRIC_HEATMAP</div>
-        <div class="heatmap-wrap" id="heatmap-container">
+        <div class="ai-header" style="justify-content:center; margin-bottom:20px;"><span class="ai-pulse"></span> BIOMETRIC_HEATMAP_LIVE</div>
+        <div class="heatmap-wrap">
             <svg class="muscle-svg" viewBox="0 0 200 500">
                 <g transform="translate(100, 250) scale(0.9)">
                     <circle cx="0" cy="-210" r="22" fill="#111" />
                     <rect x="-10" y="-190" width="20" height="15" fill="#111" />
                     <path id="path-Chest" class="muscle-path" d="M-45,-175 Q0,-185 45,-175 L40,-120 Q0,-110 -40,-120 Z" />
                     <path id="path-Shoulders" class="muscle-path" d="M-70,-170 Q-55,-185 -45,-175 L-55,-130 Z M70,-170 Q55,-185 45,-175 L55,-130 Z" />
-                    <path id="path-Back" class="muscle-path" d="M-40,-115 L40,-115 L35,-40 Q0,-30 -35,-40 Z" />
+                    <path id="path-Back" class="muscle-path" d="M-40,-115 L40,-115 L35,-40 Q0,-30 -35,-40 Z" opacity="0.8" />
                     <path id="path-Biceps" class="muscle-path" d="M-75,-125 L-55,-125 L-55,-60 L-75,-60 Z" />
                     <path id="path-Triceps" class="muscle-path" d="M55,-125 L75,-125 L75,-60 L55,-60 Z" />
                     <path id="path-Quads" class="muscle-path" d="M-40,-30 L-5,-30 L-10,120 L-45,120 Z" />
@@ -139,14 +146,22 @@
 
     <div id="v-meta">
         <div class="report-section">
-            <div class="report-title">🏆 HALL_OF_FAME | ALL-TIME_RECORDS</div>
-            <div class="hof-grid" id="hof-engine"></div>
-        </div>
-        <div class="report-section">
-            <div class="report-title">ANALYTICS_SUMMARY</div>
+            <div class="report-title">WEEKLY_ANALYTICS_SUMMARY</div>
             <div class="report-grid" id="weekly-report"></div>
         </div>
-        <div id="raw-history"></div>
+        
+        <div class="report-section" style="border-left-color: var(--accent);">
+            <div class="report-title">MONTHLY_STRUCTURAL_SHIFT</div>
+            <div class="report-grid" id="monthly-report"></div>
+        </div>
+
+        <div class="report-section" style="border-left-color: var(--safe);">
+            <div class="report-title">🏆 HALL_OF_FAME (ALL-TIME PRs)</div>
+            <div id="hof-engine"></div>
+        </div>
+
+        <div class="report-title" style="padding-left:15px">RAW_SESSION_HISTORY</div>
+        <div id="raw-history" style="margin-top: 10px;"></div>
     </div>
 
     <nav class="dock">
@@ -190,8 +205,8 @@
             document.getElementById('m-density').innerText = (currentVol / (durationHrs * 1000 || 1)).toFixed(1);
 
             if (day.rest) {
-                document.getElementById('ai-main-cmd').innerText = "REST_PROTOCOL_ACTIVE";
-                document.getElementById('ai-log').innerText = "Metabolic systems cooling down. CNS recovering.";
+                document.getElementById('ai-main-cmd').innerText = "SYSTEM_REBOOT_ACTIVE";
+                document.getElementById('ai-log').innerText = "Neural reset in progress. No session data required.";
                 return;
             }
 
@@ -201,14 +216,14 @@
             document.getElementById('m-mps').innerText = mpsTotal.toFixed(1) + "%";
 
             if (acwr > 1.5) {
-                document.getElementById('ai-main-cmd').innerText = "REDUCE_LOAD_NOW";
-                document.getElementById('ai-log').innerText = "Volume overload detected. Risk of injury high.";
+                document.getElementById('ai-main-cmd').innerText = "FATIGUE_OVERLOAD";
+                document.getElementById('ai-log').innerText = "System stress high. Prioritize RPE 7-8 today.";
             } else if (cns > 85) {
-                document.getElementById('ai-main-cmd').innerText = "PR_HUNTING_READY";
-                document.getElementById('ai-log').innerText = "Neural drive at 100%. Check Hall of Fame for target PRs.";
+                document.getElementById('ai-main-cmd').innerText = "READY_FOR_OVERLOAD";
+                document.getElementById('ai-log').innerText = "Optimal CNS drive detected. Target current PRs.";
             } else {
-                document.getElementById('ai-main-cmd').innerText = "HYPERTROPHY_CONTINUUM";
-                document.getElementById('ai-log').innerText = "Focus on time under tension and peak contraction.";
+                document.getElementById('ai-main-cmd').innerText = "STEADY_PROGRESSION";
+                document.getElementById('ai-log').innerText = "Maintain volume. Focus on strict mechanical tension.";
             }
             AI.renderHeatmap();
         },
@@ -217,31 +232,24 @@
             db.h.forEach(session => {
                 session.data.forEach(ex => {
                     const maxW = Math.max(...ex.sets.map(s => parseFloat(s.w) || 0));
-                    if (!prs[ex.n] || maxW > prs[ex.n].w) {
-                        prs[ex.n] = { w: maxW, d: new Date(session.ts).toLocaleDateString() };
-                    }
+                    if (!prs[ex.n] || maxW > prs[ex.n].w) prs[ex.n] = { w: maxW, d: new Date(session.ts).toLocaleDateString() };
                 });
             });
             return prs;
         },
         getSetInstruction: (name) => {
-            const hof = AI.getHallOfFame()[name];
             const history = db.h.slice().reverse().filter(h => h.data.find(e => e.n === name));
-            if (!history.length) return "SCANNING...";
-            
+            if (!history.length) return "COLLECTING_BIO_DATA...";
             const last = history[0].data.find(e => e.n === name);
-            const lastAvgReps = last.sets.reduce((a,b)=>a+parseFloat(b.r), 0) / last.sets.length;
-
-            if (hof && lastAvgReps >= 10) return `🔥 PUSH: ${hof.w + 2.5}KG`;
-            if (lastAvgReps >= 12) return "BUMP WEIGHT +2.5kg";
-            return `TARGET: ${Math.ceil(lastAvgReps + 1)} REPS`;
+            const avgReps = last.sets.reduce((a,b)=>a+parseFloat(b.r), 0) / last.sets.length;
+            if (avgReps >= 12) return `🔥 BUMP +2.5kg`;
+            return `GOAL: ${Math.ceil(avgReps + 1)} REPS`;
         },
         mps: (ts, vol = 0) => {
             if (!ts) return 5;
             const t = (Date.now() - ts) / 3600000;
-            const volFactor = Math.min(1.5, 1 + (vol / 50000));
             if (t > 96) return 5.0;
-            return (Math.pow(t, 2.2) * Math.exp(-t * (0.13/volFactor))) * 2.1 + 5;
+            return (Math.pow(t, 2.2) * Math.exp(-t * (0.13))) * 2.1 + 5;
         },
         calcACWR: () => {
             if(db.h.length < 5) return 1.0;
@@ -259,27 +267,23 @@
         }
     };
 
-    function startRestTimer(el, seconds) {
-        let remaining = seconds;
-        const interval = setInterval(() => {
-            remaining--; el.innerText = `REST: ${remaining}s`;
-            if (remaining <= 0) { clearInterval(interval); el.innerText = "READY!"; if (navigator.vibrate) navigator.vibrate([200, 100, 200]); }
+    function triggerRest(el, sec) {
+        let timer = sec; el.innerText = `REST: ${timer}s`;
+        const int = setInterval(() => {
+            timer--; el.innerText = `REST: ${timer}s`;
+            if (timer <= 0) { clearInterval(int); el.innerText = "READY!"; if(navigator.vibrate) navigator.vibrate(300); }
         }, 1000);
     }
 
     function init() {
-        renderBio(); renderNav(); renderWorkout(); AI.runInference();
+        renderBio(); renderNav(); renderWorkout(); 
         requestAnimationFrame(graphLoop);
-        setInterval(() => {
-            document.getElementById('sys-clock').innerText = new Date().toLocaleTimeString();
-        }, 1000);
+        setInterval(() => { document.getElementById('sys-clock').innerText = new Date().toLocaleTimeString(); AI.runInference(); }, 1000);
     }
 
     function renderBio() {
         const root = document.getElementById('bio-matrix'); root.innerHTML = '';
-        MUSCLES.forEach(m => {
-            root.innerHTML += `<div class="bio-node"><div class="node-head"><span>${m.toUpperCase()}</span><span id="v-${m}">5%</span></div><canvas id="c-${m}"></canvas></div>`;
-        });
+        MUSCLES.forEach(m => root.innerHTML += `<div class="bio-node"><div class="node-head"><span>${m.toUpperCase()}</span><span id="v-${m}">5%</span></div><canvas id="c-${m}"></canvas></div>`);
     }
 
     function renderNav() {
@@ -296,9 +300,8 @@
     function renderWorkout() {
         const day = PROTOCOL[db.idx];
         const root = document.getElementById('ex-engine'); root.innerHTML = '';
-        if(day.rest) { root.innerHTML = '<div style="padding:100px 0; text-align:center; color:#222; font-family:var(--font-mono);">[BIOS_RECOVERY_ENGAGED]</div>'; return; }
+        if(day.rest) { root.innerHTML = '<div style="padding:80px 0; text-align:center; color:#222; font-family:var(--font-mono);">[BIOS_RECOVERY]</div>'; return; }
         day.ex.forEach((ex, exIdx) => {
-            const instruction = AI.getSetInstruction(ex.n);
             let setsHtml = '';
             for(let s=0; s<ex.s; s++) {
                 const sId = `${db.idx}_${exIdx}_${s}`;
@@ -307,85 +310,7 @@
                     <div class="s-num">${s+1}</div>
                     <div class="s-input"><input type="number" placeholder="KG" value="${val.w}" oninput="saveSet('${sId}','w',this.value)"></div>
                     <div class="s-input"><input type="number" placeholder="REPS" value="${val.r}" oninput="saveSet('${sId}','r',this.value)"></div>
-                    <div style="font-size:0.5rem;color:#333">${s===0?'TOP':'B-OFF'}</div>
+                    <div style="font-size:0.5rem;color:#333">${s===0?'TOP':'OFF'}</div>
                 </div>`;
             }
-            root.innerHTML += `<div class="ex-card"><div class="rest-timer-box" onclick="startRestTimer(this, 120)">REST: 120s</div><div class="ex-header"><div class="ex-title">${ex.n}</div><div class="ex-ai-pres">${instruction}</div></div>${setsHtml}</div>`;
-        });
-    }
-
-    function graphLoop() {
-        MUSCLES.forEach(m => {
-            const node = db.b[m] || {ts: 0, vol: 0};
-            const mpsVal = AI.mps(node.ts, node.vol);
-            const display = document.getElementById(`v-${m}`);
-            if(display) display.innerText = mpsVal.toFixed(1) + '%';
-            const can = document.getElementById(`c-${m}`); if(!can) return;
-            const ctx = can.getContext('2d'), w = can.width = can.offsetWidth, h = can.height = can.offsetHeight;
-            ctx.clearRect(0, 0, w, h); ctx.strokeStyle = '#111'; ctx.beginPath();
-            for(let x=0; x<w; x++){
-                const tx = (x/w)*96; const valX = AI.mps(Date.now() - (tx * 3600000), node.vol);
-                const y = h - ((valX-5)*(h/30)); if(x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
-            } ctx.stroke();
-            const tHrs = (Date.now() - node.ts) / 3600000; const mx = (tHrs/96)*w;
-            if(mx < w && node.ts > 0) { ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(mx, h - ((mpsVal-5)*(h/30)), 3, 0, Math.PI*2); ctx.fill(); }
-        });
-        requestAnimationFrame(graphLoop);
-    }
-
-    function saveSet(id, f, v) { if(!db.s[id]) db.s[id]={w:'',r:''}; db.s[id][f]=v; localStorage.setItem('a18_s', JSON.stringify(db.s)); AI.runInference(); }
-
-    function commitSession() {
-        const day = PROTOCOL[db.idx]; let vol = 0; let data = [];
-        day.ex.forEach((ex, exIdx) => {
-            let sets = [];
-            for(let s=0; s<ex.s; s++){
-                const v = db.s[`${db.idx}_${exIdx}_${s}`];
-                if(v && v.w && v.r) { vol += (v.w * v.r); sets.push(v); }
-            }
-            if(sets.length) data.push({n: ex.n, sets});
-        });
-        if(!data.length) return alert("NO INPUT DETECTED");
-        day.target.forEach(m => db.b[m] = {ts: Date.now(), vol: vol});
-        db.h.push({ts: Date.now(), day: day.name, vol, data});
-        db.s = {}; localStorage.setItem('a18_h', JSON.stringify(db.h));
-        localStorage.setItem('a18_b', JSON.stringify(db.b)); localStorage.setItem('a18_s', '{}');
-        alert("SESSION LOCKED. PRs CHECKED."); init();
-    }
-
-    function nav(t) {
-        document.getElementById('v-terminal').style.display = t==='terminal' ? 'block' : 'none';
-        document.getElementById('v-meta').style.display = t==='meta' ? 'block' : 'none';
-        document.getElementById('v-heatmap').style.display = t==='heatmap' ? 'block' : 'none';
-        if(t==='meta') renderMetadata();
-    }
-
-    function renderMetadata() {
-        const weeklyRoot = document.getElementById('weekly-report');
-        const hofRoot = document.getElementById('hof-engine');
-        const last7Days = db.h.filter(h => (Date.now() - h.ts) < 7*24*3600000);
-        const weeklyVol = last7Days.reduce((a,b)=>a+b.vol, 0);
-        
-        weeklyRoot.innerHTML = `
-            <div class="rep-tile"><div class="rep-lab">Volume (7d)</div><div class="rep-val">${(weeklyVol/1000).toFixed(1)}k</div></div>
-            <div class="rep-tile"><div class="rep-lab">Status</div><div class="rep-val">ACTIVE</div></div>
-        `;
-
-        const hof = AI.getHallOfFame();
-        hofRoot.innerHTML = '';
-        Object.entries(hof).sort((a,b)=>b[1].w - a[1].w).forEach(([name, data]) => {
-            hofRoot.innerHTML += `<div class="hof-card"><div><div class="hof-ex">${name}</div><div class="hof-date">${data.d}</div></div><div class="hof-val">${data.w} KG</div></div>`;
-        });
-
-        const log = document.getElementById('raw-history'); log.innerHTML = '';
-        db.h.slice(-5).reverse().forEach(h => {
-            log.innerHTML += `<div style="background:#080808; padding:15px; border-bottom:1px solid #111; display:flex; justify-content:space-between;">
-                <div><div style="font-size:0.8rem;color:#eee">${h.day}</div><div style="font-size:0.5rem;color:#444">${new Date(h.ts).toDateString()}</div></div>
-                <div style="font-family:var(--font-mono); color:var(--accent);">${(h.vol/1000).toFixed(2)}k</div></div>`;
-        });
-    }
-
-    init();
-</script>
-</body>
-</html>
+    
