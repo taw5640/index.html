@@ -1,341 +1,324 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AETHER v19 | OBSIDIAN</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Training Protocol | 8-Day System</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
         :root {
-            --bg: #08080a;
-            --card: rgba(20, 20, 25, 0.7);
-            --accent: #d4af37;
-            --text: #e0e0e0;
-            --dim: #707070;
-            --safe: #4ade80;
-            --danger: #f87171;
-            --glass: rgba(255, 255, 255, 0.03);
-            --radius: 18px;
+            --bg: #0f172a;
+            --card: #1e293b;
+            --accent: #38bdf8;
+            --text: #f8fafc;
+            --muted: #94a3b8;
+            --success: #22c55e;
+            --gold: #fbbf24;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { 
-            background: var(--bg); 
-            color: var(--text); 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            overflow-x: hidden;
-            background-image: radial-gradient(circle at top right, #1a1a1a, #08080a);
-            min-height: 100vh;
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: var(--bg); color: var(--text); line-height: 1.6; padding-bottom: 80px; }
+
+        /* Smooth UI Elements */
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; padding: 40px 0; animation: fadeIn 1s ease; }
+        .header h1 { font-size: 2rem; color: var(--accent); letter-spacing: -1px; }
+
+        .unit-card { 
+            background: var(--card); border-radius: 20px; padding: 20px; 
+            margin-bottom: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s ease;
         }
 
-        .app-container { width: 100%; max-width: 500px; margin: 0 auto; padding-bottom: 120px; }
-
-        /* Header & AI Console */
-        header { 
-            padding: 25px; 
-            background: rgba(8, 8, 10, 0.8);
-            backdrop-filter: blur(20px);
-            position: sticky; top: 0; z-index: 1000;
-            border-bottom: 1px solid var(--glass);
+        .exercise-item {
+            background: rgba(255,255,255,0.03); border-radius: 12px;
+            padding: 15px; margin-bottom: 15px; border-right: 4px solid var(--accent);
         }
 
-        .ai-status-card {
-            background: var(--card);
-            border: 1px solid var(--glass);
-            border-radius: var(--radius);
-            padding: 20px;
-            margin: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        .input-group { display: flex; gap: 10px; margin-top: 10px; }
+        input { 
+            background: #0f172a; border: 1px solid #334155; color: white;
+            padding: 10px; border-radius: 8px; width: 100%; text-align: center;
         }
 
-        .ai-header { font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--accent); letter-spacing: 2px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
-        .pulse { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 0.3; transform: scale(0.9); } 50% { opacity: 1; transform: scale(1.1); } 100% { opacity: 0.3; transform: scale(0.9); } }
-
-        .ai-cmd { font-size: 1.1rem; font-weight: 800; margin-bottom: 5px; background: linear-gradient(to right, #fff, var(--dim)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .ai-log { font-size: 0.8rem; color: var(--dim); line-height: 1.5; }
-
-        /* Metrics Bar */
-        .metrics-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 20px; border-top: 1px solid var(--glass); pt: 15px; }
-        .m-item { text-align: center; }
-        .m-lab { font-size: 0.55rem; color: var(--dim); text-transform: uppercase; margin-bottom: 4px; }
-        .m-val { font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--accent); }
-
-        /* Training Cards */
-        .nav-scroller { display: flex; overflow-x: auto; padding: 10px 15px; gap: 12px; scrollbar-width: none; }
-        .nav-scroller::-webkit-scrollbar { display: none; }
-        .nav-chip { 
-            padding: 12px 20px; background: var(--glass); border-radius: 30px; 
-            font-size: 0.75rem; white-space: nowrap; border: 1px solid transparent; transition: 0.4s; color: var(--dim);
-        }
-        .nav-chip.active { background: var(--accent); color: #000; font-weight: 700; border-color: var(--accent); }
-
-        .ex-card { 
-            background: var(--card); margin: 15px; padding: 20px; border-radius: var(--radius);
-            border: 1px solid var(--glass); transition: 0.3s;
-        }
-        .ex-name { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 15px; display: flex; justify-content: space-between; }
-        .last-data { font-size: 0.65rem; color: var(--accent); font-family: 'JetBrains Mono'; font-weight: normal; opacity: 0.8; }
-
-        .set-row { display: grid; grid-template-columns: 30px 1fr 1fr; gap: 12px; margin-bottom: 10px; align-items: center; }
-        .set-idx { font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--dim); }
-        .input-box { 
-            background: rgba(255,255,255,0.03); border: 1px solid var(--glass); 
-            border-radius: 10px; padding: 8px; text-align: center;
-        }
-        .input-box input { 
-            background: transparent; border: none; color: #fff; width: 100%; text-align: center; 
-            font-family: 'JetBrains Mono'; outline: none; font-size: 1rem;
+        .btn {
+            background: var(--accent); color: var(--bg); border: none;
+            padding: 12px 20px; border-radius: 10px; font-weight: bold;
+            cursor: pointer; width: 100%; margin-top: 10px; transition: 0.3s;
         }
 
-        /* Bio Visualizer */
-        .bio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 15px; }
-        .bio-card { background: var(--card); padding: 15px; border-radius: var(--radius); border: 1px solid var(--glass); }
-        .bio-info { display: flex; justify-content: space-between; font-size: 0.6rem; color: var(--dim); margin-bottom: 8px; }
-        canvas { width: 100% !important; height: 50px !important; }
-
-        /* Dock */
-        .dock { 
-            position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
-            width: 90%; max-width: 400px; background: rgba(20,20,25,0.9);
-            backdrop-filter: blur(20px); border-radius: 40px; padding: 15px 30px;
-            display: flex; justify-content: space-around; border: 1px solid var(--glass);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
-        }
-        .dock-btn { font-size: 0.7rem; color: var(--dim); text-transform: uppercase; font-weight: 700; cursor: pointer; letter-spacing: 1px; }
-        .dock-btn.active { color: var(--accent); }
-
-        .btn-commit { 
-            margin: 20px 15px; padding: 20px; background: var(--accent); color: #000;
-            border-radius: var(--radius); border: none; font-weight: 800; width: calc(100% - 30px);
-            text-transform: uppercase; letter-spacing: 2px; box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2);
+        .ai-feedback {
+            background: rgba(56, 189, 248, 0.1); color: var(--accent);
+            padding: 10px; border-radius: 8px; font-size: 0.85rem; margin-top: 10px;
+            border-left: 3px solid var(--accent); display: none;
         }
 
-        #v-heatmap, #v-meta { display: none; padding-top: 20px; }
-        .muscle-path { fill: #1a1a1a; stroke: #333; transition: 1s; }
+        /* Navigation Bar */
+        .nav-bar {
+            position: fixed; bottom: 0; width: 100%; background: var(--card);
+            display: flex; justify-content: space-around; padding: 15px;
+            border-top: 1px solid #334155; z-index: 1000;
+        }
+        .nav-item { color: var(--muted); cursor: pointer; font-size: 0.9rem; }
+        .nav-item.active { color: var(--accent); font-weight: bold; }
+
+        /* Meta Analysis Styles */
+        #analysis-page, #history-page { display: none; }
+        .chart-container { background: var(--card); padding: 15px; border-radius: 20px; margin-top: 20px; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .pr-badge { background: var(--gold); color: black; padding: 2px 8px; border-radius: 5px; font-size: 0.7rem; font-weight: bold; margin-right: 5px; display: none;}
     </style>
 </head>
 <body>
 
-<div class="app-container">
-    <header>
-        <div class="ai-status-card">
-            <div class="ai-header"><span class="pulse"></span> AETHER_NEURAL_ENGINE_v19</div>
-            <div id="ai-cmd" class="ai-cmd">SCANNING BIOMETRICS...</div>
-            <div id="ai-log" class="ai-log">Ready for neural session. Previous data loaded from vault.</div>
-            <div class="metrics-bar">
-                <div class="m-item"><div class="m-lab">MPS</div><div class="m-val" id="m-mps">0%</div></div>
-                <div class="m-item"><div class="m-lab">CNS</div><div class="m-val" id="m-cns">100%</div></div>
-                <div class="m-item"><div class="m-lab">VOL</div><div class="m-val" id="m-vol">0.0k</div></div>
-                <div class="m-item"><div class="m-lab">DENS</div><div class="m-val" id="m-dens">0.0</div></div>
-            </div>
+<div class="container" id="main-content">
+    <div id="workout-page">
+        <div class="header">
+            <h1 id="current-unit-title">UNIT-01: PUSH 1</h1>
+            <p id="unit-subtitle" style="color: var(--muted);">ابدأ جلسة التدريب اليوم</p>
         </div>
-    </header>
-
-    <div id="v-terminal">
-        <div class="bio-grid" id="bio-engine"></div>
-        <div class="nav-scroller" id="day-nav"></div>
-        <div class="ex-list" id="ex-engine"></div>
-        <button class="btn-commit" onclick="commitSession()">Lock Session</button>
+        <div id="exercise-list">
+            </div>
+        <button class="btn" onclick="completeWorkout()" style="background: var(--success);">إنهاء التمرين وحفظ البيانات</button>
     </div>
 
-    <div id="v-heatmap" style="text-align: center;">
-        <svg viewBox="0 0 200 500" style="width: 250px; margin: auto;">
-            <g transform="translate(100, 250) scale(0.9)">
-                <circle cx="0" cy="-210" r="22" fill="#111" />
-                <path id="path-Chest" class="muscle-path" d="M-45,-175 Q0,-185 45,-175 L40,-120 Q0,-110 -40,-120 Z" />
-                <path id="path-Shoulders" class="muscle-path" d="M-70,-170 Q-55,-185 -45,-175 L-55,-130 Z M70,-170 Q55,-185 45,-175 L55,-130 Z" />
-                <path id="path-Back" class="muscle-path" d="M-40,-115 L40,-115 L35,-40 Q0,-30 -35,-40 Z" />
-                <path id="path-Biceps" class="muscle-path" d="M-75,-125 L-55,-125 L-55,-60 L-75,-60 Z" />
-                <path id="path-Triceps" class="muscle-path" d="M55,-125 L75,-125 L75,-60 L55,-60 Z" />
-                <path id="path-Quads" class="muscle-path" d="M-40,-30 L-5,-30 L-10,120 L-45,120 Z" />
-                <path id="path-Hamstrings" class="muscle-path" d="M5,-30 L40,-30 L45,120 L10,120 Z" />
-            </g>
-        </svg>
+    <div id="analysis-page">
+        <div class="header"><h1>التحليل الذكي (Meta Analysis)</h1></div>
+        <div class="chart-container">
+            <canvas id="volumeChart"></canvas>
+        </div>
+        <div class="chart-container" style="margin-top: 20px;">
+            <canvas id="prChart"></canvas>
+        </div>
+        <div id="ai-insights" class="unit-card" style="margin-top: 20px; border-right: 4px solid var(--gold);">
+            <h3>توصيات الـ AI العامة:</h3>
+            <p id="general-advice" style="font-size: 0.9rem; margin-top:10px;">قم بإنهاء أول تمرين لتحليل مستواك...</p>
+        </div>
     </div>
 
-    <div id="v-meta" style="padding: 20px;">
-        <div id="history-log"></div>
+    <div id="history-page">
+        <div class="header"><h1>سجل التدريب (Archives)</h1></div>
+        <div id="history-list"></div>
     </div>
-
-    <nav class="dock">
-        <div class="dock-btn active" onclick="nav('terminal')">Core</div>
-        <div class="dock-btn" onclick="nav('heatmap')">Map</div>
-        <div class="dock-btn" onclick="nav('meta')">Data</div>
-    </nav>
 </div>
 
+<nav class="nav-bar">
+    <div class="nav-item active" onclick="showPage('workout')">التمرين</div>
+    <div class="nav-item" onclick="showPage('analysis')">التحليل</div>
+    <div class="nav-item" onclick="showPage('history')">السجل</div>
+</nav>
+
 <script>
-    const PROTOCOL = [
-        { name: "PUSH 1", target: ["Chest", "Shoulders", "Triceps"], ex: [{n: "Triceps Overhead", s: 2}, {n: "Shoulder Press (M)", s: 2}, {n: "Chest Incline (M)", s: 3}, {n: "Chest Flat DB", s: 2}, {n: "Lateral Raises", s: 2}, {n: "Incline Flyes", s: 2}, {n: "Triceps Pushdown", s: 2}] },
-        { name: "PULL 1", target: ["Back", "Biceps"], ex: [{n: "T-Bar Row", s: 2}, {n: "Lat Pulldown", s: 3}, {n: "Bicep Preacher DB", s: 2}, {n: "Seated Row", s: 2}, {n: "Bicep Incline DB", s: 2}, {n: "Shrugs (Cable)", s: 2}, {n: "Rear Delt Flye", s: 2}] },
-        { name: "LEGS & FORE", target: ["Quads", "Hamstrings"], ex: [{n: "Calf Raise", s: 2}, {n: "Leg Press", s: 2}, {n: "Leg Extension", s: 3}, {n: "Lying Leg Curl", s: 2}, {n: "Hip Adduction", s: 2}, {n: "Reverse Grip Curl", s: 2}, {n: "Wrist Curl", s: 2}] },
-        { name: "ARMS & WEAK", target: ["Shoulders", "Biceps", "Triceps"], ex: [{n: "Lateral Raises", s: 3}, {n: "Shoulder Press DB", s: 2}, {n: "Rear Delt Flye", s: 2}, {n: "Hammer Curl", s: 2}, {n: "Triceps Overhead", s: 2}, {n: "Bicep Incline", s: 2}, {n: "Triceps Pushdown", s: 2}] },
-        { name: "REST", target: [], rest: true },
-        { name: "PUSH 2", target: ["Chest", "Shoulders", "Triceps"], ex: [{n: "Triceps Overhead", s: 2}, {n: "Shoulder Press (M)", s: 1}, {n: "Chest Flat", s: 2}, {n: "Chest Incline", s: 3}, {n: "Lateral Raises", s: 3}, {n: "Incline Flyes", s: 2}] },
-        { name: "PULL 2", target: ["Back", "Biceps"], ex: [{n: "T-Bar Row", s: 2}, {n: "Lat Pulldown", s: 2}, {n: "Preacher DB", s: 2}, {n: "Seated Row", s: 3}, {n: "Biceps Incline", s: 2}, {n: "Shrugs", s: 2}] }
+    // --- Data Structure & Protocol ---
+    const protocol = [
+        { id: 1, title: "UNIT-01: PUSH 1", exercises: ["Triceps Overhead", "Shoulder Press", "Chest Incline", "Chest Flat", "Lateral Raises", "Incline Flyes", "Triceps Pushdown"], sets: [2,2,3,2,2,2,2] },
+        { id: 2, title: "UNIT-02: PULL 1", exercises: ["T-Bar Row", "Lat Pulldown", "Bicep Preacher", "Seated Row", "Seated Row 2", "Bicep Incline", "Rear Delt Flye", "Shrugs"], sets: [2,3,2,2,2,2,2,2] },
+        { id: 3, title: "UNIT-03: LEGS & FORE", exercises: ["Calf Raise", "Leg Press", "Leg Extension", "Lying Leg Curl", "Hip Adduction", "Reverse Grip Curl", "Wrist Curl", "Wrist"], sets: [2,2,3,2,2,2,2,2] },
+        { id: 4, title: "UNIT-04: ARMS & WEAK", exercises: ["Lateral Raises", "Shoulder Press", "Rear Delt Flye", "Hammer Curl", "Triceps Overhead", "Bicep Incline", "Triceps Pushdown", "Bicep Preacher", "Single-Arm Pushdown"], sets: [3,2,2,2,2,2,2,2,2] },
+        { id: 5, title: "UNIT-05: REST", exercises: ["SYSTEM_REBOOT - استراحة تامة"], sets: [0] },
+        { id: 6, title: "UNIT-06: PUSH 2", exercises: ["Triceps Overhead", "Shoulder Press", "Chest Flat", "Chest Incline", "Lateral Raises", "Incline Flyes", "Triceps Pushdown"], sets: [2,1,2,3,3,2,2] },
+        { id: 7, title: "UNIT-07: PULL 2", exercises: ["T-Bar Row", "Lat Pulldown", "Preacher", "Seated Row", "Seated Row 2", "Biceps Incline", "Reverse Flyes", "Shrugs"], sets: [2,2,2,3,2,2,2,2] },
+        { id: 8, title: "UNIT-08: RESET", exercises: ["إعادة تهيئة النظام"], sets: [0] }
     ];
 
-    const MUSCLES = ["Chest", "Back", "Quads", "Hamstrings", "Shoulders", "Biceps", "Triceps"];
+    let db = JSON.parse(localStorage.getItem('workoutDB')) || { logs: [], currentUnitIndex: 0 };
 
-    let db = {
-        idx: parseInt(localStorage.getItem('ae_idx')) || 0,
-        h: JSON.parse(localStorage.getItem('ae_h')) || [],
-        b: JSON.parse(localStorage.getItem('ae_b')) || {}, // Bio/Muscle data
-        s: JSON.parse(localStorage.getItem('ae_s')) || {}, // Current Session
-        l: JSON.parse(localStorage.getItem('ae_l')) || {}, // Last Weights/Best
-        startTime: Date.now()
-    };
-
-    function persist() {
-        localStorage.setItem('ae_idx', db.idx);
-        localStorage.setItem('ae_h', JSON.stringify(db.h));
-        localStorage.setItem('ae_b', JSON.stringify(db.b));
-        localStorage.setItem('ae_s', JSON.stringify(db.s));
-        localStorage.setItem('ae_l', JSON.stringify(db.l));
-    }
-
-    // --- AI ENGINE (IMPROVED) ---
-    const AI = {
-        getMPS: (m) => {
-            const data = db.b[m];
-            if(!data) return 5;
-            const hours = (Date.now() - data.ts) / 3600000;
-            if(hours > 72) return 5;
-            // Formula: MPS spikes after session then decays
-            return Math.max(5, (Math.sin(hours/10) * 40) * Math.exp(-hours/24) + 5);
-        },
-        update: () => {
-            let totalMps = 0;
-            MUSCLES.forEach(m => {
-                const val = AI.getMPS(m);
-                totalMps += val;
-                const path = document.getElementById(`path-${m}`);
-                if(path) path.style.fill = val > 20 ? 'var(--accent)' : val > 10 ? '#444' : '#1a1a1a';
-                const txt = document.getElementById(`mps-val-${m}`);
-                if(txt) txt.innerText = val.toFixed(1) + "%";
-            });
-
-            const avgMps = totalMps / MUSCLES.length;
-            document.getElementById('m-mps').innerText = avgMps.toFixed(1) + "%";
-            
-            // CNS & AI Guidance
-            const sessionVol = Object.values(db.s).reduce((a,b) => a + (parseFloat(b.w||0)*parseFloat(b.r||0)), 0);
-            document.getElementById('m-vol').innerText = (sessionVol/1000).toFixed(1) + "k";
-            
-            const cmd = document.getElementById('ai-cmd');
-            const log = document.getElementById('ai-log');
-            
-            if(avgMps > 15) { cmd.innerText = "ANABOLIC_PEAK"; log.innerText = "Recovery optimal. Muscle synthesis active."; }
-            else if (sessionVol > 5000) { cmd.innerText = "FATIGUE_RISK"; log.innerText = "High volume detected. Monitor CNS recovery."; }
-            else { cmd.innerText = "SYSTEM_READY"; log.innerText = "Protocol active. Follow progression markers."; }
-        }
-    };
-
-    // --- UI RENDERERS ---
+    // --- Core Functions ---
     function init() {
-        renderNav();
-        renderBio();
         renderWorkout();
-        setInterval(() => { AI.update(); persist(); }, 2000);
-        AI.update();
-    }
-
-    function renderBio() {
-        const root = document.getElementById('bio-engine'); root.innerHTML = '';
-        MUSCLES.forEach(m => {
-            root.innerHTML += `
-            <div class="bio-card">
-                <div class="bio-info"><span>${m.toUpperCase()}</span><span id="mps-val-${m}">--</span></div>
-                <canvas id="can-${m}"></canvas>
-            </div>`;
-        });
-    }
-
-    function renderNav() {
-        const root = document.getElementById('day-nav'); root.innerHTML = '';
-        PROTOCOL.forEach((p, i) => {
-            const el = document.createElement('div');
-            el.className = `nav-chip ${db.idx === i ? 'active' : ''}`;
-            el.innerText = p.name;
-            el.onclick = () => { db.idx = i; renderNav(); renderWorkout(); };
-            root.appendChild(el);
-        });
+        setupCharts();
     }
 
     function renderWorkout() {
-        const day = PROTOCOL[db.idx];
-        const root = document.getElementById('ex-engine'); root.innerHTML = '';
-        if(day.rest) { root.innerHTML = '<div style="text-align:center; padding:50px; color:var(--dim)">SYSTEM_REBOOT_REQUIRED</div>'; return; }
-        
-        day.ex.forEach((ex, exIdx) => {
-            let setsHtml = '';
-            // Get Last Weights
-            const last = db.l[ex.n] || {w: '--', r: '--'};
-            
-            for(let s=0; s<ex.s; s++) {
-                const sId = `${ex.n}_${s}`;
-                const val = db.s[sId] || {w:'', r:''};
-                setsHtml += `
-                <div class="set-row">
-                    <div class="set-idx">${s+1}</div>
-                    <div class="input-box"><input type="number" placeholder="KG" value="${val.w}" oninput="saveSet('${sId}','w',this.value)"></div>
-                    <div class="input-box"><input type="number" placeholder="REPS" value="${val.r}" oninput="saveSet('${sId}','r',this.value)"></div>
-                </div>`;
-            }
-            root.innerHTML += `
-            <div class="ex-card">
-                <div class="ex-name">
-                    ${ex.n}
-                    <span class="last-data">PREV: ${last.w}kg x ${last.r}</span>
+        const unit = protocol[db.currentUnitIndex];
+        document.getElementById('current-unit-title').innerText = unit.title;
+        const list = document.getElementById('exercise-list');
+        list.innerHTML = '';
+
+        if (unit.sets[0] === 0) {
+            list.innerHTML = `<div class="unit-card" style="text-align:center;"><h2>اليوم يوم راحة 🛌</h2><p>عضلاتك تنمو أثناء النوم، وليس فقط في الجيم.</p></div>`;
+            return;
+        }
+
+        unit.exercises.forEach((ex, idx) => {
+            const lastData = getLastPerformance(ex);
+            const div = document.createElement('div');
+            div.className = 'exercise-item';
+            div.innerHTML = `
+                <div style="display:flex; justify-content:space-between;">
+                    <strong>${ex}</strong>
+                    <span style="font-size:0.8rem; color:var(--muted)">السابق: ${lastData.weight}kg × ${lastData.reps}</span>
                 </div>
-                ${setsHtml}
-            </div>`;
+                <div class="input-group">
+                    <input type="number" id="w-${idx}" placeholder="الوزن (kg)" value="${lastData.weight}">
+                    <input type="number" id="r-${idx}" placeholder="العدات" value="${lastData.reps}">
+                </div>
+                <div class="ai-feedback" id="ai-${idx}">${generateAIAdvice(ex, lastData)}</div>
+            `;
+            list.appendChild(div);
+            // Show AI advice if data exists
+            if(lastData.weight > 0) document.getElementById(`ai-${idx}`).style.display = 'block';
         });
     }
 
-    function saveSet(id, f, v) { 
-        if(!db.s[id]) db.s[id]={w:'',r:''}; 
-        db.s[id][f]=v; 
-        persist(); 
+    function getLastPerformance(exerciseName) {
+        const history = db.logs.filter(l => l.exercise === exerciseName);
+        if (history.length === 0) return { weight: 0, reps: 0 };
+        return history[history.length - 1];
     }
 
-    function commitSession() {
-        const day = PROTOCOL[db.idx];
-        let vol = 0;
-        Object.keys(db.s).forEach(key => {
-            const set = db.s[key];
-            if(set.w && set.r) {
-                vol += (set.w * set.r);
-                // Save as Last weight
-                const exName = key.split('_')[0];
-                db.l[exName] = {w: set.w, r: set.r};
+    function generateAIAdvice(ex, last) {
+        if (last.weight === 0) return "هذه أول مرة تلعب فيها هذا التمرين. ركز على التكنيك.";
+        // Simple AI Logic for Progressive Overload
+        if (last.reps >= 12) return `💡 الـ AI ينصح: وزن الـ ${last.weight} أصبح سهلاً. زد الوزن 2.5kg الجلسة القادمة.`;
+        if (last.reps < 6) return `💡 الـ AI ينصح: الوزن ثقيل جداً. ركز على زيادة العدات حتى تصل لـ 8-10 قبل زيادة الوزن.`;
+        return `💡 الـ AI ينصح: حاول كسر رقم العدات السابق (${last.reps}) بنفس الوزن.`;
+    }
+
+    function completeWorkout() {
+        const unit = protocol[db.currentUnitIndex];
+        const date = new Date().toISOString();
+        let sessionVolume = 0;
+        let prBroken = false;
+
+        unit.exercises.forEach((ex, idx) => {
+            const w = parseFloat(document.getElementById(`w-${idx}`).value) || 0;
+            const r = parseInt(document.getElementById(`r-${idx}`).value) || 0;
+            
+            if (w > 0) {
+                const prev = getLastPerformance(ex);
+                if (w > prev.weight || (w == prev.weight && r > prev.reps)) {
+                    prBroken = true;
+                }
+                
+                db.logs.push({
+                    date: date,
+                    unit: unit.title,
+                    exercise: ex,
+                    weight: w,
+                    reps: r,
+                    volume: w * r * unit.sets[idx]
+                });
+                sessionVolume += w * r * unit.sets[idx];
             }
         });
 
-        if(vol === 0) return alert("NO DATA TO LOCK");
+        if (prBroken) {
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            alert("🔥 أداء جبار! لقد كسر أرقاماً قياسية اليوم!");
+        }
 
-        day.target.forEach(m => {
-            db.b[m] = {ts: Date.now(), vol: vol};
-        });
-
-        db.h.push({ts: Date.now(), day: day.name, vol: vol});
-        db.s = {}; // Clear current
-        persist();
-        alert("SESSION NEURAL-LOCKED");
+        // Move to next unit
+        db.currentUnitIndex = (db.currentUnitIndex + 1) % protocol.length;
+        saveData();
+        alert(`تم حفظ التمرين. الفوليوم الكلي: ${sessionVolume}kg`);
         location.reload();
     }
 
-    function nav(t) {
-        document.querySelectorAll('.dock-btn').forEach(b => b.classList.remove('active'));
-        event.target.classList.add('active');
-        document.getElementById('v-terminal').style.display = t==='terminal' ? 'block' : 'none';
-        document.getElementById('v-heatmap').style.display = t==='heatmap' ? 'block' : 'none';
-        document.getElementById('v-meta').style.display = t==='meta' ? 'block' : 'none';
+    function saveData() {
+        localStorage.setItem('workoutDB', JSON.stringify(db));
+    }
+
+    // --- Navigation ---
+    function showPage(page) {
+        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+        document.getElementById('workout-page').style.display = 'none';
+        document.getElementById('analysis-page').style.display = 'none';
+        document.getElementById('history-page').style.display = 'none';
+
+        if(page === 'workout') {
+            document.getElementById('workout-page').style.display = 'block';
+            event.currentTarget.classList.add('active');
+        } else if(page === 'analysis') {
+            document.getElementById('analysis-page').style.display = 'block';
+            renderAnalysis();
+        } else {
+            document.getElementById('history-page').style.display = 'block';
+            renderHistory();
+        }
+    }
+
+    // --- Charts & Meta Analysis ---
+    function renderAnalysis() {
+        const ctx = document.getElementById('volumeChart').getContext('2d');
+        const dates = [...new Set(db.logs.map(l => l.date.split('T')[0]))].slice(-10);
+        const volumes = dates.map(d => {
+            return db.logs.filter(l => l.date.startsWith(d)).reduce((sum, curr) => sum + curr.volume, 0);
+        });
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: dates,
+                datasets: [{
+                    label: 'Total Volume (kg)',
+                    data: volumes,
+                    borderColor: '#38bdf8',
+                    tension: 0.4,
+                    fill: true,
+                    backgroundColor: 'rgba(56, 189, 248, 0.1)'
+                }]
+            },
+            options: { responsive: true, plugins: { legend: { display: false } } }
+        });
+
+        // AI General Insight
+        const totalSessions = dates.length;
+        if(totalSessions > 3) {
+            const trend = volumes[volumes.length-1] > volumes[0] ? "تصاعدي ممتاز" : "مستقر";
+            document.getElementById('general-advice').innerText = `تحليلي لآخر ${totalSessions} جلسات يظهر تطور ${trend}. معدل استهلاكك للأوزان ذكي جداً، استمر في الالتزام ببروتوكول الـ 8 أيام.`;
+        }
+    }
+
+    function renderHistory() {
+        const list = document.getElementById('history-list');
+        list.innerHTML = '';
+        const sortedLogs = [...db.logs].reverse();
+        
+        let currentMonth = "";
+        sortedLogs.forEach(log => {
+            const dateObj = new Date(log.date);
+            const monthYear = dateObj.toLocaleDateString('ar-EG', { month: 'long', year: 'numeric' });
+            
+            if(monthYear !== currentMonth) {
+                currentMonth = monthYear;
+                list.innerHTML += `<h3 style="margin:20px 0 10px; color:var(--accent)">${monthYear}</h3>`;
+            }
+
+            list.innerHTML += `
+                <div class="exercise-item" style="border-right-color: var(--muted); opacity: 0.8;">
+                    <div style="display:flex; justify-content:space-between;">
+                        <span>${log.exercise}</span>
+                        <span>${log.weight}kg × ${log.reps}</span>
+                    </div>
+                    <small style="color:var(--muted)">${dateObj.toLocaleDateString('ar-EG')}</small>
+                </div>
+            `;
+        });
+    }
+
+    // Service Worker Registration for Offline Use
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('sw.js').catch(err => console.log('SW registration failed:', err));
+        });
     }
 
     init();
 </script>
+
+<script id="sw-code" type="text/plain">
+    const cacheName = 'gym-ai-v1';
+    self.addEventListener('install', e => {
+        e.waitUntil(caches.open(cacheName).then(cache => cache.addAll(['/', '/index.html'])));
+    });
+    self.addEventListener('fetch', e => {
+        e.respondWith(caches.match(e.request).then(res => res || fetch(e.request)));
+    });
+</script>
+
 </body>
-    </html>
-    
+</html>
