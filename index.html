@@ -1,314 +1,207 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EYAD SPLIT | PRO PROTOCOL</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <title>DryHand Tracker | Iontophoresis Guide</title>
     <style>
         :root {
-            --bg-black: #050505;
-            --card-gray: #111111;
-            --accent-gold: #d4af37;
-            --pure-white: #ffffff;
-            --dim-text: #888888;
-            --border: #222222;
-            --success: #27ae60;
+            --primary: #00d2ff;
+            --secondary: #3a7bd5;
+            --dark: #1a1a2e;
+            --glass: rgba(255, 255, 255, 0.1);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Segoe UI', sans-serif; }
-        body { background: var(--bg-black); color: var(--pure-white); min-height: 100vh; padding-bottom: 120px; }
-        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
-
-        header { padding: 60px 0 40px; text-align: center; }
-        header h1 { font-size: 3.5rem; font-weight: 900; color: var(--accent-gold); letter-spacing: -2px; text-transform: uppercase; line-height: 1; }
-        header p { color: var(--dim-text); font-size: 0.8rem; letter-spacing: 5px; margin-top: 10px; font-weight: 300; }
-
-        /* Dashboard Units */
-        .units-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; margin-bottom: 50px; }
-        .unit-card {
-            background: var(--card-gray); padding: 20px; border-radius: 4px; border: 1px solid var(--border);
-            cursor: pointer; transition: 0.3s; text-align: center;
-        }
-        .unit-card:hover { border-color: var(--accent-gold); background: #161616; }
-        .unit-card.active { border-color: var(--accent-gold); background: linear-gradient(to bottom, #1a1a1a, #000); position: relative; }
-        .unit-card.active::after { content: 'NEXT'; position: absolute; top: -10px; right: 10px; background: var(--accent-gold); color: #000; font-size: 10px; padding: 2px 6px; font-weight: 900; }
-        .unit-card h3 { font-size: 0.7rem; color: var(--dim-text); margin-bottom: 5px; }
-        .unit-card h2 { font-size: 0.9rem; font-weight: 700; color: var(--pure-white); }
-
-        /* Logging Section */
-        #workout-section { display: none; animation: fadeIn 0.5s ease; }
-        .exercise-block { background: var(--card-gray); margin-bottom: 25px; padding: 25px; border-radius: 8px; border-left: 3px solid var(--accent-gold); }
-        .ex-title { font-size: 1.3rem; font-weight: 800; margin-bottom: 15px; display: flex; justify-content: space-between; }
-        .set-row { display: grid; grid-template-columns: 50px 1fr 1fr; gap: 15px; align-items: center; margin-bottom: 10px; }
-        .set-label { font-size: 0.8rem; color: var(--accent-gold); font-weight: 900; }
-        
-        input {
-            background: #000; border: 1px solid var(--border); color: #fff; padding: 12px;
-            border-radius: 4px; font-size: 1rem; text-align: center; outline: none; width: 100%;
-        }
-        input:focus { border-color: var(--accent-gold); }
-
-        .ai-hint {
-            margin-top: 15px; background: #1a150a; border: 1px solid #3d3011; padding: 12px;
-            font-size: 0.8rem; color: var(--accent-gold); border-radius: 4px;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .save-btn {
-            background: var(--accent-gold); color: #000; border: none; padding: 22px;
-            border-radius: 4px; font-weight: 900; font-size: 1.2rem; width: 100%;
-            cursor: pointer; margin-top: 30px; text-transform: uppercase; transition: 0.3s;
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
         }
-        .save-btn:hover { background: #fff; }
 
-        /* Navigation */
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; right: 0; background: #000;
-            padding: 20px; display: flex; justify-content: center; gap: 50px;
-            border-top: 1px solid var(--border); z-index: 1000;
+        h1 { text-align: center; color: var(--primary); font-size: 1.8rem; margin-bottom: 30px; }
+
+        /* Timer Section */
+        .timer-box {
+            background: rgba(0,0,0,0.3);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 25px;
+            border: 1px dashed var(--primary);
         }
-        .nav-link { color: var(--dim-text); cursor: pointer; font-weight: 800; font-size: 0.8rem; letter-spacing: 2px; }
-        .nav-link.active { color: var(--accent-gold); }
 
-        /* Analysis */
-        .chart-card { background: var(--card-gray); padding: 20px; border-radius: 8px; margin-top: 20px; }
+        #timer { font-size: 3rem; font-weight: bold; color: var(--primary); margin: 10px 0; }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        button {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border: none;
+            padding: 12px 25px;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        button:active { transform: scale(0.98); }
+
+        /* Guide & 3D Section */
+        .section-title {
+            background: var(--secondary);
+            padding: 8px 15px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+
+        .guide-box {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 10px;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .model-3d-placeholder {
+            width: 100%;
+            height: 200px;
+            background: #000;
+            border-radius: 15px;
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--secondary);
+        }
+
+        /* Simple CSS 3D Effect for Illustration */
+        .cube-container {
+            perspective: 600px;
+            width: 100px;
+            height: 100px;
+        }
+        .cube {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: rotate 5s infinite linear;
+        }
+        .face {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: rgba(0, 210, 255, 0.3);
+            border: 2px solid var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: white;
+        }
+        .front  { transform: translateZ(50px); }
+        .back   { transform: rotateY(180deg) translateZ(50px); }
+        .top    { transform: rotateX(90deg) translateZ(50px); }
+        .bottom { transform: rotateX(-90deg) translateZ(50px); }
+
+        @keyframes rotate {
+            from { transform: rotateX(0) rotateY(0); }
+            to { transform: rotateX(360deg) rotateY(360deg); }
+        }
+
+        .status-badge {
+            background: #2ecc71;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            float: left;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <header>
-        <h1>EYAD SPLIT</h1>
-        <p>ELITE 8-DAY PERFORMANCE TRACKER</p>
-    </header>
+    <h1>DryHand Tracker ⚡</h1>
 
-    <div id="home-view">
-        <div class="units-grid" id="units-grid"></div>
-        
-        <div id="workout-section">
-            <div id="exercises-container"></div>
-            <button class="save-btn" onclick="saveSession()">Complete Session</button>
-        </div>
+    <div class="timer-box">
+        <div class="status-badge" id="phase">المرحلة: التأسيس</div>
+        <p>مؤقت الجلسة (20 دقيقة)</p>
+        <div id="timer">20:00</div>
+        <button onclick="startTimer()">ابدأ الجلسة الآن</button>
+        <p id="instruction" style="color: #f1c40f; margin-top: 10px; display: none;">💡 الآن! ارفع يديك وبدل الأقطاب (المشابك)</p>
     </div>
 
-    <div id="analysis-view" style="display:none;">
-        <h2 style="color:var(--accent-gold)">META-ANALYSIS</h2>
-        <div class="chart-card"><canvas id="volumeChart"></canvas></div>
-        <div class="chart-card" id="ai-deep-summary">
-            <h3>AI COACH INSIGHT</h3>
-            <p style="color:var(--dim-text); margin-top:10px;">Log your performance to activate the intelligence engine.</p>
-        </div>
+    <div class="section-title">📦 شرح التركيب الدقيق (123)</div>
+    <div class="guide-box">
+        1. <b>توصيل التوالي:</b> اربط سلك القطب الموجب من البطارية الأولى بالسالب في الثانية، وهكذا حتى تحصل على سلكين حرين في الأطراف.<br>
+        2. <b>تجهيز الأوعية:</b> ضع المناديل القماشية في قاع الأوعية المعدنية ثم أضف ماء الصنبور.<br>
+        3. <b>توصيل المشابك:</b> اشبك طرف "التمساح" الموجب بوعاء، والسالب بالوعاء الآخر.<br>
+        4. <b>بدء الدائرة:</b> عند وضع يديك، سيمر تيار 27 فولت ليغلق قنوات العرق.
     </div>
 
-    <div id="history-view" style="display:none;">
-        <h2 style="color:var(--accent-gold)">ARCHIVES</h2>
-        <div id="history-content"></div>
+    <div class="section-title">📐 الخانة الـ 3D (توضيح المسارات)</div>
+    <div class="model-3d-placeholder">
+        <div class="cube-container">
+            <div class="cube">
+                <div class="face front">بطارية 1</div>
+                <div class="face back">بطارية 2</div>
+                <div class="face top">ماء +</div>
+                <div class="face bottom">ماء -</div>
+            </div>
+        </div>
+        <div style="position:absolute; bottom:10px; font-size:0.7rem; color:#888;">محاكاة 3D لمسار التيار المستمر (DC)</div>
     </div>
 </div>
 
-<nav class="bottom-nav">
-    <div class="nav-link active" onclick="showTab('home')">TRAIN</div>
-    <div class="nav-link" onclick="showTab('analysis')">ANALYZE</div>
-    <div class="nav-link" onclick="showTab('history')">HISTORY</div>
-</nav>
-
 <script>
-    const PROTOCOL = [
-        { id: 0, title: "PUSH 1", unit: "UNIT-01", exercises: [
-            { name: "Triceps Overhead", sets: 2 }, { name: "Shoulder Press", sets: 2 },
-            { name: "Chest Incline", sets: 3 }, { name: "Chest Flat", sets: 2 },
-            { name: "Lateral Raises", sets: 2 }, { name: "Incline Flyes", sets: 2 },
-            { name: "Triceps Pushdown", sets: 2 }
-        ]},
-        { id: 1, title: "PULL 1", unit: "UNIT-02", exercises: [
-            { name: "T-Bar Row", sets: 2 }, { name: "Lat Pulldown", sets: 3 },
-            { name: "Bicep Preacher", sets: 2 }, { name: "Seated Row", sets: 2 },
-            { name: "Seated Row 2", sets: 2 }, { name: "Bicep Incline", sets: 2 },
-            { name: "Rear Delt Flye", sets: 2 }, { name: "Shrugs", sets: 2 }
-        ]},
-        { id: 2, title: "LEGS & FORE", unit: "UNIT-03", exercises: [
-            { name: "Calf Raise", sets: 2 }, { name: "Leg Press", sets: 2 },
-            { name: "Leg Extension", sets: 3 }, { name: "Lying Leg Curl", sets: 2 },
-            { name: "Hip Adduction", sets: 2 }, { name: "Reverse Grip Curl", sets: 2 },
-            { name: "Wrist Curl", sets: 2 }, { name: "Wrist", sets: 2 }
-        ]},
-        { id: 3, title: "ARMS & WEAK", unit: "UNIT-04", exercises: [
-            { name: "Lateral Raises", sets: 3 }, { name: "Shoulder Press", sets: 2 },
-            { name: "Rear Delt Flye", sets: 2 }, { name: "Hammer Curl", sets: 2 },
-            { name: "Triceps Overhead", sets: 2 }, { name: "Bicep Incline", sets: 2 },
-            { name: "Triceps Pushdown", sets: 2 }, { name: "Bicep Preacher", sets: 2 },
-            { name: "Single-Arm Pushdown", sets: 2 }
-        ]},
-        { id: 4, title: "REST", unit: "UNIT-05", exercises: [] },
-        { id: 5, title: "PUSH 2", unit: "UNIT-06", exercises: [
-            { name: "Triceps Overhead", sets: 2 }, { name: "Shoulder Press", sets: 1 },
-            { name: "Chest Flat", sets: 2 }, { name: "Chest Incline", sets: 3 },
-            { name: "Lateral Raises", sets: 3 }, { name: "Incline Flyes", sets: 2 },
-            { name: "Triceps Pushdown", sets: 2 }
-        ]},
-        { id: 6, title: "PULL 2", unit: "UNIT-07", exercises: [
-            { name: "T-Bar Row", sets: 2 }, { name: "Lat Pulldown", sets: 2 },
-            { name: "Preacher", sets: 2 }, { name: "Seated Row", sets: 3 },
-            { name: "Seated Row 2", sets: 2 }, { name: "Bicep Incline", sets: 2 },
-            { name: "Reverse Flyes", sets: 2 }, { name: "Shrugs", sets: 2 }
-        ]},
-        { id: 7, title: "RESET", unit: "UNIT-08", exercises: [] }
-    ];
+    let timeLeft = 1200; // 20 minutes
+    let timerId;
 
-    let db = JSON.parse(localStorage.getItem('EYAD_SPLIT_DB')) || { logs: [], activeDay: 0 };
-    let selectedUnit = null;
+    function startTimer() {
+        if (timerId) clearInterval(timerId);
+        
+        timerId = setInterval(() => {
+            timeLeft--;
+            let mins = Math.floor(timeLeft / 60);
+            let secs = timeLeft % 60;
+            document.getElementById('timer').innerText = 
+                `${mins}:${secs < 10 ? '0' : ''}${secs}`;
 
-    function init() {
-        renderGrid();
-    }
-
-    function renderGrid() {
-        const grid = document.getElementById('units-grid');
-        grid.innerHTML = '';
-        PROTOCOL.forEach((item, idx) => {
-            const card = document.createElement('div');
-            card.className = `unit-card ${db.activeDay === idx ? 'active' : ''}`;
-            card.innerHTML = `<h3>${item.unit}</h3><h2>${item.title}</h2>`;
-            card.onclick = () => loadUnit(idx);
-            grid.appendChild(card);
-        });
-    }
-
-    function loadUnit(idx) {
-        selectedUnit = PROTOCOL[idx];
-        document.getElementById('workout-section').style.display = 'block';
-        const container = document.getElementById('exercises-container');
-        container.innerHTML = '';
-
-        if(selectedUnit.exercises.length === 0) {
-            container.innerHTML = `<div class="exercise-block" style="text-align:center;">SYSTEM RECOVERY IN PROGRESS...</div>`;
-            return;
-        }
-
-        selectedUnit.exercises.forEach((ex, exIdx) => {
-            const lastData = fetchLast(ex.name);
-            const block = document.createElement('div');
-            block.className = 'exercise-block';
-            
-            let setsHtml = '';
-            for(let s=1; s <= ex.sets; s++) {
-                setsHtml += `
-                    <div class="set-row">
-                        <span class="set-label">S${s}</span>
-                        <input type="number" placeholder="Weight" id="w-${exIdx}-${s}" value="${lastData.w}">
-                        <input type="number" placeholder="Reps" id="r-${exIdx}-${s}" value="${lastData.r}">
-                    </div>
-                `;
+            // Notification to switch polarity at 10:00
+            if (timeLeft === 600) {
+                document.getElementById('instruction').style.display = 'block';
+                alert("🔔 مرّت 10 دقائق! ارفع يديك وبدل المشابك (الأحمر مكان الأسود) لضمان التوازن.");
             }
 
-            block.innerHTML = `
-                <div class="ex-title"><span>${ex.name}</span> <span style="font-size:0.7rem; color:var(--dim-text)">PREV: ${lastData.w}kg</span></div>
-                ${setsHtml}
-                <div class="ai-hint">${getAIAdvice(lastData)}</div>
-            `;
-            container.appendChild(block);
-        });
-        window.scrollTo({ top: container.offsetTop - 100, behavior: 'smooth' });
-    }
-
-    function fetchLast(name) {
-        const filtered = db.logs.filter(l => l.name === name);
-        return filtered.length ? filtered[filtered.length - 1] : { w: 0, r: 0 };
-    }
-
-    function getAIAdvice(last) {
-        if(last.w === 0) return "Establish baseline strength for this unit.";
-        if(last.r >= 10) return `PRO-TIP: Increase to ${parseFloat(last.w) + 2.5}kg. You've mastered this weight.`;
-        return `FOCUS: Push for ${parseInt(last.r) + 1} reps with ${last.w}kg today.`;
-    }
-
-    function saveSession() {
-        const timestamp = new Date().toISOString();
-        let totalVolume = 0;
-
-        selectedUnit.exercises.forEach((ex, exIdx) => {
-            for(let s=1; s <= ex.sets; s++) {
-                const w = parseFloat(document.getElementById(`w-${exIdx}-${s}`).value) || 0;
-                const r = parseInt(document.getElementById(`r-${exIdx}-${s}`).value) || 0;
-                if(w > 0) {
-                    db.logs.push({ date: timestamp, name: ex.name, w, r, volume: w*r });
-                    totalVolume += w*r;
-                }
+            if (timeLeft <= 0) {
+                clearInterval(timerId);
+                alert("✅ اكتملت الجلسة! يدك الآن في طريقها للجفاف التام.");
+                document.getElementById('instruction').style.display = 'none';
             }
-        });
-
-        db.activeDay = (selectedUnit.id + 1) % 8;
-        localStorage.setItem('EYAD_SPLIT_DB', JSON.stringify(db));
-        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#d4af37', '#ffffff'] });
-        alert(`EYAD SPLIT: Session Captured. Volume: ${totalVolume}kg`);
-        location.reload();
+        }, 1000);
     }
-
-    function showTab(tab) {
-        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-        document.getElementById('home-view').style.display = 'none';
-        document.getElementById('analysis-view').style.display = 'none';
-        document.getElementById('history-view').style.display = 'none';
-
-        if(tab === 'home') {
-            document.getElementById('home-view').style.display = 'block';
-        } else if(tab === 'analysis') {
-            document.getElementById('analysis-view').style.display = 'block';
-            renderCharts();
-        } else {
-            document.getElementById('history-view').style.display = 'block';
-            renderHistory();
-        }
-        event.target.classList.add('active');
-    }
-
-    function renderCharts() {
-        const ctx = document.getElementById('volumeChart').getContext('2d');
-        const dates = [...new Set(db.logs.map(l => l.date.split('T')[0]))].slice(-7);
-        const data = dates.map(d => db.logs.filter(l => l.date.startsWith(d)).reduce((a,b)=>a+b.volume, 0));
-
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: dates,
-                datasets: [{
-                    label: 'VOLUME',
-                    data: data,
-                    borderColor: '#d4af37',
-                    borderWidth: 2,
-                    tension: 0.3,
-                    fill: false
-                }]
-            },
-            options: { scales: { y: { grid: { color: '#222' } }, x: { grid: { display: false } } } }
-        });
-    }
-
-    function renderHistory() {
-        const container = document.getElementById('history-content');
-        container.innerHTML = '';
-        const sorted = [...db.logs].reverse();
-        let lastDate = "";
-
-        sorted.forEach(log => {
-            const d = new Date(log.date).toDateString();
-            if(d !== lastDate) {
-                lastDate = d;
-                container.innerHTML += `<div style="color:var(--accent-gold); margin:30px 0 10px; font-weight:900;">${d.toUpperCase()}</div>`;
-            }
-            container.innerHTML += `
-                <div style="background:var(--card-gray); padding:15px; margin-bottom:5px; display:flex; justify-content:space-between; border-radius:4px;">
-                    <span>${log.name}</span>
-                    <span style="color:var(--accent-gold)">${log.w}kg x ${log.r}</span>
-                </div>
-            `;
-        });
-    }
-
-    init();
 </script>
 
 </body>
