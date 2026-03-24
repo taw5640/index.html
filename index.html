@@ -261,21 +261,26 @@
                 </div>
             </div>
 
-            <div id="science" class="content-panel">
-                <h1 class="panel-title">PHASE 3: BIO-CHEMISTRY & PHYSICS</h1>
-                <p style="color:var(--text-dim); margin-bottom:20px;">Understanding the ionic blockade mechanism.</p>
-                [attachment_0](attachment)
+                        <div id="science" class="content-panel">
+                <h1 class="panel-title">PHASE 3: CELLULAR BIO-PHYSICS</h1>
+                <p style="color:var(--text-dim); margin-bottom:15px;">Microscopic visualization of the Eccrine Gland ionic blockade.</p>
+
                 <div class="glass-card">
-                    <h2 class="card-title">The Mechanism of Action 🔬</h2>
-                    <div class="bi-lingual-block">
-                        <p class="english-text">Iontophoresis introduces ionic minerals (found in tap water) into the skin's microscopic sweat ducts (Eccrine glands) using direct electrical current. According to Ohm's Law: $I = \frac{V}{R}$. A steady 27V DC pushes ions against the skin's resistance.</p>
-                        <p class="arabic-text"><b>التفسير العلمي:</b> يمرر الجهاز تياراً كهربائياً مستمراً ومنخفضاً عبر الماء الغني بالمعادن إلى مسام العرق (الغدد الفارزة). تتفاعل أيونات المعادن مع البروتينات في القناة العرقية لتكوين "سدادة مجهرية" مؤقتة تمنع العرق من الخروج للسطح دون الإضرار بالغدة نفسها.</p>
+                    <h2 class="card-title">Micro-Level Simulation 🔬</h2>
+                    
+                    <div class="model-3d-view" id="science-3d-container">
+                        <div class="model-controls">
+                            <button class="model-btn" onclick="resetScienceCamera()">Reset View</button>
+                            <button class="model-btn" style="background: var(--success-glow); color: black;" onclick="startIonFlow()">Inject Ions</button>
+                        </div>
                     </div>
-                    <div style="background: rgba(255,23,68,0.1); border-left: 3px solid var(--danger-pulse); padding: 15px; border-radius: 5px; margin-top: 15px;">
-                        <p class="arabic-text" style="color: #ff8a80; margin:0;"><b>تحذير:</b> لا يجب استخدام الجهاز إذا كان هناك جروح مفتوحة باليد (قم بتغطيتها بالفازلين). الماء المقطر لن يوصل التيار، يجب استخدام ماء الصنبور لاحتوائه على أيونات.</p>
+
+                    <div class="bi-lingual-block">
+                        <p class="arabic-text"><b>ماذا يحدث هنا؟</b> المجسم يوضح مقطعاً عرضياً في الجلد (اللون الوردي) والقناة العرقية. عند الضغط على "Inject Ions"، يبدأ التيار الكهربائي بدفع أيونات المعادن (الجزيئات المضيئة) داخل القناة لتتراكم وتكوّن سدادة مؤقتة تمنع العرق.</p>
                     </div>
                 </div>
             </div>
+
 
             <div id="session" class="content-panel">
                 <h1 class="panel-title">PHASE 4: SESSION PROTOCOL</h1>
@@ -474,7 +479,112 @@
         }
 
         // --- Initialization ---
+            // --- 5. Microscopic Science 3D Engine ---
+        let sciScene, sciCamera, sciRenderer, sciControls;
+        let ionsParticles, plugMesh;
+        let isIonFlowing = false;
+
+        function initScience3D() {
+            const container = document.getElementById('science-3d-container');
+            sciScene = new THREE.Scene();
+            sciScene.background = new THREE.Color('#020205'); // خلفية داكنة جداً
+
+            sciCamera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
+            sciCamera.position.set(0, 5, 15);
+
+            sciRenderer = new THREE.WebGLRenderer({ antialias: true });
+            sciRenderer.setSize(container.clientWidth, container.clientHeight);
+            container.appendChild(sciRenderer.domElement);
+
+            sciControls = new THREE.OrbitControls(sciCamera, sciRenderer.domElement);
+            sciControls.enableDamping = true;
+            sciControls.dampingFactor = 0.05;
+
+            // إضاءة
+            sciScene.add(new THREE.AmbientLight(0xffffff, 0.4));
+            const sciLight = new THREE.PointLight(0xFF1744, 1, 50);
+            sciLight.position.set(0, 5, 5);
+            sciScene.add(sciLight);
+
+            // 1. بناء طبقة الجلد (Skin Surface)
+            const skinGeo = new THREE.BoxGeometry(10, 1, 10);
+            const skinMat = new THREE.MeshStandardMaterial({ color: 0xffb6c1, transparent: true, opacity: 0.6 });
+            const skin = new THREE.Mesh(skinGeo, skinMat);
+            skin.position.y = 3;
+            sciScene.add(skin);
+
+            // 2. بناء القناة العرقية (Sweat Duct)
+            const ductGeo = new THREE.CylinderGeometry(0.8, 0.8, 6, 32, 1, true);
+            const ductMat = new THREE.MeshStandardMaterial({ color: 0xff69b4, side: THREE.DoubleSide, transparent: true, opacity: 0.4 });
+            const duct = new THREE.Mesh(ductGeo, ductMat);
+            duct.position.y = 0;
+            sciScene.add(duct);
+
+            // 3. بناء الغدة العرقية السفلية (Eccrine Coil)
+            const coilGeo = new THREE.SphereGeometry(1.5, 32, 32);
+            const coilMat = new THREE.MeshStandardMaterial({ color: 0xcc0052, wireframe: true });
+            const coil = new THREE.Mesh(coilGeo, coilMat);
+            coil.position.y = -3.5;
+            sciScene.add(coil);
+
+            // 4. الأيونات (Ions Particles)
+            const ionGeo = new THREE.BufferGeometry();
+            const ionCount = 300;
+            const ionPos = new Float32Array(ionCount * 3);
+            for(let i=0; i<ionCount*3; i+=3) { 
+                ionPos[i] = (Math.random() - 0.5) * 1.5; // X
+                ionPos[i+1] = 4 + Math.random() * 2;     // Y (تبدأ فوق الجلد)
+                ionPos[i+2] = (Math.random() - 0.5) * 1.5; // Z
+            }
+            ionGeo.setAttribute('position', new THREE.BufferAttribute(ionPos, 3));
+            const ionMat = new THREE.PointsMaterial({ color: 0x00E5FF, size: 0.15 });
+            ionsParticles = new THREE.Points(ionGeo, ionMat);
+            sciScene.add(ionsParticles);
+
+            // 5. السدادة الأيونية (The Plug - تبدأ مخفية)
+            const plugGeo = new THREE.CylinderGeometry(0.75, 0.75, 1, 32);
+            const plugMaterial = new THREE.MeshStandardMaterial({ color: 0x00E676, transparent: true, opacity: 0 });
+            plugMesh = new THREE.Mesh(plugGeo, plugMaterial);
+            plugMesh.position.y = 1; // مكان السدادة داخل القناة
+            sciScene.add(plugMesh);
+
+            function animateSci() {
+                requestAnimationFrame(animateSci);
+                sciControls.update();
+
+                if(isIonFlowing) {
+                    const positions = ionsParticles.geometry.attributes.position.array;
+                    for(let i=1; i<positions.length; i+=3) {
+                        positions[i] -= 0.02; // سقوط الأيونات لأسفل
+                        // إعادة الأيونات للأعلى إذا نزلت عن مستوى معين لعمل دوران مستمر
+                        if(positions[i] < 1) { 
+                            positions[i] = 4 + Math.random() * 2;
+                        }
+                    }
+                    ionsParticles.geometry.attributes.position.needsUpdate = true;
+                    
+                    // زيادة شفافية السدادة تدريجياً (تكوّن السدادة)
+                    if(plugMesh.material.opacity < 0.8) {
+                        plugMesh.material.opacity += 0.002;
+                    }
+                }
+
+                sciRenderer.render(sciScene, sciCamera);
+            }
+            animateSci();
+        }
+
+        function resetScienceCamera() { sciCamera.position.set(0, 5, 15); sciControls.target.set(0,0,0); }
+        function startIonFlow() { isIonFlowing = true; }
+
+        // قم بتعديل دالة window.onload القديمة لتشمل الـ 3D الجديد
         window.onload = () => {
+            initBackground();
+            setTimeout(initAssembly3D, 500);
+            setTimeout(initScience3D, 800); // تشغيل المجسم المجهري
+        };
+
+            window.onload = () => {
             initBackground();
             setTimeout(initAssembly3D, 500);
         };
