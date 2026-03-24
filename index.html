@@ -1,208 +1,465 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DryHand Tracker | Iontophoresis Guide</title>
+    <title>HYDRO-ION PRO | Advanced Iontophoresis Neural Network</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    
     <style>
+        /* CSS 🧠 - Advanced Dark Neural Aesthetics */
         :root {
-            --primary: #00d2ff;
-            --secondary: #3a7bd5;
-            --dark: #1a1a2e;
-            --glass: rgba(255, 255, 255, 0.1);
+            --bg-dark: #050509;
+            --bg-panel: rgba(16, 16, 32, 0.85);
+            --primary-electric: #00E5FF;
+            --secondary-deep: #6200EA;
+            --text-main: #E0E0E0;
+            --text-dim: #888888;
+            --danger-pulse: #FF1744;
+            --success-glow: #00E676;
+            --font-tech: 'Orbitron', sans-serif;
+            --font-body: 'Roboto', sans-serif;
         }
+
+        /* Essential CSS Reset */
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: white;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            overflow: hidden; /* Prevent scrolling, UI is inside panels */
+            height: 100vh;
+            width: 100vw;
         }
 
-        .container {
-            width: 100%;
-            max-width: 600px;
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 25px;
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-        }
-
-        h1 { text-align: center; color: var(--primary); font-size: 1.8rem; margin-bottom: 30px; }
-
-        /* Timer Section */
-        .timer-box {
-            background: rgba(0,0,0,0.3);
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            margin-bottom: 25px;
-            border: 1px dashed var(--primary);
-        }
-
-        #timer { font-size: 3rem; font-weight: bold; color: var(--primary); margin: 10px 0; }
-
-        button {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            border: none;
-            padding: 12px 25px;
-            color: white;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.3s;
-            width: 100%;
-            margin-top: 10px;
-        }
-
-        button:active { transform: scale(0.98); }
-
-        /* Guide & 3D Section */
-        .section-title {
-            background: var(--secondary);
-            padding: 8px 15px;
-            border-radius: 5px;
-            display: inline-block;
-            margin-top: 20px;
-            font-size: 0.9rem;
-        }
-
-        .guide-box {
-            background: rgba(255,255,255,0.05);
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 10px;
-            line-height: 1.6;
-            font-size: 0.95rem;
-        }
-
-        .model-3d-placeholder {
-            width: 100%;
-            height: 200px;
-            background: #000;
-            border-radius: 15px;
-            margin-top: 15px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid var(--secondary);
-        }
-
-        /* Simple CSS 3D Effect for Illustration */
-        .cube-container {
-            perspective: 600px;
-            width: 100px;
-            height: 100px;
-        }
-        .cube {
+        /* 3D Background Canvas Layer */
+        #three-bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            position: relative;
-            transform-style: preserve-3d;
-            animation: rotate 5s infinite linear;
+            z-index: -1; /* Behind UI */
         }
-        .face {
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            background: rgba(0, 210, 255, 0.3);
-            border: 2px solid var(--primary);
+
+        /* Main UI Wrapper */
+        #app-wrapper {
+            position: relative;
+            display: flex;
+            height: 100%;
+            width: 100%;
+            z-index: 1;
+        }
+
+        /* Sidebar Navigation */
+        #sidebar {
+            width: 280px;
+            background: var(--bg-panel);
+            backdrop-filter: blur(15px);
+            border-right: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            flex-direction: column;
+            padding: 30px;
+            z-index: 10;
+        }
+
+        #app-logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-electric);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 50px;
+            text-shadow: 0 0 15px var(--primary-electric);
+        }
+
+        .nav-item {
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            color: var(--text-dim);
+            cursor: pointer;
+            transition: 0.3s ease;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            color: white;
-        }
-        .front  { transform: translateZ(50px); }
-        .back   { transform: rotateY(180deg) translateZ(50px); }
-        .top    { transform: rotateX(90deg) translateZ(50px); }
-        .bottom { transform: rotateX(-90deg) translateZ(50px); }
-
-        @keyframes rotate {
-            from { transform: rotateX(0) rotateY(0); }
-            to { transform: rotateX(360deg) rotateY(360deg); }
         }
 
-        .status-badge {
-            background: #2ecc71;
-            padding: 5px 10px;
+        .nav-item:hover, .nav-item.active {
+            background: rgba(0, 229, 255, 0.1);
+            color: var(--text-main);
+            border-left: 3px solid var(--primary-electric);
+        }
+
+        /* Main Content Panels Area */
+        #main-stage {
+            flex: 1;
+            position: relative;
+            padding: 40px;
+            overflow-y: auto; /* Allow scrolling inside the panel */
+        }
+
+        .content-panel {
+            display: none; /* Hidden by default */
+            width: 100%;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .content-panel.active { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Generic Card Styling */
+        .glass-card {
+            background: var(--bg-panel);
+            backdrop-filter: blur(10px);
             border-radius: 20px;
-            font-size: 0.8rem;
-            float: left;
+            border: 1px solid rgba(255,255,255,0.03);
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: 0.3s ease;
+        }
+        .glass-card:hover { border-color: rgba(0, 229, 255, 0.2); }
+
+        /* Typography */
+        h1.panel-title { font-size: 2.2rem; color: var(--primary-electric); margin-bottom: 10px; text-transform: uppercase;}
+        h2.card-title { font-size: 1.4rem; color: var(--text-main); margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        
+        .bi-lingual-block { margin-bottom: 25px; line-height: 1.7; }
+        .english-text { color: var(--text-main); font-size: 1rem; margin-bottom: 8px; }
+        .arabic-text { color: var(--text-dim); font-size: 0.95rem; font-family: 'Sakkal Majalla', serif; direction: rtl; }
+
+        /* Container for 3D Models within cards */
+        .model-3d-view {
+            width: 100%;
+            height: 350px;
+            background: #000;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(50,50,50,0.5);
+        }
+        
+        /* 3D Model Controls Overlay */
+        .model-controls {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            display: flex;
+            gap: 5px;
+            z-index: 5;
+        }
+        .model-btn {
+            background: rgba(0,0,0,0.7);
+            border: 1px solid #444;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.7rem;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>DryHand Tracker ⚡</h1>
+    <canvas id="three-bg-canvas"></canvas>
 
-    <div class="timer-box">
-        <div class="status-badge" id="phase">المرحلة: التأسيس</div>
-        <p>مؤقت الجلسة (20 دقيقة)</p>
-        <div id="timer">20:00</div>
-        <button onclick="startTimer()">ابدأ الجلسة الآن</button>
-        <p id="instruction" style="color: #f1c40f; margin-top: 10px; display: none;">💡 الآن! ارفع يديك وبدل الأقطاب (المشابك)</p>
-    </div>
+    <div id="app-wrapper">
+        <nav id="sidebar">
+            <div id="app-logo">H-ION</div>
+            <div class="nav-item active" onclick="showPanel('dashboard')">Dashboard</div>
+            <div class="nav-item" onclick="showPanel('purchase')">1. Logistics</div>
+            <div class="nav-item" onclick="showPanel('assembly')">2. Assembly 3D</div>
+            <div class="nav-item" onclick="showPanel('science')">3. Bio-Chemistry</div>
+            <div class="nav-item" onclick="showPanel('session')">4. Session Manager</div>
+        </nav>
 
-    <div class="section-title">📦 شرح التركيب الدقيق (123)</div>
-    <div class="guide-box">
-        1. <b>توصيل التوالي:</b> اربط سلك القطب الموجب من البطارية الأولى بالسالب في الثانية، وهكذا حتى تحصل على سلكين حرين في الأطراف.<br>
-        2. <b>تجهيز الأوعية:</b> ضع المناديل القماشية في قاع الأوعية المعدنية ثم أضف ماء الصنبور.<br>
-        3. <b>توصيل المشابك:</b> اشبك طرف "التمساح" الموجب بوعاء، والسالب بالوعاء الآخر.<br>
-        4. <b>بدء الدائرة:</b> عند وضع يديك، سيمر تيار 27 فولت ليغلق قنوات العرق.
-    </div>
+        <main id="main-stage">
+            
+            <div id="dashboard" class="content-panel active">
+                <h1 class="panel-title">SYSTEM STATUS: OPTIMAL</h1>
+                <p style="color:var(--text-dim); margin-bottom:30px;">Welcome, Researcher. Project "TITAN" is online.</p>
+                
+                <div class="glass-card">
+                    <h2 class="card-title">Project Vision 🔭</h2>
+                    <div class="bi-lingual-block">
+                        <p class="english-text">HYDRO-ION PRO is not just a device; it's a non-invasive neural interface designed to modulate eccrine gland activity. By creating a temporary ionic blockade via controlled galvanic currents (Iontophoresis), we aim to achieve 100% temporary anhidrosis in palmoplantar regions.</p>
+                        <p class="arabic-text">جهاز HYDRO-ION PRO ليس مجرد أداة؛ إنه واجهة عصبية غير جراحية مصممة لتعديل نشاط الغدد العرقية. من خلال إنشاء حصار أيوني مؤقت عبر تيارات كلفانية محكومة (الرحلان الأيوني)، نهدف إلى تحقيق تعرق منعدم مؤقت بنسبة 100٪ في مناطق الراحة والأخمص.</p>
+                    </div>
+                </div>
 
-    <div class="section-title">📐 الخانة الـ 3D (توضيح المسارات)</div>
-    <div class="model-3d-placeholder">
-        <div class="cube-container">
-            <div class="cube">
-                <div class="face front">بطارية 1</div>
-                <div class="face back">بطارية 2</div>
-                <div class="face top">ماء +</div>
-                <div class="face bottom">ماء -</div>
+                <div class="glass-card">
+                    <h2 class="card-title">Project Progress</h2>
+                    <p style="font-size:3rem; color:var(--primary-electric); font-weight:bold;">12%</p>
+                    <p style="color:var(--text-dim);">Core Framework Deployment Active.</p>
+                </div>
             </div>
-        </div>
-        <div style="position:absolute; bottom:10px; font-size:0.7rem; color:#888;">محاكاة 3D لمسار التيار المستمر (DC)</div>
+
+                        <div id="purchase" class="content-panel">
+                <h1 class="panel-title">PHASE 1: HARDWARE ACQUISITION</h1>
+                <p style="color:var(--text-dim); margin-bottom:30px;">Acquire bio-compatible conductive materials. Ensure exact specifications.</p>
+
+                <div class="glass-card">
+                    <h2 class="card-title">Required Components Matrix</h2>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                        
+                        <div style="background: rgba(0,0,0,0.4); padding: 15px; border-radius: 10px; border-left: 3px solid var(--primary-electric);">
+                            <h3 style="color: #fff; font-size: 1.1rem;">3x 9V Power Cells</h3>
+                            <p style="color: var(--text-dim); font-size: 0.85rem; margin: 5px 0;">Carbon Zinc or Alkaline. Essential for creating a 27V DC barrier.</p>
+                            <p class="arabic-text">٣ بطاريات ٩ فولت لتوليد فرق جهد ٢٧ فولت، وهو الرقم السحري لاختراق مقاومة الجلد بأمان.</p>
+                            <a href="https://www.amazon.eg/s?k=9v+battery" target="_blank" style="color: var(--primary-electric); text-decoration: none; font-size: 0.8rem;">[ INITIATE SEARCH - AMAZON EG ]</a>
+                        </div>
+
+                        <div style="background: rgba(0,0,0,0.4); padding: 15px; border-radius: 10px; border-left: 3px solid var(--danger-pulse);">
+                            <h3 style="color: #fff; font-size: 1.1rem;">Conductive Terminals</h3>
+                            <p style="color: var(--text-dim); font-size: 0.85rem; margin: 5px 0;">Alligator clips (Red/Black) + 3 Battery snap connectors.</p>
+                            <p class="arabic-text">مشابك تمساح ووصلات بطاريات. الأحمر للموجب والأسود للسالب، لضمان استقطاب الأيونات بشكل صحيح.</p>
+                            <a href="https://www.noon.com/egypt-en/search/?q=Alligator%20Clips" target="_blank" style="color: var(--primary-electric); text-decoration: none; font-size: 0.8rem;">[ INITIATE SEARCH - NOON EG ]</a>
+                        </div>
+
+                        <div style="background: rgba(0,0,0,0.4); padding: 15px; border-radius: 10px; border-left: 3px solid var(--success-glow);">
+                            <h3 style="color: #fff; font-size: 1.1rem;">Stainless Isolation Trays</h3>
+                            <p style="color: var(--text-dim); font-size: 0.85rem; margin: 5px 0;">2x Stainless steel trays. Must be highly conductive.</p>
+                            <p class="arabic-text">وعاءان من الستانلس ستيل. يعملان كأقطاب كهربائية عملاقة لنقل التيار عبر الماء إلى مسام اليدين.</p>
+                            <a href="https://www.jumia.com.eg/catalog/?q=stainless+steel+tray" target="_blank" style="color: var(--primary-electric); text-decoration: none; font-size: 0.8rem;">[ INITIATE SEARCH - JUMIA EG ]</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="assembly" class="content-panel">
+                <h1 class="panel-title">PHASE 2: GALVANIC SYNTHESIS</h1>
+                <p style="color:var(--text-dim); margin-bottom:20px;">Interactive 3D Assembly. Drag to rotate. Scroll to zoom.</p>
+
+                <div class="glass-card">
+                    <h2 class="card-title">Circuit Architecture Simulation</h2>
+                    
+                    <div class="model-3d-view" id="assembly-3d-container">
+                        <div class="model-controls">
+                            <button class="model-btn" onclick="reset3DCamera()">Reset View</button>
+                            <button class="model-btn" style="background: var(--danger-pulse);" onclick="togglePower()">Toggle 27V Power</button>
+                        </div>
+                    </div>
+
+                    <div class="bi-lingual-block">
+                        <p class="english-text"><b>PROTOCOL:</b> Connect the batteries in series (Positive to Negative). Attach the final Red wire to the Right Tray, and the Black wire to the Left Tray. The water acts as the final conductor, completing the circuit only when your body enters the system.</p>
+                        <p class="arabic-text"><b>البروتوكول المعقد:</b> يتم توصيل البطاريات على التوالي (موجب بسالب). السلك الأحمر النهائي يُشبك بالوعاء الأيمن، والأسود بالأيسر. الماء (باللون الأزرق في المجسم) يعمل كموصل نهائي، وتكتمل الدائرة الكهربائية حصرياً عند غمس يديك، لتبدأ عملية الإغلاق الأيوني للمسام.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="science" class="content-panel"><h1>Part 3: Science (Upcoming...)</h1></div>
+            <div id="session" class="content-panel"><h1>Part 3: Session (Upcoming...)</h1></div>
+
+        </main>
     </div>
-</div>
 
-<script>
-    let timeLeft = 1200; // 20 minutes
-    let timerId;
+    <script>
+        /* JavaScript 🧠 - PART 1: Core Systems & 3D Environment */
 
-    function startTimer() {
-        if (timerId) clearInterval(timerId);
+        // 1. Panel Navigation Logic
+        function showPanel(panelId) {
+            // Hide all panels
+            const panels = document.querySelectorAll('.content-panel');
+            panels.forEach(panel => panel.classList.remove('active'));
+            
+            // Show selected panel
+            document.getElementById(panelId).classList.add('active');
+            
+            // Update Sidebar
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            // Find the right nav item based on text (imperfect, but works for now)
+            navItems.forEach(item => {
+                if(item.innerText.toLowerCase().includes(panelId.split('-')[0])) item.classList.add('active');
+            });
+        }
+
+        // 2. Three.js Background Engine
+        let scene, camera, renderer, particles;
+
+        function initBackgroundThree() {
+            const canvas = document.getElementById('three-bg-canvas');
+            scene = new THREE.Scene();
+            
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 2;
+
+            renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            // Create a Neural Network Particle System
+            const particlesGeometry = new THREE.BufferGeometry();
+            const count = 5000;
+            const positions = new Float32Array(count * 3);
+
+            for(let i = 0; i < count * 3; i++) {
+                positions[i] = (Math.random() - 0.5) * 10;
+            }
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 0.005,
+                color: '#00E5FF', // Electric Blue
+                transparent: true,
+                blending: THREE.AdditiveBlending
+            });
+
+            particles = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particles);
+
+            window.addEventListener('resize', onWindowResize);
+            animate();
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            // Slowly rotate particles for deep effect
+            particles.rotation.y += 0.0005;
+            renderer.render(scene, camera);
+        }
+
+        // 3. System Initialization
+        window.onload = () => {
+            initBackgroundThree();
+            console.log("HYDRO-ION Core Online. Part 1 Deployed.");
+        };
+        /* JavaScript 🧠 - PART 2: 3D Assembly Simulator */
         
-        timerId = setInterval(() => {
-            timeLeft--;
-            let mins = Math.floor(timeLeft / 60);
-            let secs = timeLeft % 60;
-            document.getElementById('timer').innerText = 
-                `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        let asmScene, asmCamera, asmRenderer, asmControls;
+        let powerActive = false;
+        let electronParticles;
 
-            // Notification to switch polarity at 10:00
-            if (timeLeft === 600) {
-                document.getElementById('instruction').style.display = 'block';
-                alert("🔔 مرّت 10 دقائق! ارفع يديك وبدل المشابك (الأحمر مكان الأسود) لضمان التوازن.");
+        function initAssembly3D() {
+            const container = document.getElementById('assembly-3d-container');
+            
+            // Setup Scene
+            asmScene = new THREE.Scene();
+            asmScene.background = new THREE.Color('#0a0a12'); // Deep dark bg
+
+            // Setup Camera
+            asmCamera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
+            asmCamera.position.set(0, 15, 20);
+
+            // Setup Renderer
+            asmRenderer = new THREE.WebGLRenderer({ antialias: true });
+            asmRenderer.setSize(container.clientWidth, container.clientHeight);
+            container.appendChild(asmRenderer.domElement);
+
+            // Controls (Allows user to rotate the 3D model)
+            asmControls = new THREE.OrbitControls(asmCamera, asmRenderer.domElement);
+            asmControls.enableDamping = true;
+            asmControls.dampingFactor = 0.05;
+
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+            asmScene.add(ambientLight);
+            const pointLight = new THREE.PointLight(0x00E5FF, 1, 50);
+            pointLight.position.set(0, 10, 0);
+            asmScene.add(pointLight);
+
+            // --- BUILD THE 3D HARDWARE ---
+            
+            // Materials
+            const trayMat = new THREE.MeshStandardMaterial({ color: 0x888888, metalness: 0.8, roughness: 0.2 });
+            const waterMat = new THREE.MeshPhysicalMaterial({ color: 0x00E5FF, transparent: true, opacity: 0.4, transmission: 0.9 });
+            const batteryMat = new THREE.MeshStandardMaterial({ color: 0x222222 });
+            const positiveMat = new THREE.MeshBasicMaterial({ color: 0xFF1744 }); // Red
+            const negativeMat = new THREE.MeshBasicMaterial({ color: 0x111111 }); // Black
+
+            // 1. Trays (Left & Right)
+            const trayGeo = new THREE.BoxGeometry(8, 1, 10);
+            const leftTray = new THREE.Mesh(trayGeo, trayMat);
+            leftTray.position.set(-6, 0, 0);
+            asmScene.add(leftTray);
+
+            const rightTray = new THREE.Mesh(trayGeo, trayMat);
+            rightTray.position.set(6, 0, 0);
+            asmScene.add(rightTray);
+
+            // 2. Water inside trays
+            const waterGeo = new THREE.BoxGeometry(7.5, 0.5, 9.5);
+            const leftWater = new THREE.Mesh(waterGeo, waterMat);
+            leftWater.position.set(-6, 0.5, 0);
+            asmScene.add(leftWater);
+
+            const rightWater = new THREE.Mesh(waterGeo, waterMat);
+            rightWater.position.set(6, 0.5, 0);
+            asmScene.add(rightWater);
+
+            // 3. Batteries (3x 9V in the center)
+            const batteryGeo = new THREE.BoxGeometry(1.5, 2.5, 1);
+            for(let i=-1; i<=1; i++) {
+                let bat = new THREE.Mesh(batteryGeo, batteryMat);
+                bat.position.set(i * 1.8, 1.25, -7);
+                asmScene.add(bat);
+                
+                // Terminals
+                let posTerminal = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 0.5), positiveMat);
+                posTerminal.position.set(i * 1.8 - 0.3, 2.6, -7);
+                asmScene.add(posTerminal);
             }
 
-            if (timeLeft <= 0) {
-                clearInterval(timerId);
-                alert("✅ اكتملت الجلسة! يدك الآن في طريقها للجفاف التام.");
-                document.getElementById('instruction').style.display = 'none';
-            }
-        }, 1000);
-    }
-</script>
+            // 4. Energy Flow Simulation (Particles)
+            const particleGeo = new THREE.BufferGeometry();
+            const pCount = 200;
+            const pPositions = new Float32Array(pCount * 3);
+            for(let i=0; i<pCount*3; i++) { pPositions[i] = (Math.random() - 0.5) * 20; }
+            particleGeo.setAttribute('position', new THREE.BufferAttribute(pPositions, 3));
+            const particleMat = new THREE.PointsMaterial({ color: 0x00E5FF, size: 0.2, transparent: true, opacity: 0 }); // Hidden initially
+            electronParticles = new THREE.Points(particleGeo, particleMat);
+            asmScene.add(electronParticles);
 
+            // Animation Loop specific to Assembly
+            function animateAssembly() {
+                requestAnimationFrame(animateAssembly);
+                asmControls.update();
+                
+                // Power Animation
+                if(powerActive) {
+                    electronParticles.rotation.y += 0.05;
+                    electronParticles.rotation.x += 0.02;
+                    // Pulsing light effect
+                    pointLight.intensity = 1 + Math.sin(Date.now() * 0.005) * 0.5;
+                }
+
+                asmRenderer.render(asmScene, asmCamera);
+            }
+            animateAssembly();
+        }
+
+        // Functions for UI Buttons in Assembly Panel
+        function reset3DCamera() {
+            asmCamera.position.set(0, 15, 20);
+            asmControls.target.set(0,0,0);
+        }
+
+        function togglePower() {
+            powerActive = !powerActive;
+            electronParticles.material.opacity = powerActive ? 1 : 0;
+            if(!powerActive) {
+                // Reset lighting
+                asmScene.children.find(c => c.type === "PointLight").intensity = 1;
+            }
+        }
+
+        // Initialize 3D scene once when script loads, but it stays hidden until panel is active
+        setTimeout(initAssembly3D, 500); // Slight delay to ensure DOM is ready
+                
+    </script>
 </body>
 </html>
