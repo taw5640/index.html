@@ -2,8 +2,9 @@
 <html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>HYDRO-ION PRO | Advanced Iontophoresis Neural Network</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&family=Sakkal+Majalla:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     
@@ -17,155 +18,179 @@
             --text-main: #E0E0E0;
             --text-dim: #888888;
             --danger-pulse: #FF1744;
+            --warning-alert: #FFAB00;
             --success-glow: #00E676;
             --font-tech: 'Orbitron', sans-serif;
             --font-body: 'Roboto', sans-serif;
         }
 
-        /* Essential CSS Reset */
         * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
 
         body {
             background-color: var(--bg-dark);
             color: var(--text-main);
             font-family: var(--font-body);
-            overflow: hidden; /* Prevent scrolling, UI is inside panels */
-            height: 100vh;
+            overflow-x: hidden;
+            min-height: 100vh;
             width: 100vw;
         }
 
-        /* 3D Background Canvas Layer */
         #three-bg-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1; /* Behind UI */
+            z-index: -1;
+            pointer-events: none; /* يسمح بلمس ما خلفه */
         }
 
-        /* Main UI Wrapper */
         #app-wrapper {
             position: relative;
             display: flex;
-            height: 100%;
+            flex-direction: column; /* متجاوب مع الهاتف */
+            min-height: 100vh;
             width: 100%;
             z-index: 1;
         }
 
-        /* Sidebar Navigation */
+        @media (min-width: 768px) {
+            #app-wrapper { flex-direction: row; height: 100vh; }
+        }
+
+        /* القائمة الجانبية */
         #sidebar {
-            width: 280px;
+            width: 100%;
             background: var(--bg-panel);
             backdrop-filter: blur(15px);
-            border-right: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
             display: flex;
-            flex-direction: column;
-            padding: 30px;
+            flex-direction: row;
+            flex-wrap: wrap;
+            padding: 15px;
             z-index: 10;
         }
 
+        @media (min-width: 768px) {
+            #sidebar {
+                width: 280px;
+                border-right: 1px solid rgba(255,255,255,0.05);
+                border-bottom: none;
+                flex-direction: column;
+                flex-wrap: nowrap;
+                padding: 30px;
+                height: 100%;
+            }
+        }
+
         #app-logo {
-            font-size: 1.8rem;
+            font-family: var(--font-tech);
+            font-size: 1.5rem;
             font-weight: bold;
             color: var(--primary-electric);
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin-bottom: 50px;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 15px;
             text-shadow: 0 0 15px var(--primary-electric);
         }
 
+        @media (min-width: 768px) {
+            #app-logo { font-size: 1.8rem; text-align: left; margin-bottom: 50px; }
+        }
+
         .nav-item {
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 10px;
+            padding: 10px;
+            margin: 5px;
+            flex: 1 1 calc(50% - 10px);
+            text-align: center;
+            border-radius: 8px;
             color: var(--text-dim);
             cursor: pointer;
             transition: 0.3s ease;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
+            font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 1px;
-            display: flex;
-            align-items: center;
+            background: rgba(255,255,255,0.02);
+        }
+
+        @media (min-width: 768px) {
+            .nav-item {
+                flex: none; margin: 0 0 10px 0; padding: 15px; text-align: left; font-size: 0.9rem;
+            }
         }
 
         .nav-item:hover, .nav-item.active {
             background: rgba(0, 229, 255, 0.1);
             color: var(--text-main);
-            border-left: 3px solid var(--primary-electric);
+            border-bottom: 3px solid var(--primary-electric);
         }
 
-        /* Main Content Panels Area */
+        @media (min-width: 768px) {
+            .nav-item:hover, .nav-item.active { border-bottom: none; border-left: 3px solid var(--primary-electric); }
+        }
+
         #main-stage {
             flex: 1;
             position: relative;
-            padding: 40px;
-            overflow-y: auto; /* Allow scrolling inside the panel */
+            padding: 20px;
+            overflow-y: auto;
         }
 
-        .content-panel {
-            display: none; /* Hidden by default */
-            width: 100%;
-            animation: fadeIn 0.5s ease forwards;
-        }
+        @media (min-width: 768px) { #main-stage { padding: 40px; } }
 
+        .content-panel { display: none; width: 100%; animation: fadeIn 0.5s ease forwards; }
         .content-panel.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Generic Card Styling */
         .glass-card {
             background: var(--bg-panel);
             backdrop-filter: blur(10px);
-            border-radius: 20px;
+            border-radius: 15px;
             border: 1px solid rgba(255,255,255,0.03);
-            padding: 30px;
-            margin-bottom: 30px;
+            padding: 20px;
+            margin-bottom: 25px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             transition: 0.3s ease;
         }
+
+        @media (min-width: 768px) { .glass-card { padding: 30px; border-radius: 20px; } }
         .glass-card:hover { border-color: rgba(0, 229, 255, 0.2); }
 
-        /* Typography */
-        h1.panel-title { font-size: 2.2rem; color: var(--primary-electric); margin-bottom: 10px; text-transform: uppercase;}
-        h2.card-title { font-size: 1.4rem; color: var(--text-main); margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        h1.panel-title { font-family: var(--font-tech); font-size: 1.8rem; color: var(--primary-electric); margin-bottom: 10px; }
+        h2.card-title { font-family: var(--font-tech); font-size: 1.2rem; color: var(--text-main); margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px; }
         
-        .bi-lingual-block { margin-bottom: 25px; line-height: 1.7; }
-        .english-text { color: var(--text-main); font-size: 1rem; margin-bottom: 8px; }
-        .arabic-text { color: var(--text-dim); font-size: 0.95rem; font-family: 'Sakkal Majalla', serif; direction: rtl; }
+        .bi-lingual-block { margin-bottom: 20px; line-height: 1.6; }
+        .english-text { color: var(--text-main); font-size: 0.95rem; margin-bottom: 8px; }
+        .arabic-text { color: var(--text-dim); font-size: 1.1rem; font-family: 'Sakkal Majalla', serif; direction: rtl; }
 
-        /* Container for 3D Models within cards */
         .model-3d-view {
             width: 100%;
-            height: 350px;
+            height: 250px;
             background: #000;
-            border-radius: 15px;
+            border-radius: 10px;
             margin-bottom: 20px;
             position: relative;
             overflow: hidden;
             border: 2px solid rgba(50,50,50,0.5);
         }
+        @media (min-width: 768px) { .model-3d-view { height: 350px; } }
         
-        /* 3D Model Controls Overlay */
-        .model-controls {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            display: flex;
-            gap: 5px;
-            z-index: 5;
-        }
-        .model-btn {
-            background: rgba(0,0,0,0.7);
-            border: 1px solid #444;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 0.7rem;
-            cursor: pointer;
-        }
+        .model-controls { position: absolute; bottom: 10px; right: 10px; display: flex; gap: 5px; z-index: 5; }
+        .model-btn { background: rgba(0,0,0,0.7); border: 1px solid #444; color: white; padding: 8px 12px; border-radius: 5px; font-size: 0.8rem; cursor: pointer; font-family: var(--font-tech);}
+        
+        /* Session Timer Styles */
+        .timer-display { font-family: var(--font-tech); font-size: 4rem; text-align: center; color: var(--primary-electric); text-shadow: 0 0 20px rgba(0,229,255,0.5); margin: 20px 0; }
+        .control-btns { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+        .btn { padding: 12px 25px; border: none; border-radius: 8px; font-family: var(--font-tech); font-weight: bold; cursor: pointer; transition: 0.3s; color: #fff;}
+        .btn-start { background: var(--success-glow); color: #000; }
+        .btn-pause { background: var(--warning-alert); color: #000; }
+        .btn-reset { background: #333; border: 1px solid #555; }
+        .btn:active { transform: scale(0.95); }
     </style>
-</head>
+    </head>
 <body>
 
     <canvas id="three-bg-canvas"></canvas>
@@ -176,59 +201,43 @@
             <div class="nav-item active" onclick="showPanel('dashboard')">Dashboard</div>
             <div class="nav-item" onclick="showPanel('purchase')">1. Logistics</div>
             <div class="nav-item" onclick="showPanel('assembly')">2. Assembly 3D</div>
-            <div class="nav-item" onclick="showPanel('science')">3. Bio-Chemistry</div>
-            <div class="nav-item" onclick="showPanel('session')">4. Session Manager</div>
+            <div class="nav-item" onclick="showPanel('science')">3. Science</div>
+            <div class="nav-item" onclick="showPanel('session')">4. Session</div>
         </nav>
 
         <main id="main-stage">
             
             <div id="dashboard" class="content-panel active">
                 <h1 class="panel-title">SYSTEM STATUS: OPTIMAL</h1>
-                <p style="color:var(--text-dim); margin-bottom:30px;">Welcome, Researcher. Project "TITAN" is online.</p>
+                <p style="color:var(--text-dim); margin-bottom:20px;">Welcome, Researcher. Project "TITAN" is online.</p>
                 
                 <div class="glass-card">
                     <h2 class="card-title">Project Vision 🔭</h2>
                     <div class="bi-lingual-block">
-                        <p class="english-text">HYDRO-ION PRO is not just a device; it's a non-invasive neural interface designed to modulate eccrine gland activity. By creating a temporary ionic blockade via controlled galvanic currents (Iontophoresis), we aim to achieve 100% temporary anhidrosis in palmoplantar regions.</p>
-                        <p class="arabic-text">جهاز HYDRO-ION PRO ليس مجرد أداة؛ إنه واجهة عصبية غير جراحية مصممة لتعديل نشاط الغدد العرقية. من خلال إنشاء حصار أيوني مؤقت عبر تيارات كلفانية محكومة (الرحلان الأيوني)، نهدف إلى تحقيق تعرق منعدم مؤقت بنسبة 100٪ في مناطق الراحة والأخمص.</p>
+                        <p class="english-text">HYDRO-ION PRO is a non-invasive neural interface designed to modulate eccrine gland activity. By creating a temporary ionic blockade via controlled galvanic currents, we aim to achieve 100% temporary anhidrosis in palmoplantar regions.</p>
+                        <p class="arabic-text">جهاز HYDRO-ION PRO هو واجهة عصبية غير جراحية مصممة لتعديل نشاط الغدد العرقية. من خلال إنشاء حصار أيوني مؤقت عبر تيارات كلفانية محكومة، نهدف إلى تحقيق تعرق منعدم مؤقت بنسبة 100٪ في مناطق الراحة والأخمص.</p>
                     </div>
-                </div>
-
-                <div class="glass-card">
-                    <h2 class="card-title">Project Progress</h2>
-                    <p style="font-size:3rem; color:var(--primary-electric); font-weight:bold;">12%</p>
-                    <p style="color:var(--text-dim);">Core Framework Deployment Active.</p>
                 </div>
             </div>
 
-                        <div id="purchase" class="content-panel">
+            <div id="purchase" class="content-panel">
                 <h1 class="panel-title">PHASE 1: HARDWARE ACQUISITION</h1>
-                <p style="color:var(--text-dim); margin-bottom:30px;">Acquire bio-compatible conductive materials. Ensure exact specifications.</p>
-
+                <p style="color:var(--text-dim); margin-bottom:20px;">Acquire bio-compatible conductive materials.</p>
+                
                 <div class="glass-card">
                     <h2 class="card-title">Required Components Matrix</h2>
-                    
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-                        
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
                         <div style="background: rgba(0,0,0,0.4); padding: 15px; border-radius: 10px; border-left: 3px solid var(--primary-electric);">
-                            <h3 style="color: #fff; font-size: 1.1rem;">3x 9V Power Cells</h3>
-                            <p style="color: var(--text-dim); font-size: 0.85rem; margin: 5px 0;">Carbon Zinc or Alkaline. Essential for creating a 27V DC barrier.</p>
+                            <h3 style="color: #fff; font-size: 1rem;">3x 9V Power Cells</h3>
                             <p class="arabic-text">٣ بطاريات ٩ فولت لتوليد فرق جهد ٢٧ فولت، وهو الرقم السحري لاختراق مقاومة الجلد بأمان.</p>
-                            <a href="https://www.amazon.eg/s?k=9v+battery" target="_blank" style="color: var(--primary-electric); text-decoration: none; font-size: 0.8rem;">[ INITIATE SEARCH - AMAZON EG ]</a>
                         </div>
-
                         <div style="background: rgba(0,0,0,0.4); padding: 15px; border-radius: 10px; border-left: 3px solid var(--danger-pulse);">
-                            <h3 style="color: #fff; font-size: 1.1rem;">Conductive Terminals</h3>
-                            <p style="color: var(--text-dim); font-size: 0.85rem; margin: 5px 0;">Alligator clips (Red/Black) + 3 Battery snap connectors.</p>
-                            <p class="arabic-text">مشابك تمساح ووصلات بطاريات. الأحمر للموجب والأسود للسالب، لضمان استقطاب الأيونات بشكل صحيح.</p>
-                            <a href="https://www.noon.com/egypt-en/search/?q=Alligator%20Clips" target="_blank" style="color: var(--primary-electric); text-decoration: none; font-size: 0.8rem;">[ INITIATE SEARCH - NOON EG ]</a>
+                            <h3 style="color: #fff; font-size: 1rem;">Conductive Terminals</h3>
+                            <p class="arabic-text">مشابك تمساح ووصلات بطاريات. الأحمر للموجب والأسود للسالب.</p>
                         </div>
-
                         <div style="background: rgba(0,0,0,0.4); padding: 15px; border-radius: 10px; border-left: 3px solid var(--success-glow);">
-                            <h3 style="color: #fff; font-size: 1.1rem;">Stainless Isolation Trays</h3>
-                            <p style="color: var(--text-dim); font-size: 0.85rem; margin: 5px 0;">2x Stainless steel trays. Must be highly conductive.</p>
-                            <p class="arabic-text">وعاءان من الستانلس ستيل. يعملان كأقطاب كهربائية عملاقة لنقل التيار عبر الماء إلى مسام اليدين.</p>
-                            <a href="https://www.jumia.com.eg/catalog/?q=stainless+steel+tray" target="_blank" style="color: var(--primary-electric); text-decoration: none; font-size: 0.8rem;">[ INITIATE SEARCH - JUMIA EG ]</a>
+                            <h3 style="color: #fff; font-size: 1rem;">Stainless Isolation Trays</h3>
+                            <p class="arabic-text">وعاءان من الستانلس ستيل أو البلاستيك مغطى بورق ألمونيوم ليعملا كأقطاب كهربائية.</p>
                         </div>
                     </div>
                 </div>
@@ -236,230 +245,239 @@
 
             <div id="assembly" class="content-panel">
                 <h1 class="panel-title">PHASE 2: GALVANIC SYNTHESIS</h1>
-                <p style="color:var(--text-dim); margin-bottom:20px;">Interactive 3D Assembly. Drag to rotate. Scroll to zoom.</p>
+                <p style="color:var(--text-dim); margin-bottom:15px;">Interactive 3D Assembly. Touch/Drag to rotate. Pinch to zoom.</p>
 
                 <div class="glass-card">
                     <h2 class="card-title">Circuit Architecture Simulation</h2>
-                    
                     <div class="model-3d-view" id="assembly-3d-container">
                         <div class="model-controls">
-                            <button class="model-btn" onclick="reset3DCamera()">Reset View</button>
-                            <button class="model-btn" style="background: var(--danger-pulse);" onclick="togglePower()">Toggle 27V Power</button>
+                            <button class="model-btn" onclick="reset3DCamera()">Reset</button>
+                            <button class="model-btn" style="background: var(--danger-pulse);" onclick="togglePower()">Toggle Power</button>
                         </div>
                     </div>
-
                     <div class="bi-lingual-block">
-                        <p class="english-text"><b>PROTOCOL:</b> Connect the batteries in series (Positive to Negative). Attach the final Red wire to the Right Tray, and the Black wire to the Left Tray. The water acts as the final conductor, completing the circuit only when your body enters the system.</p>
-                        <p class="arabic-text"><b>البروتوكول المعقد:</b> يتم توصيل البطاريات على التوالي (موجب بسالب). السلك الأحمر النهائي يُشبك بالوعاء الأيمن، والأسود بالأيسر. الماء (باللون الأزرق في المجسم) يعمل كموصل نهائي، وتكتمل الدائرة الكهربائية حصرياً عند غمس يديك، لتبدأ عملية الإغلاق الأيوني للمسام.</p>
+                        <p class="arabic-text"><b>البروتوكول:</b> قم بتوصيل البطاريات على التوالي (موجب بسالب). السلك الأحمر يُشبك بالوعاء الأيمن، والأسود بالأيسر. الماء يعمل كموصل نهائي تكتمل به الدائرة عند غمس يديك.</p>
                     </div>
                 </div>
             </div>
 
-            <div id="science" class="content-panel"><h1>Part 3: Science (Upcoming...)</h1></div>
-            <div id="session" class="content-panel"><h1>Part 3: Session (Upcoming...)</h1></div>
+            <div id="science" class="content-panel">
+                <h1 class="panel-title">PHASE 3: BIO-CHEMISTRY & PHYSICS</h1>
+                <p style="color:var(--text-dim); margin-bottom:20px;">Understanding the ionic blockade mechanism.</p>
+                [attachment_0](attachment)
+                <div class="glass-card">
+                    <h2 class="card-title">The Mechanism of Action 🔬</h2>
+                    <div class="bi-lingual-block">
+                        <p class="english-text">Iontophoresis introduces ionic minerals (found in tap water) into the skin's microscopic sweat ducts (Eccrine glands) using direct electrical current. According to Ohm's Law: $I = \frac{V}{R}$. A steady 27V DC pushes ions against the skin's resistance.</p>
+                        <p class="arabic-text"><b>التفسير العلمي:</b> يمرر الجهاز تياراً كهربائياً مستمراً ومنخفضاً عبر الماء الغني بالمعادن إلى مسام العرق (الغدد الفارزة). تتفاعل أيونات المعادن مع البروتينات في القناة العرقية لتكوين "سدادة مجهرية" مؤقتة تمنع العرق من الخروج للسطح دون الإضرار بالغدة نفسها.</p>
+                    </div>
+                    <div style="background: rgba(255,23,68,0.1); border-left: 3px solid var(--danger-pulse); padding: 15px; border-radius: 5px; margin-top: 15px;">
+                        <p class="arabic-text" style="color: #ff8a80; margin:0;"><b>تحذير:</b> لا يجب استخدام الجهاز إذا كان هناك جروح مفتوحة باليد (قم بتغطيتها بالفازلين). الماء المقطر لن يوصل التيار، يجب استخدام ماء الصنبور لاحتوائه على أيونات.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="session" class="content-panel">
+                <h1 class="panel-title">PHASE 4: SESSION PROTOCOL</h1>
+                <p style="color:var(--text-dim); margin-bottom:20px;">Execute the hyperhidrosis treatment protocol.</p>
+
+                <div class="glass-card">
+                    <h2 class="card-title">Treatment Timer ⏱️</h2>
+                    <div class="bi-lingual-block">
+                        <p class="arabic-text">الجلسة القياسية تستغرق 20 دقيقة. <b>هام جداً:</b> في منتصف الوقت (بعد 10 دقائق)، يجب عكس الأقطاب (تبديل السلك الأحمر مكان الأسود) لضمان علاج كلتا اليدين بالتساوي، لأن الأيونات تتجه نحو القطب الموجب.</p>
+                    </div>
+                    
+                    <div class="timer-display" id="time-display">20:00</div>
+                    
+                    <div class="control-btns">
+                        <button class="btn btn-start" id="start-btn" onclick="startTimer()">START PROTOCOL</button>
+                        <button class="btn btn-pause" onclick="pauseTimer()">PAUSE</button>
+                        <button class="btn btn-reset" onclick="resetTimer()">RESET</button>
+                    </div>
+                    <p id="timer-alert" style="text-align:center; color: var(--danger-pulse); margin-top: 15px; font-weight: bold; display: none;"></p>
+                </div>
+            </div>
 
         </main>
     </div>
-
-    <script>
-        /* JavaScript 🧠 - PART 1: Core Systems & 3D Environment */
-
-        // 1. Panel Navigation Logic
+        <script>
+        // --- 1. Navigation Logic ---
         function showPanel(panelId) {
-            // Hide all panels
-            const panels = document.querySelectorAll('.content-panel');
-            panels.forEach(panel => panel.classList.remove('active'));
-            
-            // Show selected panel
+            document.querySelectorAll('.content-panel').forEach(panel => panel.classList.remove('active'));
             document.getElementById(panelId).classList.add('active');
             
-            // Update Sidebar
-            const navItems = document.querySelectorAll('.nav-item');
-            navItems.forEach(item => item.classList.remove('active'));
-            // Find the right nav item based on text (imperfect, but works for now)
-            navItems.forEach(item => {
-                if(item.innerText.toLowerCase().includes(panelId.split('-')[0])) item.classList.add('active');
-            });
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            const clickedItem = Array.from(document.querySelectorAll('.nav-item')).find(item => item.getAttribute('onclick').includes(panelId));
+            if(clickedItem) clickedItem.classList.add('active');
         }
 
-        // 2. Three.js Background Engine
-        let scene, camera, renderer, particles;
-
-        function initBackgroundThree() {
+        // --- 2. Background Neural Network ---
+        let sceneBg, cameraBg, rendererBg, particlesBg;
+        function initBackground() {
             const canvas = document.getElementById('three-bg-canvas');
-            scene = new THREE.Scene();
-            
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 2;
+            sceneBg = new THREE.Scene();
+            cameraBg = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            cameraBg.position.z = 3;
 
-            renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            rendererBg = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+            rendererBg.setSize(window.innerWidth, window.innerHeight);
+            rendererBg.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-            // Create a Neural Network Particle System
-            const particlesGeometry = new THREE.BufferGeometry();
-            const count = 5000;
-            const positions = new Float32Array(count * 3);
+            const geo = new THREE.BufferGeometry();
+            const count = (window.innerWidth < 768) ? 2000 : 5000; // تقليل الجزيئات للهواتف
+            const pos = new Float32Array(count * 3);
+            for(let i = 0; i < count * 3; i++) { pos[i] = (Math.random() - 0.5) * 10; }
+            geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
 
-            for(let i = 0; i < count * 3; i++) {
-                positions[i] = (Math.random() - 0.5) * 10;
-            }
-            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            const mat = new THREE.PointsMaterial({ size: 0.005, color: '#00E5FF', transparent: true, blending: THREE.AdditiveBlending });
+            particlesBg = new THREE.Points(geo, mat);
+            sceneBg.add(particlesBg);
 
-            const particlesMaterial = new THREE.PointsMaterial({
-                size: 0.005,
-                color: '#00E5FF', // Electric Blue
-                transparent: true,
-                blending: THREE.AdditiveBlending
+            window.addEventListener('resize', () => {
+                cameraBg.aspect = window.innerWidth / window.innerHeight;
+                cameraBg.updateProjectionMatrix();
+                rendererBg.setSize(window.innerWidth, window.innerHeight);
             });
 
-            particles = new THREE.Points(particlesGeometry, particlesMaterial);
-            scene.add(particles);
-
-            window.addEventListener('resize', onWindowResize);
-            animate();
+            function animateBg() {
+                requestAnimationFrame(animateBg);
+                particlesBg.rotation.y += 0.0005;
+                rendererBg.render(sceneBg, cameraBg);
+            }
+            animateBg();
         }
 
-        function onWindowResize() {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        }
-
-        function animate() {
-            requestAnimationFrame(animate);
-            // Slowly rotate particles for deep effect
-            particles.rotation.y += 0.0005;
-            renderer.render(scene, camera);
-        }
-
-        // 3. System Initialization
-        window.onload = () => {
-            initBackgroundThree();
-            console.log("HYDRO-ION Core Online. Part 1 Deployed.");
-        };
-        /* JavaScript 🧠 - PART 2: 3D Assembly Simulator */
-        
-        let asmScene, asmCamera, asmRenderer, asmControls;
+        // --- 3. Assembly 3D Engine ---
+        let asmScene, asmCamera, asmRenderer, asmControls, electronParticles, pointLight;
         let powerActive = false;
-        let electronParticles;
 
         function initAssembly3D() {
             const container = document.getElementById('assembly-3d-container');
-            
-            // Setup Scene
             asmScene = new THREE.Scene();
-            asmScene.background = new THREE.Color('#0a0a12'); // Deep dark bg
+            asmScene.background = new THREE.Color('#050509');
 
-            // Setup Camera
             asmCamera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
             asmCamera.position.set(0, 15, 20);
 
-            // Setup Renderer
             asmRenderer = new THREE.WebGLRenderer({ antialias: true });
             asmRenderer.setSize(container.clientWidth, container.clientHeight);
             container.appendChild(asmRenderer.domElement);
 
-            // Controls (Allows user to rotate the 3D model)
             asmControls = new THREE.OrbitControls(asmCamera, asmRenderer.domElement);
             asmControls.enableDamping = true;
             asmControls.dampingFactor = 0.05;
 
-            // Lighting
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
-            asmScene.add(ambientLight);
-            const pointLight = new THREE.PointLight(0x00E5FF, 1, 50);
+            asmScene.add(new THREE.AmbientLight(0xffffff, 0.5));
+            pointLight = new THREE.PointLight(0x00E5FF, 1, 50);
             pointLight.position.set(0, 10, 0);
             asmScene.add(pointLight);
 
-            // --- BUILD THE 3D HARDWARE ---
-            
-            // Materials
+            // Hardware Build
             const trayMat = new THREE.MeshStandardMaterial({ color: 0x888888, metalness: 0.8, roughness: 0.2 });
-            const waterMat = new THREE.MeshPhysicalMaterial({ color: 0x00E5FF, transparent: true, opacity: 0.4, transmission: 0.9 });
-            const batteryMat = new THREE.MeshStandardMaterial({ color: 0x222222 });
-            const positiveMat = new THREE.MeshBasicMaterial({ color: 0xFF1744 }); // Red
-            const negativeMat = new THREE.MeshBasicMaterial({ color: 0x111111 }); // Black
+            const waterMat = new THREE.MeshPhysicalMaterial({ color: 0x00E5FF, transparent: true, opacity: 0.3 });
+            
+            const leftTray = new THREE.Mesh(new THREE.BoxGeometry(8, 1, 10), trayMat); leftTray.position.set(-6, 0, 0); asmScene.add(leftTray);
+            const rightTray = new THREE.Mesh(new THREE.BoxGeometry(8, 1, 10), trayMat); rightTray.position.set(6, 0, 0); asmScene.add(rightTray);
+            
+            const leftWater = new THREE.Mesh(new THREE.BoxGeometry(7.5, 0.5, 9.5), waterMat); leftWater.position.set(-6, 0.5, 0); asmScene.add(leftWater);
+            const rightWater = new THREE.Mesh(new THREE.BoxGeometry(7.5, 0.5, 9.5), waterMat); rightWater.position.set(6, 0.5, 0); asmScene.add(rightWater);
 
-            // 1. Trays (Left & Right)
-            const trayGeo = new THREE.BoxGeometry(8, 1, 10);
-            const leftTray = new THREE.Mesh(trayGeo, trayMat);
-            leftTray.position.set(-6, 0, 0);
-            asmScene.add(leftTray);
-
-            const rightTray = new THREE.Mesh(trayGeo, trayMat);
-            rightTray.position.set(6, 0, 0);
-            asmScene.add(rightTray);
-
-            // 2. Water inside trays
-            const waterGeo = new THREE.BoxGeometry(7.5, 0.5, 9.5);
-            const leftWater = new THREE.Mesh(waterGeo, waterMat);
-            leftWater.position.set(-6, 0.5, 0);
-            asmScene.add(leftWater);
-
-            const rightWater = new THREE.Mesh(waterGeo, waterMat);
-            rightWater.position.set(6, 0.5, 0);
-            asmScene.add(rightWater);
-
-            // 3. Batteries (3x 9V in the center)
-            const batteryGeo = new THREE.BoxGeometry(1.5, 2.5, 1);
             for(let i=-1; i<=1; i++) {
-                let bat = new THREE.Mesh(batteryGeo, batteryMat);
-                bat.position.set(i * 1.8, 1.25, -7);
-                asmScene.add(bat);
-                
-                // Terminals
-                let posTerminal = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 0.5), positiveMat);
-                posTerminal.position.set(i * 1.8 - 0.3, 2.6, -7);
-                asmScene.add(posTerminal);
+                let bat = new THREE.Mesh(new THREE.BoxGeometry(1.5, 2.5, 1), new THREE.MeshStandardMaterial({color: 0x222222}));
+                bat.position.set(i * 1.8, 1.25, -7); asmScene.add(bat);
+                let posT = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 0.5), new THREE.MeshBasicMaterial({color: 0xFF1744}));
+                posT.position.set(i * 1.8 - 0.3, 2.6, -7); asmScene.add(posT);
             }
 
-            // 4. Energy Flow Simulation (Particles)
-            const particleGeo = new THREE.BufferGeometry();
-            const pCount = 200;
-            const pPositions = new Float32Array(pCount * 3);
-            for(let i=0; i<pCount*3; i++) { pPositions[i] = (Math.random() - 0.5) * 20; }
-            particleGeo.setAttribute('position', new THREE.BufferAttribute(pPositions, 3));
-            const particleMat = new THREE.PointsMaterial({ color: 0x00E5FF, size: 0.2, transparent: true, opacity: 0 }); // Hidden initially
-            electronParticles = new THREE.Points(particleGeo, particleMat);
+            // Electrons Flow
+            const pGeo = new THREE.BufferGeometry();
+            const pPos = new Float32Array(300 * 3);
+            for(let i=0; i<900; i++) { pPos[i] = (Math.random() - 0.5) * 18; }
+            pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+            electronParticles = new THREE.Points(pGeo, new THREE.PointsMaterial({color: 0x00E5FF, size: 0.15, transparent: true, opacity: 0}));
             asmScene.add(electronParticles);
 
-            // Animation Loop specific to Assembly
-            function animateAssembly() {
-                requestAnimationFrame(animateAssembly);
+            function animateAsm() {
+                requestAnimationFrame(animateAsm);
                 asmControls.update();
-                
-                // Power Animation
                 if(powerActive) {
-                    electronParticles.rotation.y += 0.05;
-                    electronParticles.rotation.x += 0.02;
-                    // Pulsing light effect
+                    electronParticles.rotation.y += 0.02;
                     pointLight.intensity = 1 + Math.sin(Date.now() * 0.005) * 0.5;
                 }
-
                 asmRenderer.render(asmScene, asmCamera);
             }
-            animateAssembly();
+            animateAsm();
         }
 
-        // Functions for UI Buttons in Assembly Panel
-        function reset3DCamera() {
-            asmCamera.position.set(0, 15, 20);
-            asmControls.target.set(0,0,0);
-        }
-
+        function reset3DCamera() { asmCamera.position.set(0, 15, 20); asmControls.target.set(0,0,0); }
         function togglePower() {
             powerActive = !powerActive;
             electronParticles.material.opacity = powerActive ? 1 : 0;
-            if(!powerActive) {
-                // Reset lighting
-                asmScene.children.find(c => c.type === "PointLight").intensity = 1;
-            }
+            if(!powerActive) pointLight.intensity = 1;
         }
 
-        // Initialize 3D scene once when script loads, but it stays hidden until panel is active
-        setTimeout(initAssembly3D, 500); // Slight delay to ensure DOM is ready
-                
+        // --- 4. Session Timer Logic ---
+        let totalTime = 20 * 60; // 20 minutes in seconds
+        let timeRemaining = totalTime;
+        let timerInterval;
+        let isRunning = false;
+
+        const display = document.getElementById('time-display');
+        const alertMsg = document.getElementById('timer-alert');
+        const startBtn = document.getElementById('start-btn');
+
+        function updateDisplay() {
+            let mins = Math.floor(timeRemaining / 60);
+            let secs = timeRemaining % 60;
+            display.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function startTimer() {
+            if (isRunning) return;
+            isRunning = true;
+            startBtn.style.opacity = 0.5;
+            alertMsg.style.display = 'none';
+
+            timerInterval = setInterval(() => {
+                if (timeRemaining > 0) {
+                    timeRemaining--;
+                    updateDisplay();
+                    
+                    // تنبيه تبديل الأقطاب في المنتصف تماماً
+                    if(timeRemaining === totalTime / 2) {
+                        pauseTimer();
+                        alertMsg.textContent = "⚠️ HALFWAY POINT REACHED! SWAP POLARITY (CHANGE WIRES/HANDS) THEN RESUME.";
+                        alertMsg.style.display = 'block';
+                    }
+                } else {
+                    clearInterval(timerInterval);
+                    isRunning = false;
+                    alertMsg.textContent = "✅ PROTOCOL COMPLETE. WASH HANDS AND APPLY MOISTURIZER.";
+                    alertMsg.style.display = 'block';
+                    alertMsg.style.color = "var(--success-glow)";
+                }
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            clearInterval(timerInterval);
+            isRunning = false;
+            startBtn.style.opacity = 1;
+        }
+
+        function resetTimer() {
+            pauseTimer();
+            timeRemaining = totalTime;
+            updateDisplay();
+            alertMsg.style.display = 'none';
+            alertMsg.style.color = "var(--danger-pulse)";
+        }
+
+        // --- Initialization ---
+        window.onload = () => {
+            initBackground();
+            setTimeout(initAssembly3D, 500);
+        };
     </script>
 </body>
 </html>
