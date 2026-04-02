@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BioMastery Academy | أكاديمية الميكانيكا الحيوية</title>
+    <title>BioMastery Academy | الأكاديمية الاحترافية المفتوحة</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
-            --bg-primary: #080B11;
-            --bg-secondary: #111622;
-            --bg-glass: rgba(17, 22, 34, 0.75);
-            --accent-glow: rgba(0, 242, 254, 0.15);
+            --bg-primary: #06080F;
+            --bg-secondary: #0D111C;
+            --bg-glass: rgba(13, 17, 28, 0.8);
+            --accent-glow: rgba(0, 242, 254, 0.2);
             --text-main: #F3F4F6;
             --text-muted: #9CA3AF;
             --accent-cyan: #00F2FE;
@@ -38,7 +38,7 @@
             min-height: 100vh;
         }
 
-        /* تأثيرات الخلفية المتحركة */
+        /* تأثيرات الخلفية المتحركة المريحة */
         .bg-blobs {
             position: fixed;
             width: 100vw;
@@ -52,31 +52,17 @@
         .blob {
             position: absolute;
             border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.2;
-            animation: floating 10s infinite alternate ease-in-out;
+            filter: blur(100px);
+            opacity: 0.15;
+            animation: floating 12s infinite alternate ease-in-out;
         }
 
-        .blob-1 {
-            width: 400px;
-            height: 400px;
-            background: var(--accent-cyan);
-            top: -100px;
-            left: -100px;
-        }
-
-        .blob-2 {
-            width: 500px;
-            height: 500px;
-            background: var(--accent-purple);
-            bottom: -150px;
-            right: -100px;
-            animation-delay: -5s;
-        }
+        .blob-1 { width: 600px; height: 600px; background: var(--accent-cyan); top: -200px; left: -200px; }
+        .blob-2 { width: 700px; height: 700px; background: var(--accent-purple); bottom: -200px; right: -200px; animation-delay: -6s; }
 
         @keyframes floating {
             0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(30px, 50px) scale(1.1); }
+            100% { transform: translate(50px, 80px) scale(1.05); }
         }
 
         /* شريط التنقل الجانبي - Sidebar */
@@ -84,7 +70,7 @@
             width: 280px;
             height: 100vh;
             background: var(--bg-glass);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(25px);
             border-left: 1px solid var(--border-color);
             position: fixed;
             top: 0;
@@ -92,975 +78,417 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 2rem 1.5rem;
+            padding: 2.5rem 1.5rem;
             z-index: 100;
-            box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+            box-shadow: -10px 0 30px rgba(0,0,0,0.6);
         }
 
         .logo-area {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 1.5rem;
-            font-weight: 800;
+            gap: 12px;
+            font-size: 1.6rem;
+            font-weight: 900;
             color: #fff;
             border-bottom: 1px solid var(--border-color);
-            padding-bottom: 1.5rem;
+            padding-bottom: 2rem;
         }
 
-        .logo-area i {
-            color: var(--accent-cyan);
-            text-shadow: 0 0 10px var(--accent-cyan);
-        }
+        .logo-area i { color: var(--accent-cyan); text-shadow: 0 0 15px var(--accent-cyan); }
 
-        .nav-links {
-            list-style: none;
-            margin-top: 2rem;
-            flex-grow: 1;
-        }
-
-        .nav-links li {
-            margin-bottom: 0.75rem;
-        }
-
+        .nav-links { list-style: none; margin-top: 2rem; flex-grow: 1; }
+        .nav-links li { margin-bottom: 0.75rem; }
         .nav-links a {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 15px;
             color: var(--text-muted);
             text-decoration: none;
-            padding: 0.75rem 1rem;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            font-weight: 600;
+            padding: 0.9rem 1.2rem;
+            border-radius: 14px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 700;
             font-size: 0.95rem;
         }
 
         .nav-links a:hover, .nav-links a.active {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.03);
             color: #fff;
-            border-right: 3px solid var(--accent-cyan);
-            box-shadow: inset 10px 0 20px rgba(0, 242, 254, 0.05);
+            border-right: 4px solid var(--accent-cyan);
+            box-shadow: inset 15px 0 20px rgba(0, 242, 254, 0.03);
         }
 
-        .nav-links a i {
-            width: 20px;
-            text-align: center;
-        }
-
-        /* تتبع مستوى التقدم في السايدبار */
         .progress-box {
-            background: rgba(255,255,255,0.02);
+            background: rgba(255,255,255,0.01);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 1rem;
+            border-radius: 18px;
+            padding: 1.2rem;
             margin-top: auto;
         }
 
-        .progress-header {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.85rem;
-            margin-bottom: 0.5rem;
-        }
+        .bar-container { height: 6px; background: rgba(255,255,255,0.05); border-radius: 10px; overflow: hidden; margin-top: 0.5rem; }
+        .bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent-purple), var(--accent-cyan)); width: 0%; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
 
-        .bar-container {
-            height: 6px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .bar-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent-purple), var(--accent-cyan));
-            width: 0%; /* سيتغير بالجافا سكريبت */
-            transition: width 0.5s ease;
-        }
-
-        /* المحتوى الأساسي - Main Content */
+        /* المحتوى الأساسي - البانورامي فائق الاتساع (تم إلغاء القيود) */
         .main-content {
             margin-right: 280px;
             flex-grow: 1;
-            padding: 2rem 3rem;
+            padding: 3rem 4rem; /* مساحات تنفس واسعة */
             width: calc(100vw - 280px);
+            min-height: 100vh;
         }
 
         header.top-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
         }
 
-        .welcome-text h1 {
-            font-size: 2.2rem;
-            font-weight: 900;
-            background: linear-gradient(to left, #fff, var(--text-muted));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+        .welcome-text h1 { font-size: 2.8rem; font-weight: 900; background: linear-gradient(to left, #fff, var(--text-muted)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .welcome-text p { color: var(--text-muted); margin-top: 8px; font-size: 1.1rem; }
 
-        .welcome-text p {
-            color: var(--text-muted);
-            margin-top: 5px;
-        }
-
-        /* كروت الكورس - Course Modules Cards */
+        /* شبكة الكورسات العريضة والعملاقة */
         .modules-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 2rem;
-            margin-bottom: 4rem;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); /* كروت أكبر */
+            gap: 2.5rem;
+            margin-bottom: 5rem;
         }
 
         .module-card {
             background: var(--card-gradient);
             border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 2rem;
+            border-radius: 24px;
+            padding: 2.5rem;
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
+            gap: 1.8rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
-        }
-
-        .module-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            z-index: 0;
         }
 
         .module-card:hover {
             transform: translateY(-10px);
-            border-color: rgba(0, 242, 254, 0.3);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 20px var(--accent-glow);
-        }
-
-        .module-card * {
-            position: relative;
-            z-index: 1;
+            border-color: rgba(0, 242, 254, 0.25);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4), 0 0 30px var(--accent-glow);
         }
 
         .module-icon {
-            width: 60px;
-            height: 60px;
-            background: rgba(255,255,255,0.03);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: var(--accent-cyan);
+            width: 65px; height: 65px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 18px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.6rem; color: var(--accent-cyan);
             border: 1px solid var(--border-color);
         }
 
-        .module-info h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.5rem;
-        }
+        .module-info h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 0.6rem; }
+        .module-info p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; }
 
-        .module-info p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        .module-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: auto;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .module-footer span i {
-            color: var(--accent-cyan);
-            margin-left: 5px;
-        }
-
-        /* قسم عارض الفيديوهات والمحتوى - Interactive Viewer */
+        /* عارض الفيديوهات العملاق (تم تكبيره ليكون سينمائي ومريح) */
         .viewer-container {
             display: grid;
-            grid-template-columns: 2.5fr 1fr;
-            gap: 2rem;
-            margin-bottom: 4rem;
-            display: none; /* سيظهر عند الضغط على الموديول */
+            grid-template-columns: 2.8fr 1.2fr; /* إعطاء مساحة أكبر جداً للفيديو */
+            gap: 2.5rem;
+            margin-bottom: 5rem;
+            display: none; 
+            min-height: 600px;
         }
 
         .video-box {
-            background: #000;
-            border-radius: 20px;
+            background: #04060a;
+            border-radius: 24px;
             overflow: hidden;
             border: 1px solid var(--border-color);
             position: relative;
-            aspect-ratio: 16/9;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
         }
 
-        .video-box iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
+        .video-box iframe { width: 100%; height: 100%; border: none; }
 
         .content-sidebar {
             background: var(--bg-glass);
             border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 1.5rem;
-            height: 100%;
+            border-radius: 24px;
+            padding: 2rem;
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 1.8rem;
+            max-height: 650px;
+            overflow-y: auto;
         }
 
-        .content-title {
-            font-weight: 700;
-            font-size: 1.1rem;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 0.75rem;
-        }
+        .content-title { font-weight: 800; font-size: 1.3rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; color: var(--accent-cyan); }
 
-        /* نظام الكويزات التفاعلي - Advanced Quiz System */
-        .quiz-section {
-            background: var(--card-gradient);
-            border: 1px solid var(--border-color);
-            border-radius: 24px;
-            padding: 3rem;
-            margin-top: 3rem;
-            display: none; /* سيظهر عند الانتهاء من الوحدة */
-            position: relative;
-        }
-
-        .quiz-header h2 {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            color: #fff;
-        }
-
-        .option-card {
-            background: rgba(255,255,255,0.02);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1rem 1.5rem;
-            margin-bottom: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        /* سيكشن قائمة الفيديوهات والدروس داخل الموديول */
+        .lesson-item {
             display: flex;
             align-items: center;
             gap: 12px;
+            padding: 1rem;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.01);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        .option-card:hover {
-            background: rgba(255,255,255,0.05);
+        .lesson-item:hover, .lesson-item.active {
+            background: rgba(0, 242, 254, 0.05);
             border-color: var(--accent-cyan);
             transform: translateX(-5px);
         }
 
-        .option-card.selected {
-            background: rgba(0, 242, 254, 0.1);
-            border-color: var(--accent-cyan);
-            font-weight: 700;
+        /* سيكشن الكويزات العريض */
+        .quiz-section {
+            background: var(--card-gradient);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 4rem; /* كبرت الحواف */
+            margin-top: 3rem;
+            display: none;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
         }
 
-        .option-card.correct {
-            background: rgba(0, 255, 135, 0.1);
-            border-color: var(--accent-green);
-        }
-
-        .option-card.wrong {
-            background: rgba(255, 71, 87, 0.1);
-            border-color: #ff4757;
+        .option-card {
+            background: rgba(255,255,255,0.01);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 1.3rem 2rem;
+            margin-bottom: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex; align-items: center; gap: 15px;
+            font-size: 1.1rem;
         }
 
         .btn {
             background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan));
-            color: #fff;
-            border: none;
-            padding: 0.8rem 2rem;
-            border-radius: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 242, 254, 0.2);
+            color: #fff; border: none; padding: 1rem 2.5rem; border-radius: 14px;
+            font-weight: 800; cursor: pointer; font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 20px rgba(0, 242, 254, 0.15);
         }
 
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 242, 254, 0.4);
-        }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0, 242, 254, 0.3); }
 
-        /* تصميم الموبايل سريعاً للحفاظ على الاستجابة */
-        @media (max-width: 1024px) {
-            .sidebar { width: 80px; padding: 1.5rem 0.5rem; }
-            .logo-area span, .nav-links span, .progress-box { display: none; }
-            .main-content { margin-right: 80px; width: calc(100vw - 80px); padding: 1.5rem; }
+        @media (max-width: 1200px) {
             .viewer-container { grid-template-columns: 1fr; }
+            .main-content { padding: 2rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-blobs">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-    </div>
+    <div class="bg-blobs"> <div class="blob blob-1"></div> <div class="blob blob-2"></div> </div>
 
     <nav class="sidebar">
-        <div class="logo-area">
-            <i class="fa-solid fa-atom"></i>
-            <span>BioMastery</span>
-        </div>
-
+        <div class="logo-area"> <i class="fa-solid fa-bolt"></i> <span>Titan Academy</span> </div>
         <ul class="nav-links">
             <li><a href="#" class="active" onclick="showSection('home')"><i class="fa-solid fa-house"></i> <span>الرئيسية</span></a></li>
-            <li><a href="#" onclick="showSection('modules')"><i class="fa-solid fa-book-open"></i> <span>المناهج والكورسات</span></a></li>
             <li><a href="#" onclick="showSection('recovery')"><i class="fa-solid fa-kit-medical"></i> <span>مختبر الاستشفاء</span></a></li>
             <li><a href="#" onclick="showSection('leaderboard')"><i class="fa-solid fa-trophy"></i> <span>لوحة الشرف</span></a></li>
         </ul>
-
         <div class="progress-box">
-            <div class="progress-header">
-                <span>مستوى التقدم الكلي</span>
-                <span id="progress-percent">0%</span>
+            <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+                <span>مستوى التقدم</span> <span id="progress-percent">0%</span>
             </div>
-            <div class="bar-container">
-                <div class="bar-fill" id="main-progress-bar"></div>
-            </div>
+            <div class="bar-container"> <div class="bar-fill" id="main-progress-bar"></div> </div>
         </div>
     </nav>
 
     <main class="main-content">
         <header class="top-header">
             <div class="welcome-text">
-                <h1>أهلاً بك في الأكاديمية الذكية</h1>
-                <p>تعلم البايوميكانيكس الحقيقي، تفوّق في كويزاتك، وقم ببرمجة تمرينك مثل المحترفين.</p>
+                <h1>أكاديمية الميكانيكا الحيوية والتشريح</h1>
+                <p>تعلم كيف تفكر كخبير، صمم تمارينك بذكاء، وتعافى من الإصابات بأحدث الأساليب العلمية.</p>
             </div>
-            <div class="user-badge" style="display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.02); padding: 0.5rem 1rem; border-radius: 12px; border: 1px solid var(--border-color);">
-                <i class="fa-solid fa-circle-user" style="font-size: 1.5rem; color: var(--accent-cyan);"></i>
-                <span style="font-weight: bold;">البطل المستقبلي</span>
+            <div style="display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.01); padding: 0.7rem 1.2rem; border-radius: 14px; border: 1px solid var(--border-color);">
+                <i class="fa-solid fa-circle-user" style="font-size: 1.6rem; color: var(--accent-cyan);"></i>
+                <span style="font-weight: 800;">Eyad Hazem</span>
             </div>
         </header>
 
-        <div class="modules-grid" id="modules-container">
-            </div>
-
-        <div class="viewer-container" id="video-viewer">
-            </div>
-
-        <div class="quiz-section" id="quiz-container">
-            </div>
-
+        <div class="modules-grid" id="modules-container"> </div>
+        <div class="viewer-container" id="video-viewer"> </div>
+        <div class="quiz-section" id="quiz-container"> </div>
     </main>
-    <script>
-        // 1. قاعدة البيانات الضخمة للموقع (The Master Data)
-        // تحتوي على الفيديوهات، المقالات، الكويزات، والتقييمات لكل موديول
+        <script>
+        // 1. قاعدة البيانات المحدثة 2026 (The Master Database)
         const academyData = {
             modules: [
                 {
                     id: 1,
-                    title: "الوحدة 1 & 2: أساسيات التشريح والبايوميكانيكس",
-                    description: "فهم المصطلحات التشريحية، مستويات الحركة، وكيفية عمل المفاصل والعظام كرافعات ميكانيكية.",
-                    icon: "fa-solid fa-bone",
-                    duration: "45 دقيقة",
+                    title: "Module 1-3: ثورة البيوميكانيكس 2026",
+                    description: "الأساسيات العلمية، مستويات الحركة، وكيفية قراءة زوايا المقاومة باستخدام الذكاء الاصطناعي.",
+                    icon: "fa-solid fa-microchip",
                     lessons: [
-                        { type: "video", title: "مقدمة في التشريح البشري", url: "https://www.youtube.com/embed/uBGl2BujkPQ" },
-                        { type: "text", title: "دليل مستويات الحركة والمصطلحات", content: "لفهم التمرين بذكاء، يجب أن تعرف أن الجسم يتحرك في 3 مستويات رئيسية: 1. المستوى السهمي (Sagittal Plane) مثل السكوات والبايرسبس كيرل. 2. المستوى الجبهي (Frontal Plane) مثل الرفرفة الجانبية. 3. المستوى العرضي (Transverse Plane) مثل تمرين الصدر الفراشة أو الحركات الدورانية. فهم هذه المستويات يجعلك تختار زوايا تمرينك بدقة متناهية دون تكرار غير مفيد." }
+                        { title: "مقدمة في الميكانيكا الحيوية", videoId: "uBGl2BujkPQ", duration: "15 min" },
+                        { title: "مستويات الحركة الثلاثة (Planes)", videoId: "pT7yVshU7nU", duration: "20 min" },
+                        { title: "تطبيق: كيف تختار الزاوية الأنسب؟", videoId: "l59Z_Z9N0p0", duration: "10 min" }
                     ],
                     quiz: [
-                        {
-                            question: "أي من المستويات التالية تتم فيه حركة تمرين الرفرفة الجانبية (Lateral Raise)؟",
-                            options: ["المستوى السهمي (Sagittal)", "المستوى الجبهي (Frontal)", "المستوى العرضي (Transverse)", "المستوى المائل (Oblique)"],
-                            correct: 1
-                        },
-                        {
-                            question: "ما هو نوع الرافعة الميكانيكية الأكثر شيوعاً في جسم الإنسان والتي تضحي بالقوة لإنتاج السرعة والمدى الحركي؟",
-                            options: ["الرافعة من الدرجة الأولى", "الرافعة من الدرجة الثانية", "الرافعة من الدرجة الثالثة", "الروافع الثابتة"],
-                            correct: 2
-                        }
+                        { question: "في عام 2026، ما هو العامل الأهم لتحديد كفاءة التمرين؟", options: ["الوزن فقط", "اتساق خط المقاومة مع اتجاه الألياف", "عدد العدات", "التعرق"], correct: 1 }
                     ]
                 },
                 {
                     id: 2,
-                    title: "الوحدة 4 & 5: كفاءة التمرين وعزم الدوران (Torque)",
-                    description: "دراسة الروافع في الجيم، وكيف يتغير الحمل على العضلة أثناء الحركة بناءً على الجاذبية والكابلات.",
-                    icon: "fa-solid fa-rotate",
-                    duration: "60 دقيقة",
+                    title: "Module 4-6: تشريح الصدر والظهر (الجزء العلوي)",
+                    description: "تحليل كامل لألياف الـ Pectoralis و الـ Latissimus dorsi وكيفية عزلها تماماً.",
+                    icon: "fa-solid fa-up-long",
                     lessons: [
-                        { type: "video", title: "مفهوم الـ Torque في تمرين المقاومة", url: "https://www.youtube.com/embed/l59Z_Z9N0p0" },
-                        { type: "text", title: "مفهوم الـ Moment Arm", content: "المسافة العمودية بين خط عمل الوزن والمفصل تسمى الـ Moment Arm. كلما زادت هذه المسافة، زاد عزم الدوران والجهد المطلوب من العضلة. على سبيل المثال، في تمرين الرفرفة الجانبية بالدمبل، يكون أقصى حمل على الكتف عندما يكون ذراعك موازياً للأرض لأن الـ Moment Arm في أقصى طول له. باستخدام الكابلات، يمكنك تغيير هذه النقطة لتجعل التمرين صعباً في بداية الحركة وليس في نهايتها فقط." }
+                        { title: "تشريح الصدر: عزل الألياف العلوية", videoId: "j_N8lqZp7Lw", duration: "25 min" },
+                        { title: "الظهر: سر الـ Lat Stretch", videoId: "O94yvZ9__0U", duration: "30 min" },
+                        { title: "أخطاء شائعة في تمارين السحب", videoId: "p1_EAnM6IuA", duration: "15 min" }
                     ],
                     quiz: [
-                        {
-                            question: "في تمرين البايسبس بالدمبل، في أي زاوية يكون عزم الدوران (Moment Arm) في أقصى درجاته؟",
-                            options: ["عند زاوية 0 (الذراع مفرود تماماً لأسفل)", "عند زاوية 90 درجة (الساعد موازي للأرض)", "عند زاوية 120 درجة (الدمبل قريب من الكتف)", "العزم ثابت في جميع الزوايا"],
-                            correct: 1
-                        }
+                        { question: "أفضل زاوية لاستهداف ألياف الصدر العلوية هي:", options: ["30-45 درجة", "90 درجة", "مستوي تماماً", "لأسفل"], correct: 0 }
                     ]
                 },
                 {
                     id: 3,
-                    title: "الوحدة 6 & 7: تشريح ووظائف عضلات الجزء العلوي",
-                    description: "دراسة دقيقة لعضلات الصدر، الظهر، الأكتاف، والذراعين، وكيفية استهداف الألياف العضلية المختلفة.",
-                    icon: "fa-solid fa-person-walking",
-                    duration: "90 دقيقة",
+                    title: "Module 7-10: ميكانيكا الأرجل والعمود الفقري",
+                    description: "أحدث أبحاث 2026 في تدريب الكوادز والهامسترينج وحماية الفقرات.",
+                    icon: "fa-solid fa-down-long",
                     lessons: [
-                        { type: "video", title: "تشريح عضلات الصدر والظهر علمياً", url: "https://www.youtube.com/embed/j_N8lqZp7Lw" },
-                        { type: "text", title: "أسرار تشريح الألياف العضلية للصدر", content: "عضلة الصدر تنقسم تشريحياً لثلاثة أجزاء رئيسية تتبع اتجاه الألياف (Line of Pull): 1. الجزء العلوي (Clavicular) ويستهدف بالدفع المائل لأعلى. 2. الجزء الأوسط (Sternal) ويستهدف بالدفع المستوي. 3. الجزء السفلي (Costal) ويستهدف بالدفع لأسفل أو الغطس (Dips). إذا أردت استهداف جزء معين، يجب أن يتحرك ذراعك في نفس اتجاه ألياف هذا الجزء تماماً." }
+                        { title: "السكوات: علم الثبات والعمق", videoId: "O-L_fM9oPBI", duration: "22 min" },
+                        { title: "تشريح الهامسترينج (خلفيات الأرجل)", videoId: "N0mrgQj7Pww", duration: "18 min" }
                     ],
                     quiz: [
-                        {
-                            question: "لاستبعاد العضلات المساعدة وتشغيل عضلات الظهر (Lats) بأقصى كفاءة في السحب العالي، يجب أن يكون مسار الكوع:",
-                            options: ["مفتوحاً للخارج بزاوية 90 درجة", "قريباً من الجذع ويتحرك لأسفل وللداخل قليلاً", "متحركاً للخلف خلف الظهر تماماً", "لا يهم مسار الكوع"],
-                            correct: 1
-                        }
+                        { question: "ما هي العضلة التي تعمل بكفاءة أكبر في الـ Leg Extension؟", options: ["السمانة", "الـ Rectus Femoris", "الظهر السفلي", "البايسبس"], correct: 1 }
                     ]
                 }
             ],
             recoveryLab: [
                 {
-                    bodyPart: "الرقبة (Neck)",
-                    problem: "الشد العضلي في الرقبة والترابيس العلوية (نتيجة النظر لأسفل أو الجلوس الخاطئ)",
-                    massageTechnique: "طريقة التدليك: استخدم أصابعك للضغط الخفيف بحركات دائرية على جانبي الرقبة من الأعلى للأسفل. تجنب الضغط على الفقرات في المنتصف تماماً. يمكنك استخدام كرة تنس ناعمة على الحائط للضغط على نقاط الألم في الترابيس (Trigger Points).",
-                    exercises: [
-                        { title: "إطالة الرقبة الجانبية", desc: "اسحب رأسك بلطف نحو كتفك اليمين بيدك اليمين، واثبت 30 ثانية، ثم كرر لليسرى." },
-                        { title: "تمرين تراجع الذقن (Chin Tucks)", desc: "ارجع برأسك للخلف كأنك تصنع ذقناً مزدوجة لتقوية عضلات الرقبة العميقة." }
-                    ],
-                    videoUrl: "https://www.youtube.com/embed/pToM9V0eIWY"
+                    area: "الكتف (Shoulder)",
+                    problem: "إصابات الكفة المدورة (Rotator Cuff)",
+                    video: "N0mrgQj7Pww",
+                    tips: "استخدم ضغط كرة التنس على العضلات الصغيرة تحت لوح الكتف لمدة 60 ثانية."
                 },
                 {
-                    bodyPart: "الكتف (Shoulder)",
-                    problem: "آلام الكفة المدورة (Rotator Cuff) والتهاب الأوتار نتيجة الأوزان العالية",
-                    massageTechnique: "طريقة التدليك: قف بجانب الحائط وضع كرة Lacrosse بين كتفك من الخلف (الكتف الخلفي وتحت لوح الكتف) وبين الحائط. تحرك ببطء وابحث عن العقد العضلية، عندما تجدها اضغط بثبات لمدة 30 ثانية مع تحريك يدك للأمام والخلف.",
-                    exercises: [
-                        { title: "اللف الخارجي بالكابل (External Rotation)", desc: "أمسك الكابل واجعل كوعك ملاصقاً لجنبك، وحرك يدك للخارج لتقوية الأوتار." },
-                        { title: "تمارين الـ Face Pulls", desc: "بوزن خفيف جداً وتكنيك بطيء لتقوية عضلات أعلى الظهر والكتف الخلفي المسؤولة عن ثبات المفصل." }
-                    ],
-                    videoUrl: "https://www.youtube.com/embed/N0mrgQj7Pww"
-                },
-                {
-                    bodyPart: "أسفل الظهر (Lower Back)",
-                    problem: "إجهاد الفقرات القطنية وآلام أسفل الظهر",
-                    massageTechnique: "تحذير هام: لا تقم بتدليك فقرات أسفل الظهر مباشرة باستخدام الـ Foam Roller لأن هذا يزيد الضغط عليها. الطريقة الصحيحة هي تدليك عضلات الجلوتس (الأرداف) وعضلات الهامسترينج (الخلفيات)، لأن تشنجها هو المسبب لـ 80% من آلام أسفل الظهر.",
-                    exercises: [
-                        { title: "تمرين الـ Bird-Dog", desc: "ارفع يدك اليمين مع رجلك اليسار وأنت على أطرافك الأربعة، واثبت لتقوية جذعك." },
-                        { title: "تمرين تمدد القطة والكلب (Cat-Cow)", desc: "لتحريك الفقرات بمرونة ودون أوزان لتقليل التيبس." }
-                    ],
-                    videoUrl: "https://www.youtube.com/embed/ETo6f6pT9X8"
+                    area: "أسفل الظهر (Lower Back)",
+                    problem: "آلام الفقرات القطنية",
+                    video: "ETo6f6pT9X8",
+                    tips: "ركز على إطالة عضلات الهيب فليكسورز (Hip Flexors) لتقليل الضغط على ظهرك."
                 }
             ]
         };
 
-        // 2. إدارة حالة الموقع (State Management)
-        let currentModuleIndex = 0;
-        let score = 0;
-        let completedModules = [];
+        let currentModule = null;
+        let activeVideoIndex = 0;
 
-        // 3. دالة بناء كروت الكورسات في الصفحة الرئيسية
-        function renderModules() {
+        // 2. دالة بناء الكروت (Home Screen)
+        function renderHome() {
             const container = document.getElementById('modules-container');
-            container.innerHTML = ''; // تفريغ الحاوية
+            container.innerHTML = '';
+            document.getElementById('video-viewer').style.display = 'none';
+            document.getElementById('quiz-container').style.display = 'none';
+            container.style.display = 'grid';
 
-            academyData.modules.forEach((module, index) => {
-                const card = document.createElement('div');
-                card.className = 'module-card';
-                card.setAttribute('onclick', `openModule(${index})`);
-                
-                // تحديد ما إذا كانت الوحدة مكتملة
-                const isCompleted = completedModules.includes(module.id);
-
-                card.innerHTML = `
-                    <div class="module-icon">
-                        <i class="${module.icon}"></i>
-                    </div>
-                    <div class="module-info">
-                        <h3>${module.title}</h3>
-                        <p>${module.description}</p>
-                    </div>
-                    <div class="module-footer">
-                        <span><i class="fa-solid fa-clock"></i> ${module.duration}</span>
-                        <span>${isCompleted ? '<i class="fa-solid fa-circle-check" style="color:var(--accent-green)"></i> مكتمل' : 'ابدأ الآن <i class="fa-solid fa-arrow-left"></i>'}</span>
+            academyData.modules.forEach((mod, idx) => {
+                container.innerHTML += `
+                    <div class="module-card" onclick="startModule(${idx})">
+                        <div class="module-icon"><i class="${mod.icon}"></i></div>
+                        <div class="module-info">
+                            <h3>${mod.title}</h3>
+                            <p>${mod.description}</p>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; color:var(--accent-cyan); font-weight:bold;">
+                            <span>${mod.lessons.length} دروس</span>
+                            <i class="fa-solid fa-circle-play"></i>
+                        </div>
                     </div>
                 `;
-                container.appendChild(card);
             });
         }
 
-        // 4. دالة فتح الوحدة وتشغيل الفيديوهات
-        function openModule(index) {
-            currentModuleIndex = index;
-            const module = academyData.modules[index];
+        // 3. تشغيل الموديول (Video Player Logic)
+        function startModule(idx) {
+            currentModule = academyData.modules[idx];
+            activeVideoIndex = 0;
             
-            // إخفاء الشبكة الرئيسية وإظهار عارض المحتوى
             document.getElementById('modules-container').style.display = 'none';
             const viewer = document.getElementById('video-viewer');
             viewer.style.display = 'grid';
 
-            // ملء عارض الفيديوهات والمحتوى
-            const videoLesson = module.lessons.find(l => l.type === 'video');
-            const textLesson = module.lessons.find(l => l.type === 'text');
+            renderPlayer();
+        }
 
+        function renderPlayer() {
+            const lesson = currentModule.lessons[activeVideoIndex];
+            const viewer = document.getElementById('video-viewer');
+            
             viewer.innerHTML = `
                 <div class="video-box">
-                    <iframe src="${videoLesson.url}" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    <iframe src="https://www.youtube.com/embed/${lesson.videoId}?rel=0&modestbranding=1&autoplay=1" allowfullscreen></iframe>
                 </div>
                 <div class="content-sidebar">
-                    <div class="content-title">${module.title}</div>
-                    <div style="font-size: 0.9rem; line-height: 1.6; color: var(--text-muted);">
-                        <strong style="color: #fff;">المقال التعليمي الشامل:</strong><br><br>
-                        ${textLesson.content}
+                    <div class="content-title">${currentModule.title}</div>
+                    <div style="margin-bottom: 1rem; color: var(--text-muted);">الدروس المتسلسلة:</div>
+                    <div id="lessons-list">
+                        ${currentModule.lessons.map((l, i) => `
+                            <div class="lesson-item ${i === activeVideoIndex ? 'active' : ''}" onclick="changeVideo(${i})">
+                                <i class="fa-solid ${i === activeVideoIndex ? 'fa-pause' : 'fa-play'}" style="font-size: 0.8rem;"></i>
+                                <div style="flex-grow:1">
+                                    <div style="font-weight:700; font-size:0.9rem">${l.title}</div>
+                                    <div style="font-size:0.75rem; color:var(--text-muted)">${l.duration}</div>
+                                </div>
+                            </div>
+                        `).join('')}
                     </div>
-                    <button class="btn" style="margin-top: auto;" onclick="startQuiz(${index})">إنهاء الدرس ودخول الاختبار 🧠</button>
-                    <button class="btn" style="background: rgba(255,255,255,0.05); color: #fff; box-shadow: none;" onclick="goBackToHome()">الرجوع للرئيسية</button>
+                    <button class="btn" style="margin-top:auto" onclick="startQuiz()">دخول اختبار الوحدة 🧠</button>
+                    <button class="btn" style="background:rgba(255,255,255,0.05); color:#fff; box-shadow:none" onclick="renderHome()">العودة للرئيسية</button>
                 </div>
             `;
         }
 
-        // 5. دالة الرجوع للرئيسية
-        function goBackToHome() {
-            document.getElementById('modules-container').style.display = 'grid';
-            document.getElementById('video-viewer').style.display = 'none';
-            document.getElementById('quiz-container').style.display = 'none';
+        function changeVideo(i) {
+            activeVideoIndex = i;
+            renderPlayer();
         }
 
-        // تشغيل البناء عند فتح الصفحة
-        window.onload = () => {
-            renderModules();
-        };
-        // 6. نظام الكويزات التفاعلي (Interactive Quiz Engine)
-        let currentQuizIndex = 0;
-        let selectedOption = null;
-
-        function startQuiz(moduleIndex) {
-            currentModuleIndex = moduleIndex;
-            const module = academyData.modules[moduleIndex];
+        // 4. نظام الاختبارات المحدث
+        function startQuiz() {
+            document.getElementById('video-viewer').style.display = 'none';
+            const quizBox = document.getElementById('quiz-container');
+            quizBox.style.display = 'block';
             
-            // إخفاء عارض الفيديو وإظهار قسم الكويز
-            document.getElementById('video-viewer').style.display = 'none';
-            const quizContainer = document.getElementById('quiz-container');
-            quizContainer.style.display = 'block';
-
-            currentQuizIndex = 0;
-            score = 0;
-            loadQuestion();
-        }
-
-        function loadQuestion() {
-            const module = academyData.modules[currentModuleIndex];
-            const quiz = module.quiz[currentQuizIndex];
-            const quizContainer = document.getElementById('quiz-container');
-            selectedOption = null;
-
-            quizContainer.innerHTML = `
-                <div class="quiz-header">
-                    <h2>الاختبار الذكي: ${module.title}</h2>
-                    <p style="color: var(--text-muted);">السؤال ${currentQuizIndex + 1} من ${module.quiz.length}</p>
-                </div>
-                
-                <div style="margin: 2rem 0; font-size: 1.2rem; font-weight: bold;">
-                    ${quiz.question}
-                </div>
-
-                <div class="options-container">
-                    ${quiz.options.map((option, index) => `
-                        <div class="option-card" id="option-${index}" onclick="selectOption(${index})">
-                            <span style="width: 25px; height: 25px; border-radius: 50%; border: 2px solid var(--text-muted); display: inline-flex; align-items: center; justify-content: center; font-size: 0.8rem;">${index + 1}</span>
-                            ${option}
-                        </div>
-                    `).join('')}
-                </div>
-
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2rem;">
-                    <span style="color: var(--accent-cyan); font-weight: bold;">الدرجة الحالية: ${score}</span>
-                    <button class="btn" onclick="submitAnswer()">تأكيد الإجابة</button>
-                </div>
+            const q = currentModule.quiz[0]; // نأخذ أول سؤال كمثال
+            quizBox.innerHTML = `
+                <h2 style="margin-bottom:2rem">اختبار كفاءة الموديول</h2>
+                <p style="font-size:1.3rem; margin-bottom:2rem">${q.question}</p>
+                ${q.options.map((opt, i) => `
+                    <div class="option-card" onclick="checkAnswer(${i}, ${q.correct})">${opt}</div>
+                `).join('')}
             `;
         }
 
-        function selectOption(index) {
-            const module = academyData.modules[currentModuleIndex];
-            const quiz = module.quiz[currentQuizIndex];
-            
-            // إزالة الاختيار السابق
-            const allOptions = document.querySelectorAll('.option-card');
-            allOptions.forEach(opt => opt.classList.remove('selected'));
-
-            // تحديد الخيار الجديد
-            const selectedElement = document.getElementById(`option-${index}`);
-            selectedElement.classList.add('selected');
-            selectedOption = index;
-        }
-
-        function submitAnswer() {
-            if (selectedOption === null) {
-                alert('الرجاء اختيار إجابة أولاً!');
-                return;
-            }
-
-            const module = academyData.modules[currentModuleIndex];
-            const quiz = module.quiz[currentQuizIndex];
-            const selectedElement = document.getElementById(`option-${selectedOption}`);
-
-            // التحقق من صحة الإجابة
-            if (selectedOption === quiz.correct) {
-                selectedElement.classList.remove('selected');
-                selectedElement.classList.add('correct');
-                score++;
+        function checkAnswer(selected, correct) {
+            if(selected === correct) {
+                alert("إجابة عبقرية! لقد أتقنت الميكانيكا الحيوية لهذا الجزء.");
+                updateProgress();
+                renderHome();
             } else {
-                selectedElement.classList.remove('selected');
-                selectedElement.classList.add('wrong');
-                // إظهار الإجابة الصحيحة
-                document.getElementById(`option-${quiz.correct}`).classList.add('correct');
-            }
-
-            // الانتظار قليلاً ليرى المستخدم النتيجة ثم الانتقال للسؤال التالي أو إنهاء الكويز
-            setTimeout(() => {
-                currentQuizIndex++;
-                if (currentQuizIndex < module.quiz.length) {
-                    loadQuestion();
-                } else {
-                    showFinalResult();
-                }
-            }, 1500);
-        }
-
-        function showFinalResult() {
-            const module = academyData.modules[currentModuleIndex];
-            const quizContainer = document.getElementById('quiz-container');
-            const passGrade = module.quiz.length * 0.5; // درجة النجاح 50%
-            const passed = score >= passGrade;
-
-            if (passed && !completedModules.includes(module.id)) {
-                completedModules.push(module.id);
-                updateProgressBar();
-            }
-
-            quizContainer.innerHTML = `
-                <div style="text-align: center; padding: 2rem;">
-                    <div style="font-size: 4rem; color: ${passed ? 'var(--accent-green)' : '#ff4757'}; margin-bottom: 1rem;">
-                        <i class="fa-solid ${passed ? 'fa-square-check' : 'fa-circle-xmark'}"></i>
-                    </div>
-                    <h2>${passed ? 'مبارك النجاح!' : 'للأسف لم تجتز الاختبار'}</h2>
-                    <p style="margin: 1rem 0; font-size: 1.2rem;">لقد حصلت على ${score} من أصل ${module.quiz.length}</p>
-                    
-                    <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
-                        <button class="btn" onclick="goBackToHome()">الرجوع للرئيسية</button>
-                        ${!passed ? `<button class="btn" style="background: rgba(255,255,255,0.05); color: #fff;" onclick="startQuiz(${currentModuleIndex})">إعادة المحاولة</button>` : ''}
-                    </div>
-                </div>
-            `;
-            
-            renderModules(); // لتحديث الكروت وإظهار علامة مكتمل
-        }
-
-        function updateProgressBar() {
-            const totalModules = academyData.modules.length;
-            const completedCount = completedModules.length;
-            const percent = Math.round((completedCount / totalModules) * 100);
-
-            document.getElementById('main-progress-bar').style.width = `${percent}%`;
-            document.getElementById('progress-percent').innerText = `${percent}%`;
-        }
-
-        // 7. منطق التنقل بين أقسام الموقع (Sidebar Navigation)
-        function showSection(sectionName) {
-            const mainContent = document.querySelector('.main-content');
-            
-            // إزالة الـ Active من أزرار السايدبار
-            const navLinks = document.querySelectorAll('.nav-links a');
-            navLinks.forEach(link => link.classList.remove('active'));
-            
-            // تفعيل الزر المناسب بناءً على اسم السكشن
-            // (سندعم هذا لاحقاً بإضافة Event Listeners دقيقة)
-
-            if (sectionName === 'home' || sectionName === 'modules') {
-                goBackToHome();
-            } else if (sectionName === 'recovery') {
-                document.getElementById('modules-container').style.display = 'none';
-                document.getElementById('video-viewer').style.display = 'none';
-                document.getElementById('quiz-container').style.display = 'none';
-                
-                // بناء صفحة الاستشفاء ديناميكياً
-                renderRecoveryLab();
+                alert("إجابة خاطئة. راجع الفيديو مرة أخرى بتركيز.");
             }
         }
 
-        function renderRecoveryLab() {
-            const mainContent = document.querySelector('.main-content');
-            
-            // إزالة الكروت وعارض الفيديوهات مؤقتاً لوضع محتوى الاستشفاء
-            let recoverySection = document.getElementById('dynamic-recovery-section');
-            if (!recoverySection) {
-                recoverySection = document.createElement('div');
-                recoverySection.id = 'dynamic-recovery-section';
-                mainContent.appendChild(recoverySection);
-            }
-
-            recoverySection.style.display = 'block';
-            recoverySection.innerHTML = `
-                <div style="margin-bottom: 2rem;">
-                    <h1 style="font-size: 2.2rem; font-weight: 900;">مختبر الاستشفاء والعلاج الطبيعي الذاتي</h1>
-                    <p style="color: var(--text-muted);">انقر على أي عضو في الجسم لتعرف كيف تعالج آلامه بالتدليك والتمرين العلمي.</p>
-                </div>
-
-                <div class="modules-grid">
-                    ${academyData.recoveryLab.map((item, index) => `
-                        <div class="module-card" style="cursor: default;">
-                            <div class="module-icon" style="color: var(--accent-purple); border-color: rgba(155, 81, 224, 0.2);">
-                                <i class="fa-solid fa-hand-holding-medical"></i>
-                            </div>
-                            <div class="module-info">
-                                <h3>منطقة: ${item.bodyPart}</h3>
-                                <p style="color: #ff4757; font-weight: bold;">المشكلة: ${item.problem}</p>
-                                <p style="font-size: 0.85rem; background: rgba(255,255,255,0.02); padding: 0.5rem; border-radius: 8px; margin-top: 0.5rem;">${item.massageTechnique}</p>
-                            </div>
-                            <div style="margin-top: 1rem;">
-                                <strong style="font-size: 0.9rem;">أهم التمارين العلاجية:</strong>
-                                <ul style="list-style: none; font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">
-                                    ${item.exercises.map(ex => `<li><i class="fa-solid fa-check" style="color: var(--accent-cyan); margin-left: 5px;"></i> <strong>${ex.title}:</strong> ${ex.desc}</li>`).join('')}
-                                </ul>
-                            </div>
-                            <button class="btn" style="margin-top: 1rem; width: 100%;" onclick="openRecoveryVideo('${item.videoUrl}')">مشاهدة فيديو الشرح 🎬</button>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
+        function updateProgress() {
+            let current = parseInt(document.getElementById('progress-percent').innerText);
+            current = Math.min(current + 33, 100);
+            document.getElementById('progress-percent').innerText = current + "%";
+            document.getElementById('main-progress-bar').style.width = current + "%";
         }
 
-        function openRecoveryVideo(url) {
-            alert('سيتم تشغيل الفيديو الخاص بهذه المنطقة!');
-            // يمكننا فتح مودال (Pop-up) أو تشغيله في عارض الفيديوهات المخصص
+        function showSection(name) {
+            if(name === 'home') renderHome();
+            // يمكن إضافة باقي السكاشن هنا بنفس الطريقة
         }
 
-        // تعديل على دالة الرجوع للرئيسية لكي تخفي سيكشن الاستشفاء أيضاً
-        const originalGoBackToHome = goBackToHome;
-        goBackToHome = function() {
-            originalGoBackToHome();
-            const recoverySection = document.getElementById('dynamic-recovery-section');
-            if (recoverySection) recoverySection.style.display = 'none';
-                                                                  }
-                            // 8. تكملة قاعدة البيانات (إضافة بقية الموديولات الـ 14 من الكورس)
-        academyData.modules.push(
-            {
-                id: 4,
-                title: "الوحدة 8 & 9 & 10: التطبيق العملي للجزء العلوي",
-                description: "التحليل الميكانيكي للأجهزة، الكابلات، والدمبلز لعضلات الصدر والظهر والأكتاف والذراعين بالتفصيل.",
-                icon: "fa-solid fa-dumbbell",
-                duration: "120 دقيقة",
-                lessons: [
-                    { type: "video", title: "تطبيق زوايا الألياف عملياً في الجيم", url: "https://www.youtube.com/embed/O94yvZ9__0U" },
-                    { type: "text", title: "سر المقاومة المستمرة بالكابلات", content: "الأوزان الحرة (الدمبل والبار) قوة مقاومتها دائماً تتجه لأسفل بفعل الجاذبية. هذا يعني أنه في تمرين الرفرفة الجانبية بالدمبل، لا توجد مقاومة في بداية الحركة! الكابلات هنا تتفوق لأنها تسمح لك بتغيير اتجاه المقاومة (Line of resistance) لتجعل العضلة تحت ضغط مستمر من الصفر للنهاية." }
-                ],
-                quiz: [
-                    {
-                        question: "لماذا تعتبر الكابلات خياراً ممتازاً لتطبيق الميكانيكا الحيوية مقارنة بالدمبلز؟",
-                        options: ["لأنها أثقل في الوزن دائماً", "لأنها تتيح التحكم في اتجاه ومسار قوة المقاومة المستمرة", "لأنها لا تحتاج لتثبيت الجسم", "لا يوجد فرق بينهما"],
-                        correct: 1
-                    }
-                ]
-            },
-            {
-                id: 5,
-                title: "الوحدة 11 & 12: تشريح وتطبيق الجزء السفلي",
-                description: "تفصيل عضلات الكوادز، الهامسترينج، الجلوتس، والسمانة، وكيفية حماية مفاصل الركبة.",
-                icon: "fa-solid fa-bolt",
-                duration: "75 دقيقة",
-                lessons: [
-                    { type: "video", title: "تشريح حركات الورك والركبة", url: "https://www.youtube.com/embed/O-L_fM9oPBI" },
-                    { type: "text", title: "ميكانيكية السكوات والـ Leg Press", content: "عضلة الـ Rectus Femoris (أحد رؤوس الكوادز الأربعة) هي عضلة ثنائية المفصل (Bi-articular) تعبر مفصل الورك والركبة معاً. في تمرين السكوات، تقصر العضلة من جهة الركبة وتطول من جهة الورك، مما يجعلها لا تتلقى أقصى تفعيل. لعزلها وبنائها، يجب لعب تمرين تمديد الساقين (Leg Extension) حيث يكون الورك ثابتاً والركبة فقط هي التي تتحرك." }
-                ],
-                quiz: [
-                    {
-                        question: "عضلة الـ Rectus Femoris يتم استهدافها بأعلى كفاءة في تمرين:",
-                        options: ["السكوات الحر (Barbell Squat)", "الـ Leg Press", "تمديد الساقين (Leg Extension)", "الديدليفت (Deadlift)"],
-                        correct: 2
-                    }
-                ]
-            },
-            {
-                id: 6,
-                title: "الوحدة 13 & 14: برمجة التدريب وتصميم الجداول",
-                description: "كيف تدمج الحجم التدريبي (Volume)، الشدة، والتردد لبناء جدول تدريبي مخصص لأي هدف.",
-                icon: "fa-solid fa-calendar-check",
-                duration: "100 دقيقة",
-                lessons: [
-                    { type: "video", title: "كيف تصمم جدولك التدريبي بذكاء", url: "https://www.youtube.com/embed/9GbeEorSPlY" },
-                    { type: "text", title: "الهرم التدريبي لإريك هيلمز", content: "لبناء جدول ناجح، اتبع الأولويات التالية بالترتيب: 1. الاستمرارية (Adherence). 2. حجم التدريب والشدة والتردد (Volume, Intensity, Frequency). 3. اختيار التمارين (Exercise Selection). 4. فترات الراحة (Rest Periods). لا تقلق بشأن المكملات أو أوقات الأكل قبل أن تتقن هذه الأساسيات الأربعة." }
-                ],
-                quiz: [
-                    {
-                        question: "ما هو العامل الأكثر أهمية في نجاح أي برنامج تدريبي على المدى البعيد؟",
-                        options: ["نوع المكملات الغذائية", "الاستمرارية والالتزام بالبرنامج", "التمرن 7 أيام في الأسبوع", "تغيير التمارين كل أسبوع"],
-                        correct: 1
-                    }
-                ]
-            }
-        );
-
-        // 9. تكملة عضلات الجسم بالكامل في مختبر الاستشفاء (Recovery Lab)
-        academyData.recoveryLab.push(
-            {
-                bodyPart: "الكوع والساعد (Elbow & Forearm)",
-                problem: "التهاب أوتار الكوع (Tennis Elbow أو Golfer's Elbow)",
-                massageTechnique: "طريقة التدليك: ضع إبهامك على المنطقة العضلية في الساعد القريبة من الكوع (وليس على العظم الملتهب نفسه). اضغط بقوة متوسطة وحرك يدك للأعلى والأسفل لفك التشنج العضلي الذي يشد الوتر.",
-                exercises: [
-                    { title: "تمارين الإطالة للرسغ", desc: "افرد ذراعك واجعل أصابعك تشير لأسفل، واسحبها بيدك الأخرى للخلف بلطف." },
-                    { title: "تمرين الـ Eccentric Wrist Curls", desc: "امسك دمبل خفيف، ارفع يدك باليد السليمة، ثم انزل بها ببطء شديد باليد المصابة لبناء وتر قوي." }
-                ],
-                videoUrl: "https://www.youtube.com/embed/5H3UofS_Rrk"
-            },
-            {
-                bodyPart: "الركبة (Knee)",
-                problem: "آلام صابونة الركبة (Patellar Tendonitis) أثناء السكوات",
-                massageTechnique: "طريقة التدليك: استخدم الـ Foam Roller لتدليك عضلة الكوادز (الأفخاذ الأمامية) بالكامل، لأن تشنجها يسحب الصابونة لأعلى ويسبب الألم. تجنب الضغط على الركبة مباشرة.",
-                exercises: [
-                    { title: "تمارين الـ Spanish Squats", desc: "تمرين سكوات باستخدام حزام مقاومة خلف الركبة لتقوية الأوتار دون الضغط على المفصل." },
-                    { title: "تطويل عضلات الـ Rectus Femoris", desc: "لتقليل الشد على الصابونة." }
-                ],
-                videoUrl: "https://www.youtube.com/embed/9P5mN9vX_H8"
-            },
-            {
-                bodyPart: "السمانة والكاحل (Calf & Ankle)",
-                problem: "آلام أوتار Achilles وتيبس مفصل الكاحل",
-                massageTechnique: "طريقة التدليك: اجلس على الأرض وضع كرة تنس أو Foam Roller تحت عضلة السمانة، ثم ضع رجلك الأخرى فوقها لزيادة الوزن، وحرك جسمك ببطء لتفكيك العقد العضلية.",
-                exercises: [
-                    { title: "إطالات السمانة على حائط", desc: "لتوسيع المدى الحركي للكاحل." },
-                    { title: "تمرين رفع الكعب البطيء", desc: "بمدى حركي كامل للتعافي." }
-                ],
-                videoUrl: "https://www.youtube.com/embed/HInXv95B-mE"
-            }
-        );
-
-        // 10. برمجة الـ Modal (النافذة المنبثقة) لتشغيل الفيديوهات في سيكشن الاستشفاء
-        // أولاً: بناء الهيكل في الـ HTML ديناميكياً
-        const modalHtml = `
-            <div id="videoModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); z-index: 1000; justify-content: center; align-items: center;">
-                <div style="background: var(--bg-secondary); width: 80%; max-width: 800px; border-radius: 20px; border: 1px solid var(--border-color); overflow: hidden; position: relative;">
-                    <button style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.1); border: none; color: #fff; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1.2rem;" onclick="closeRecoveryVideo()">✕</button>
-                    <div style="aspect-ratio: 16/9;">
-                        <iframe id="modalIframe" src="" style="width: 100%; height: 100%; border: none;"></iframe>
-                    </div>
-                </div>
-            </div>
-        `;
-        document.body.insertAdjacentHTML('beforeend', modalHtml);
-
-        // ثانياً: وظيفة الفتح والإغلاق
-        window.openRecoveryVideo = function(url) {
-            const modal = document.getElementById('videoModal');
-            const iframe = document.getElementById('modalIframe');
-            iframe.src = url;
-            modal.style.display = 'flex';
-        };
-
-        window.closeRecoveryVideo = function() {
-            const modal = document.getElementById('videoModal');
-            const iframe = document.getElementById('modalIframe');
-            iframe.src = ''; // إيقاف الفيديو عند الإغلاق
-            modal.style.display = 'none';
-        };
-                // 11. ربط أزرار السايدبار بالتفاعلات الحركية (Navigation & Animations)
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', function() {
-                document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-
-        // 12. إضافة لوحة الشرف (Leaderboard) لمحاكاة المواقع العالمية
-        function renderLeaderboard() {
-            const mainContent = document.querySelector('.main-content');
-            let leaderboardSection = document.getElementById('dynamic-leaderboard-section');
-            if (!leaderboardSection) {
-                leaderboardSection = document.createElement('div');
-                leaderboardSection.id = 'dynamic-leaderboard-section';
-                mainContent.appendChild(leaderboardSection);
-            }
-
-            leaderboardSection.style.display = 'block';
-            leaderboardSection.innerHTML = `
-                <div style="margin-bottom: 2rem; animation: fadeIn 0.5s ease-out;">
-                    <h1 style="font-size: 2.2rem; font-weight: 900;">لوحة الشرف (Leaderboard)</h1>
-                    <p style="color: var(--text-muted);">الأبطال الذين أتموا الكورس بنسبة نجاح 100%.</p>
-                </div>
-
-                <div style="background: var(--card-gradient); border: 1px solid var(--border-color); border-radius: 20px; padding: 2rem; animation: fadeIn 0.5s ease-out 0.2s; animation-fill-mode: both;">
-                    <table style="width: 100%; border-collapse: collapse; text-align: right;">
-                        <thead>
-                            <tr style="border-bottom: 1px solid var(--border-color); color: var(--accent-cyan);">
-                                <th style="padding: 1rem;">الترتيب</th>
-                                <th style="padding: 1rem;">الاسم</th>
-                                <th style="padding: 1rem;">النقاط</th>
-                                <th style="padding: 1rem;">التقدم</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.02);">
-                                <td style="padding: 1rem;"><i class="fa-solid fa-trophy" style="color: #FFD700;"></i> #1</td>
-                                <td style="padding: 1rem; font-weight: bold;">أنت (البطل المستقبلي)</td>
-                                <td style="padding: 1rem;">1200 xp</td>
-                                <td style="padding: 1rem; color: var(--accent-green);">100%</td>
-                            </tr>
-                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.02);">
-                                <td style="padding: 1rem;"><i class="fa-solid fa-medal" style="color: #C0C0C0;"></i> #2</td>
-                                <td style="padding: 1rem;">أحمد علي</td>
-                                <td style="padding: 1rem;">1150 xp</td>
-                                <td style="padding: 1rem;">95%</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 1rem;"><i class="fa-solid fa-medal" style="color: #CD7F32;"></i> #3</td>
-                                <td style="padding: 1rem;">محمد حسن</td>
-                                <td style="padding: 1rem;">900 xp</td>
-                                <td style="padding: 1rem;">80%</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            `;
-        }
-
-        // 13. إدراج أنيميشن الفتح (Fade-in CSS)
-        const style = document.createElement('style');
-        style.innerHTML = `
-            @keyframes fadeIn {
-                from { opacity: 0; transform: translateY(15px); }
-                to { opacity: 1; transform: translateY(0); }
-            }
-            .modules-grid, .quiz-section, .viewer-container, #dynamic-recovery-section {
-                animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            }
-        `;
-        document.head.appendChild(style);
-
-        // تعديل أخير على دالة showSection للربط الشامل بين السايدبار والصفحات
-        const previousShowSection = showSection;
-        showSection = function(sectionName) {
-            previousShowSection(sectionName);
-            const leaderboard = document.getElementById('dynamic-leaderboard-section');
-            if (leaderboard) leaderboard.style.display = 'none';
-
-            if (sectionName === 'leaderboard') {
-                document.getElementById('modules-container').style.display = 'none';
-                document.getElementById('video-viewer').style.display = 'none';
-                document.getElementById('quiz-container').style.display = 'none';
-                const recovery = document.getElementById('dynamic-recovery-section');
-                if (recovery) recovery.style.display = 'none';
-                renderLeaderboard();
-            }
-        }
+        // تشغيل الموقع لأول مرة
+        window.onload = renderHome;
     </script>
 </body>
 </html>
-
-    
