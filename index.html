@@ -1,443 +1,1341 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EYAD HYPERTROPHY SYSTEM – ULTIMATE EDITION</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Eyad Hypertrophy System | Ultimate Edition</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        /* ==========================================================================
+           CSS VARIABLES & THEME (Ultra Premium Dark Mode / Neon)
+           ========================================================================== */
+        :root {
+            /* Colors */
+            --bg-base: #030305;
+            --bg-surface: rgba(18, 18, 24, 0.65);
+            --bg-surface-hover: rgba(28, 28, 36, 0.85);
+            --bg-elevated: rgba(35, 35, 45, 0.9);
+            
+            --neon-blue: #00f0ff;
+            --neon-blue-glow: rgba(0, 240, 255, 0.4);
+            --neon-violet: #8a2be2;
+            --neon-violet-glow: rgba(138, 43, 226, 0.4);
+            --success-green: #00ff66;
+            --danger-red: #ff0055;
+            --warning-yellow: #ffb700;
+            
+            /* Typography */
+            --text-primary: #ffffff;
+            --text-secondary: #8a8a9e;
+            --text-muted: #555566;
+            --font-main: 'Inter', sans-serif;
+            --font-display: 'Orbitron', sans-serif;
+            
+            /* Layout & Effects */
+            --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+            --glass-blur: blur(20px);
+            --shadow-soft: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            --shadow-neon: 0 0 15px var(--neon-blue-glow);
+            --border-radius-lg: 24px;
+            --border-radius-md: 16px;
+            --border-radius-sm: 8px;
+            
+            /* Transitions */
+            --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
 
-<style>
-/* =========================
-   CORE RESET & ROOT
-========================= */
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family: 'Segoe UI', sans-serif;
-}
+        /* ==========================================================================
+           RESET & BASE
+           ========================================================================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(0, 240, 255, 0.03), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(138, 43, 226, 0.03), transparent 25%);
+        }
 
-:root{
---bg:#050505;
---card:#0f0f13;
---glass:rgba(255,255,255,0.05);
---border:rgba(255,255,255,0.1);
---blue:#00e5ff;
---violet:#8a2eff;
---text:#eaeaea;
---muted:#777;
-}
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-base); }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--neon-blue); }
 
-body{
-background: radial-gradient(circle at top, #0a0a12, #000);
-color:var(--text);
-overflow-x:hidden;
-}
+        /* Typography Utilities */
+        h1, h2, h3, h4, h5 { font-family: var(--font-display); text-transform: uppercase; letter-spacing: 1px; }
+        .text-gradient {
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-violet));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-/* =========================
-   LOADER
-========================= */
-#loader{
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-background:black;
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:9999;
-flex-direction:column;
-}
+        /* ==========================================================================
+           COMPONENTS & GLASSMORPHISM
+           ========================================================================== */
+        .glass-panel {
+            background: var(--bg-surface);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: var(--glass-border);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-soft);
+            padding: 24px;
+            transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
+        }
+        
+        .glass-panel:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
 
-.loader-text{
-font-size:40px;
-letter-spacing:6px;
-background:linear-gradient(90deg,var(--blue),var(--violet));
--webkit-background-clip:text;
-color:transparent;
-animation: glow 2s infinite alternate;
-}
+        .btn {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 14px 28px;
+            border-radius: var(--border-radius-sm);
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
 
-@keyframes glow{
-from{filter:drop-shadow(0 0 5px var(--blue));}
-to{filter:drop-shadow(0 0 20px var(--violet));}
-}
+        .btn-primary {
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.2), rgba(138, 43, 226, 0.2));
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+        }
 
-/* =========================
-   LAYOUT
-========================= */
-.container{
-padding:20px;
-max-width:1300px;
-margin:auto;
-}
+        .btn-primary:hover {
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.4), rgba(138, 43, 226, 0.4));
+            box-shadow: 0 0 20px var(--neon-blue-glow);
+            transform: scale(1.02);
+        }
 
-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:20px;
-}
+        .btn-danger {
+            border-color: var(--danger-red);
+            color: var(--danger-red);
+        }
 
-.title{
-font-size:24px;
-font-weight:700;
-background:linear-gradient(90deg,var(--blue),var(--violet));
--webkit-background-clip:text;
-color:transparent;
-}
+        .btn-danger:hover {
+            background: rgba(255, 0, 85, 0.1);
+            box-shadow: 0 0 15px rgba(255, 0, 85, 0.3);
+        }
 
-/* =========================
-   CARDS
-========================= */
-.card{
-background:var(--glass);
-border:1px solid var(--border);
-backdrop-filter:blur(10px);
-padding:20px;
-border-radius:20px;
-transition:.3s;
-box-shadow:0 10px 30px rgba(0,0,0,0.5);
-}
+        /* Forms & Inputs */
+        input[type="number"], input[type="text"] {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--neon-blue);
+            padding: 12px;
+            border-radius: var(--border-radius-sm);
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            text-align: center;
+            width: 100%;
+            transition: border-color var(--transition-fast);
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 10px var(--neon-blue-glow);
+        }
 
-.card:hover{
-transform:translateY(-5px) scale(1.01);
-}
+        /* ==========================================================================
+           LAYOUT & NAVIGATION
+           ========================================================================== */
+        #app-container {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            opacity: 0; /* Handled by loading animation */
+            transition: opacity 1s ease-in;
+        }
 
-/* =========================
-   BUTTONS
-========================= */
-.btn{
-padding:10px 20px;
-border-radius:10px;
-border:none;
-cursor:pointer;
-background:linear-gradient(135deg,var(--blue),var(--violet));
-color:black;
-font-weight:600;
-transition:.2s;
-}
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(30px);
+            border-right: var(--glass-border);
+            display: flex;
+            flex-direction: column;
+            padding: 30px 20px;
+            z-index: 100;
+        }
 
-.btn:hover{
-transform:scale(1.05);
-filter:brightness(1.2);
-}
+        .brand {
+            margin-bottom: 50px;
+            text-align: center;
+        }
 
-/* =========================
-   GRID
-========================= */
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-gap:20px;
-}
+        .brand h1 {
+            font-size: 2rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+        }
+        
+        .brand .subtitle {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            letter-spacing: 2px;
+            margin-top: 5px;
+        }
 
-/* =========================
-   WORKOUT LIST
-========================= */
-.exercise{
-padding:10px;
-border-bottom:1px solid var(--border);
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
 
-.exercise:last-child{
-border:none;
-}
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 16px 20px;
+            border-radius: var(--border-radius-md);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-weight: 500;
+        }
 
-.sets{
-color:var(--muted);
-}
+        .nav-item svg { width: 20px; height: 20px; fill: currentColor; }
+        
+        .nav-item:hover, .nav-item.active {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--neon-blue);
+            border-left: 3px solid var(--neon-blue);
+        }
 
-/* =========================
-   TIMER
-========================= */
-.timer{
-font-size:30px;
-text-align:center;
-margin:10px 0;
-}
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px;
+            position: relative;
+        }
 
-/* =========================
-   PROGRESS
-========================= */
-.progress{
-height:8px;
-background:#111;
-border-radius:10px;
-overflow:hidden;
-}
+        .view-section {
+            display: none;
+            animation: fadeIn var(--transition-smooth);
+        }
 
-.progress-bar{
-height:100%;
-background:linear-gradient(90deg,var(--blue),var(--violet));
-width:0%;
-transition:0.4s;
-}
+        .view-section.active { display: block; }
 
-/* =========================
-   ANALYTICS
-========================= */
-.analytics{
-display:flex;
-justify-content:space-between;
-margin-top:10px;
-font-size:14px;
-color:var(--muted);
-}
+        /* ==========================================================================
+           DASHBOARD VIEW
+           ========================================================================== */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
 
-/* =========================
-   MOBILE
-========================= */
-@media(max-width:768px){
-header{
-flex-direction:column;
-gap:10px;
-}
-}
-</style>
+        .col-span-12 { grid-column: span 12; }
+        .col-span-8 { grid-column: span 8; }
+        .col-span-4 { grid-column: span 4; }
+        .col-span-6 { grid-column: span 6; }
+
+        .stat-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .stat-value {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
+        .recovery-ring {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: conic-gradient(var(--neon-violet) var(--progress), rgba(255,255,255,0.05) 0deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .recovery-ring::before {
+            content: "";
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            background: var(--bg-surface);
+            border-radius: 50%;
+        }
+
+        .recovery-ring span {
+            position: relative;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .next-workout-card {
+            background: linear-gradient(145deg, rgba(20,20,25,0.9), rgba(10,10,15,0.9));
+            border: 1px solid var(--neon-blue);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .next-workout-card::after {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; width: 150px; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.05));
+            transform: skewX(-45deg);
+        }
+
+        .exercise-preview-list {
+            list-style: none;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .exercise-preview-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* ==========================================================================
+           WORKOUT MODE
+           ========================================================================== */
+        .workout-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: var(--glass-border);
+        }
+
+        .exercise-container {
+            margin-bottom: 30px;
+        }
+
+        .exercise-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .exercise-title {
+            font-size: 1.4rem;
+            color: var(--neon-blue);
+        }
+
+        .sets-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .sets-table th, .sets-table td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .sets-table th {
+            font-family: var(--font-display);
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .sets-table tr:hover { background: rgba(255,255,255,0.02); }
+
+        .set-row.completed {
+            background: rgba(0, 255, 102, 0.05);
+            opacity: 0.7;
+        }
+
+        .set-checkbox {
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 4px;
+            cursor: pointer;
+            position: relative;
+            transition: all var(--transition-fast);
+        }
+
+        .set-checkbox:checked {
+            background: var(--success-green);
+            border-color: var(--success-green);
+            box-shadow: 0 0 10px rgba(0,255,102,0.4);
+        }
+
+        .set-checkbox:checked::after {
+            content: '✓';
+            position: absolute;
+            color: #000;
+            font-weight: bold;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 14px;
+        }
+
+        .prev-data { color: var(--text-muted); font-size: 0.9rem; }
+
+        /* Floating Rest Timer */
+        #rest-timer-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 250px;
+            background: rgba(10, 10, 15, 0.95);
+            border: 1px solid var(--neon-violet);
+            border-radius: var(--border-radius-md);
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(138, 43, 226, 0.3);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            transform: translateY(150%);
+            transition: transform var(--transition-smooth);
+            text-align: center;
+        }
+
+        #rest-timer-widget.visible { transform: translateY(0); }
+
+        .timer-display {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            color: var(--text-primary);
+            margin: 10px 0;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+
+        .timer-controls { display: flex; gap: 10px; justify-content: center; }
+        .timer-btn { padding: 8px 12px; font-size: 0.8rem; }
+
+        /* ==========================================================================
+           ANALYTICS & HISTORY
+           ========================================================================== */
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .history-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid var(--neon-violet);
+        }
+
+        .pr-badge {
+            background: rgba(255, 183, 0, 0.15);
+            color: var(--warning-yellow);
+            border: 1px solid var(--warning-yellow);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-family: var(--font-display);
+            margin-left: 10px;
+            box-shadow: 0 0 8px rgba(255, 183, 0, 0.3);
+        }
+
+        /* ==========================================================================
+           ANIMATIONS & LOADING
+           ========================================================================== */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        #loading-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .glitch-text {
+            font-family: var(--font-display);
+            font-size: 4rem;
+            font-weight: 900;
+            color: #fff;
+            position: relative;
+            letter-spacing: 10px;
+        }
+
+        .glitch-text::before, .glitch-text::after {
+            content: 'EYAD';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            opacity: 0.8;
+        }
+
+        .glitch-text::before {
+            color: var(--neon-blue);
+            z-index: -1;
+            animation: glitch-anim 2s infinite linear alternate-reverse;
+        }
+
+        .glitch-text::after {
+            color: var(--neon-violet);
+            z-index: -2;
+            animation: glitch-anim 3s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { transform: translate(0) }
+            20% { transform: translate(-2px, 2px) }
+            40% { transform: translate(-2px, -2px) }
+            60% { transform: translate(2px, 2px) }
+            80% { transform: translate(2px, -2px) }
+            100% { transform: translate(0) }
+        }
+
+        .loading-bar {
+            width: 200px; height: 2px;
+            background: rgba(255,255,255,0.1);
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loading-bar::after {
+            content: ''; position: absolute;
+            top: 0; left: 0; height: 100%; width: 0%;
+            background: var(--neon-blue);
+            box-shadow: 0 0 10px var(--neon-blue);
+            animation: loadProgress 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes loadProgress {
+            0% { width: 0%; }
+            50% { width: 70%; }
+            100% { width: 100%; }
+        }
+
+        /* ==========================================================================
+           RESPONSIVE DESIGN
+           ========================================================================== */
+        @media (max-width: 1024px) {
+            .col-span-8, .col-span-4, .col-span-6 { grid-column: span 12; }
+        }
+
+        @media (max-width: 768px) {
+            #app-container { flex-direction: column; }
+            .sidebar { 
+                width: 100%; height: auto; padding: 15px; border-right: none; border-bottom: var(--glass-border);
+                flex-direction: row; justify-content: space-between; align-items: center;
+            }
+            .brand { margin-bottom: 0; }
+            .brand h1 { font-size: 1.5rem; }
+            .nav-menu { flex-direction: row; gap: 5px; }
+            .nav-item span { display: none; }
+            .nav-item { padding: 10px; }
+            .main-content { padding: 20px; }
+            .stat-value { font-size: 2rem; }
+            .sets-table th, .sets-table td { padding: 10px 5px; }
+            input[type="number"] { padding: 8px; font-size: 1rem; }
+        }
+    </style>
 </head>
-
 <body>
 
-<div id="loader">
-<div class="loader-text">EYAD</div>
-</div>
+    <div id="loading-screen">
+        <div class="glitch-text">EYAD</div>
+        <div style="color: var(--text-secondary); margin-top: 10px; letter-spacing: 3px; font-size: 0.8rem;">SYSTEM INITIALIZING</div>
+        <div class="loading-bar"></div>
+    </div>
 
-<div class="container" id="app" style="display:none;">
+    <div id="app-container">
+        
+        <aside class="sidebar">
+            <div class="brand">
+                <h1 class="text-gradient">EYAD</h1>
+                <div class="subtitle">ULTIMATE HYPERTROPHY</div>
+            </div>
+            <nav class="nav-menu">
+                <div class="nav-item active" data-target="view-dashboard">
+                    <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+                    <span>Dashboard</span>
+                </div>
+                <div class="nav-item" data-target="view-workout">
+                    <svg viewBox="0 0 24 24"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29z"/></svg>
+                    <span>Active Session</span>
+                </div>
+                <div class="nav-item" data-target="view-analytics">
+                    <svg viewBox="0 0 24 24"><path d="M3 3v18h18V3H3zm16 16H5V5h14v14zM7 10h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/></svg>
+                    <span>Analytics & PRs</span>
+                </div>
+                <div class="nav-item" data-target="view-history">
+                    <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                    <span>Log History</span>
+                </div>
+            </nav>
+        </aside>
 
-<header>
-<div class="title">EYAD HYPERTROPHY SYSTEM</div>
-<button class="btn" onclick="resetData()">Reset</button>
-</header>
+        <main class="main-content">
+            
+            <section id="view-dashboard" class="view-section active">
+                <h2 style="margin-bottom: 24px;">System Overview</h2>
+                <div class="dashboard-grid">
+                    
+                    <div class="col-span-4 glass-panel stat-card">
+                        <div>
+                            <h4 style="color: var(--text-secondary); font-size: 0.8rem;">CNS Readiness</h4>
+                            <div class="stat-value" id="dash-readiness">--%</div>
+                            <div style="font-size: 0.8rem; color: var(--success-green); margin-top: 5px;" id="dash-readiness-sub">Analyzing...</div>
+                        </div>
+                        <div class="recovery-ring" id="recovery-ring" style="--progress: 0%;">
+                            <span id="recovery-ring-text">--</span>
+                        </div>
+                    </div>
 
-<div class="grid">
+                    <div class="col-span-4 glass-panel stat-card">
+                        <div>
+                            <h4 style="color: var(--text-secondary); font-size: 0.8rem;">Weekly Volume (KG)</h4>
+                            <div class="stat-value" id="dash-volume">0</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">Aggregated Hypertrophy Load</div>
+                        </div>
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="var(--neon-blue)"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
+                    </div>
 
-<!-- DASHBOARD -->
-<div class="card">
-<h3>Dashboard</h3>
-<div class="analytics">
-<span>Workouts</span>
-<span id="totalWorkouts">0</span>
-</div>
-<div class="analytics">
-<span>PRs</span>
-<span id="totalPRs">0</span>
-</div>
-<div class="analytics">
-<span>Volume</span>
-<span id="totalVolume">0</span>
-</div>
-</div>
+                    <div class="col-span-4 glass-panel stat-card">
+                        <div>
+                            <h4 style="color: var(--text-secondary); font-size: 0.8rem;">Current Microcycle</h4>
+                            <div class="stat-value" id="dash-day">Day 1/7</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">Standardized Protocol</div>
+                        </div>
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="var(--neon-violet)"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
+                    </div>
 
-<!-- WORKOUT MODE -->
-<div class="card">
-<h3>Workout Mode</h3>
-<select id="daySelect" onchange="loadWorkout()">
-<option value="0">Posterior A</option>
-<option value="1">Anterior A</option>
-<option value="2">Posterior B</option>
-<option value="3">Anterior B</option>
-</select>
+                    <div class="col-span-12 glass-panel next-workout-card">
+                        <div style="position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+                            <div>
+                                <h3 style="color: var(--neon-blue); letter-spacing: 2px;">NEXT PROTOCOL</h3>
+                                <h1 style="font-size: 2.5rem; margin: 5px 0;" id="next-workout-title">POSTERIOR A</h1>
+                                <p style="color: var(--text-secondary);" id="next-workout-desc">Chest / Shoulders / Biceps / Quads</p>
+                            </div>
+                            <button class="btn btn-primary" onclick="app.startWorkout()" style="padding: 18px 40px; font-size: 1.1rem;">
+                                INITIATE SESSION <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
+                            </button>
+                        </div>
+                        <div style="position: relative; z-index: 2; margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
+                            <h4 style="font-size: 0.8rem; color: var(--text-secondary);">EXERCISE SEQUENCE</h4>
+                            <ul class="exercise-preview-list" id="dash-exercise-preview">
+                                </ul>
+                        </div>
+                    </div>
 
-<div id="workoutList"></div>
+                </div>
+            </section>
 
-<button class="btn" onclick="completeWorkout()">Complete Workout</button>
-</div>
+            <section id="view-workout" class="view-section">
+                <div id="workout-active-state" style="display: none;">
+                    <div class="workout-header">
+                        <div>
+                            <h2 class="text-gradient" id="active-workout-title">POSTERIOR A</h2>
+                            <p style="color: var(--text-muted);" id="active-workout-desc">Chest / Shoulders / Biceps / Quads</p>
+                        </div>
+                        <button class="btn btn-danger" onclick="app.cancelWorkout()">ABORT</button>
+                    </div>
 
-<!-- TIMER -->
-<div class="card">
-<h3>Rest Timer</h3>
-<div class="timer" id="timer">60</div>
-<button class="btn" onclick="startTimer()">Start</button>
-</div>
+                    <div id="exercise-list-container">
+                        </div>
 
-<!-- PROGRESS -->
-<div class="card">
-<h3>Progress</h3>
-<div class="progress">
-<div class="progress-bar" id="progressBar"></div>
-</div>
-</div>
+                    <div style="margin-top: 40px; text-align: center; border-top: var(--glass-border); padding-top: 30px;">
+                        <button class="btn btn-primary" onclick="app.finishWorkout()" style="width: 100%; max-width: 400px; font-size: 1.2rem; padding: 20px;">
+                            FINISH & LOG PROTOCOL
+                        </button>
+                    </div>
+                </div>
 
-<!-- HISTORY -->
-<div class="card">
-<h3>History</h3>
-<div id="history"></div>
-</div>
+                <div id="workout-idle-state" style="text-align: center; padding: 100px 20px;">
+                    <svg width="80" height="80" viewBox="0 0 24 24" fill="var(--text-muted)" style="margin-bottom: 20px;"><path d="M22.7 14.3L21.7 15.3L19.6 13.2L20.6 12.2C21 11.8 21.6 11.8 22 12.2L22.7 12.9C23.1 13.3 23.1 13.9 22.7 14.3ZM13.4 19.3L14.8 20.7L13 22.5L11.6 21.1L13.4 19.3ZM18.9 13.9L20.3 15.3L15.4 20.2L14 18.8L18.9 13.9ZM11.1 5.9L12.5 7.3L3.3 16.5L1.9 15.1L11.1 5.9ZM4.4 2.8L3 4.2L4.4 5.6L5.8 4.2L4.4 2.8ZM8.6 7.1L10 8.5L8.6 9.9L7.2 8.5L8.6 7.1Z"/></svg>
+                    <h2 style="color: var(--text-secondary);">NO ACTIVE SESSION</h2>
+                    <p style="color: var(--text-muted); margin-top: 10px; margin-bottom: 30px;">Return to Dashboard to initiate the next sequence.</p>
+                    <button class="btn" onclick="app.switchView('view-dashboard')">Go to Dashboard</button>
+                </div>
+            </section>
 
-</div>
-</div>
+            <section id="view-analytics" class="view-section">
+                <h2 style="margin-bottom: 24px;">Performance Analytics</h2>
+                <div class="dashboard-grid">
+                    <div class="col-span-12 glass-panel">
+                        <h3>Volume Progression (KG)</h3>
+                        <div class="chart-container">
+                            <canvas id="volumeChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-span-12 glass-panel">
+                        <h3>Personal Records (1RM Estimation)</h3>
+                        <div style="margin-top: 20px;" id="pr-list">
+                            </div>
+                    </div>
+                </div>
+            </section>
 
-<script>
-/* =========================
-   LOADER
-========================= */
-setTimeout(()=>{
-document.getElementById("loader").style.display="none";
-document.getElementById("app").style.display="block";
-},2000);
+            <section id="view-history" class="view-section">
+                <h2 style="margin-bottom: 24px;">System Log</h2>
+                <div class="glass-panel">
+                    <div class="history-list" id="history-container">
+                        </div>
+                </div>
+            </section>
 
-/* =========================
-   DATA
-========================= */
-const workouts=[
-[
-["Incline Barbell Chest Press",2],
-["Flat Barbell Bench Press",2],
-["Decline Barbell Bench Press",2],
-["Seated Dumbbell Shoulder Press",2],
-["Dumbbell Lateral Raises",2],
-["Incline Dumbbell Biceps Curl",3],
-["EZ-Bar Preacher Curl",2],
-["Dumbbell Hammer Curl",2],
-["Leg Extension",3],
-["Adductor Machine",2]
-],
-[
-["T-Bar Row",2],
-["Wide-Grip Lat Pulldown",2],
-["Straight-Arm Lat Pulldown",2],
-["Reverse Pec Deck",3],
-["Overhead Cable Triceps Extension",3],
-["Cable Triceps Pushdown",2],
-["Single-Arm Cable Pushdown",2],
-["Leg Press",3],
-["Standing Calf Raises",3],
-["Back Extension",2]
-],
-[
-["Flat Barbell Bench Press",2],
-["Incline Barbell Chest Press",2],
-["Decline Barbell Bench Press",2],
-["Incline Dumbbell Biceps Curl",3],
-["EZ-Bar Preacher Curl",2],
-["Dumbbell Hammer Curl",2],
-["Seated Dumbbell Shoulder Press",2],
-["Dumbbell Lateral Raises",2],
-["Leg Extension",3],
-["Adductor Machine",2]
-],
-[
-["T-Bar Row",2],
-["Wide-Grip Lat Pulldown",2],
-["Straight-Arm Lat Pulldown",2],
-["Reverse Pec Deck",3],
-["Overhead Cable Triceps Extension",3],
-["Cable Triceps Pushdown",2],
-["Single-Arm Cable Pushdown",2],
-["Leg Press",3],
-["Standing Calf Raises",3],
-["Back Extension",2]
-]
-];
+        </main>
+    </div>
 
-/* =========================
-   LOAD WORKOUT
-========================= */
-function loadWorkout(){
-let day=document.getElementById("daySelect").value;
-let list=document.getElementById("workoutList");
-list.innerHTML="";
+    <div id="rest-timer-widget">
+        <h4 style="color: var(--neon-blue); font-size: 0.8rem; letter-spacing: 2px;">REST INTERVAL</h4>
+        <div class="timer-display" id="timer-display">01:30</div>
+        <div class="timer-controls">
+            <button class="btn timer-btn" onclick="app.adjustTimer(-15)">-15s</button>
+            <button class="btn timer-btn" onclick="app.stopTimer()" style="border-color: var(--danger-red); color: var(--danger-red);">SKIP</button>
+            <button class="btn timer-btn" onclick="app.adjustTimer(15)">+15s</button>
+        </div>
+    </div>
 
-workouts[day].forEach((ex,i)=>{
-let div=document.createElement("div");
-div.className="exercise";
-div.innerHTML=`
-<span>${ex[0]}</span>
-<span class="sets">${ex[1]} sets</span>
-`;
-list.appendChild(div);
-});
-}
+    <script>
+        /* ==========================================================================
+           1. SCIENTIFIC PROGRAM DEFINITION
+           ========================================================================== */
+        const HYPERTROPHY_PROGRAM = [
+            {
+                day: 1, id: "day1", title: "POSTERIOR A", desc: "Chest / Shoulders / Biceps / Quads", isRest: false,
+                exercises: [
+                    { id: "e1_1", name: "Incline Barbell Chest Press", sets: 2 },
+                    { id: "e1_2", name: "Flat Barbell Bench Press", sets: 2 },
+                    { id: "e1_3", name: "Decline Barbell Bench Press", sets: 2 },
+                    { id: "e1_4", name: "Seated Dumbbell Shoulder Press", sets: 2 },
+                    { id: "e1_5", name: "Dumbbell Lateral Raises", sets: 2 },
+                    { id: "e1_6", name: "Incline Dumbbell Biceps Curl", sets: 3 },
+                    { id: "e1_7", name: "EZ-Bar Preacher Curl", sets: 2 },
+                    { id: "e1_8", name: "Dumbbell Hammer Curl", sets: 2 },
+                    { id: "e1_9", name: "Leg Extension (Quadriceps)", sets: 3 },
+                    { id: "e1_10", name: "Adductor Machine", sets: 2 }
+                ]
+            },
+            { day: 2, id: "day2", title: "REST", desc: "CNS & Muscular Recovery", isRest: true, exercises: [] },
+            {
+                day: 3, id: "day3", title: "ANTERIOR A", desc: "Back / Rear Delts / Triceps / Legs", isRest: false,
+                exercises: [
+                    { id: "e3_1", name: "T-Bar Row", sets: 2 },
+                    { id: "e3_2", name: "Wide-Grip Lat Pulldown", sets: 2 },
+                    { id: "e3_3", name: "Straight-Arm Lat Pulldown", sets: 2 },
+                    { id: "e3_4", name: "Reverse Pec Deck (Rear Delt Fly)", sets: 3 },
+                    { id: "e3_5", name: "Overhead Cable Triceps Extension", sets: 3 },
+                    { id: "e3_6", name: "Cable Triceps Pushdown", sets: 2 },
+                    { id: "e3_7", name: "Single-Arm Cable Pushdown", sets: 2 },
+                    { id: "e3_8", name: "Leg Press", sets: 3 },
+                    { id: "e3_9", name: "Standing Calf Raises", sets: 3 },
+                    { id: "e3_10", name: "Back Extension (Lower Back)", sets: 2 }
+                ]
+            },
+            { day: 4, id: "day4", title: "REST", desc: "CNS & Muscular Recovery", isRest: true, exercises: [] },
+            {
+                day: 5, id: "day5", title: "POSTERIOR B", desc: "Chest / Arms / Shoulders / Quads", isRest: false,
+                exercises: [
+                    { id: "e5_1", name: "Flat Barbell Bench Press", sets: 2 },
+                    { id: "e5_2", name: "Incline Barbell Chest Press", sets: 2 },
+                    { id: "e5_3", name: "Decline Barbell Bench Press", sets: 2 },
+                    { id: "e5_4", name: "Incline Dumbbell Biceps Curl", sets: 3 },
+                    { id: "e5_5", name: "EZ-Bar Preacher Curl", sets: 2 },
+                    { id: "e5_6", name: "Dumbbell Hammer Curl", sets: 2 },
+                    { id: "e5_7", name: "Seated Dumbbell Shoulder Press", sets: 2 },
+                    { id: "e5_8", name: "Dumbbell Lateral Raises", sets: 2 },
+                    { id: "e5_9", name: "Leg Extension (Quadriceps)", sets: 3 },
+                    { id: "e5_10", name: "Adductor Machine", sets: 2 }
+                ]
+            },
+            { day: 6, id: "day6", title: "REST", desc: "CNS & Muscular Recovery", isRest: true, exercises: [] },
+            {
+                day: 7, id: "day7", title: "ANTERIOR B", desc: "Back / Triceps / Legs", isRest: false,
+                exercises: [
+                    { id: "e7_1", name: "T-Bar Row", sets: 2 },
+                    { id: "e7_2", name: "Wide-Grip Lat Pulldown", sets: 2 },
+                    { id: "e7_3", name: "Straight-Arm Lat Pulldown", sets: 2 },
+                    { id: "e7_4", name: "Reverse Pec Deck", sets: 3 },
+                    { id: "e7_5", name: "Overhead Cable Triceps Extension", sets: 3 },
+                    { id: "e7_6", name: "Cable Triceps Pushdown", sets: 2 },
+                    { id: "e7_7", name: "Single-Arm Cable Pushdown", sets: 2 },
+                    { id: "e7_8", name: "Leg Press", sets: 3 },
+                    { id: "e7_9", name: "Standing Calf Raises", sets: 3 },
+                    { id: "e7_10", name: "Back Extension", sets: 2 }
+                ]
+            }
+        ];
 
-loadWorkout();
+        /* ==========================================================================
+           2. SYSTEM ARCHITECTURE & STATE MANAGEMENT
+           ========================================================================== */
+        class EyadSystem {
+            constructor() {
+                this.state = {
+                    currentDayIndex: 0,
+                    history: [],
+                    prs: {}, // Format: { "Exercise Name": { weight, reps, est1rm, date } }
+                    lastWorkoutDate: null,
+                    activeSession: null // null if no workout active
+                };
+                
+                this.timerInterval = null;
+                this.timeLeft = 0;
+                this.volumeChartInstance = null;
 
-/* =========================
-   TIMER
-========================= */
-let interval;
-function startTimer(){
-let time=60;
-clearInterval(interval);
-interval=setInterval(()=>{
-time--;
-document.getElementById("timer").innerText=time;
-if(time<=0) clearInterval(interval);
-},1000);
-}
+                this.loadState();
+                this.initUI();
+                this.bindEvents();
+                
+                // Simulate boot sequence
+                setTimeout(() => {
+                    document.getElementById('loading-screen').style.opacity = '0';
+                    document.getElementById('app-container').style.opacity = '1';
+                    setTimeout(() => document.getElementById('loading-screen').style.display = 'none', 500);
+                    this.renderDashboard();
+                }, 2500);
+            }
 
-/* =========================
-   STORAGE
-========================= */
-function getData(){
-return JSON.parse(localStorage.getItem("eyadData")) || {
-workouts:0,
-prs:0,
-volume:0,
-history:[]
-};
-}
+            // --- Storage ---
+            loadState() {
+                const saved = localStorage.getItem('eyad_sys_state');
+                if (saved) {
+                    try {
+                        const parsed = JSON.parse(saved);
+                        this.state = { ...this.state, ...parsed };
+                        // Handle loop reset
+                        if(this.state.currentDayIndex >= 7) this.state.currentDayIndex = 0;
+                    } catch (e) { console.error("Corrupted state, resetting."); }
+                }
+            }
 
-function saveData(data){
-localStorage.setItem("eyadData",JSON.stringify(data));
-}
+            saveState() {
+                localStorage.setItem('eyad_sys_state', JSON.stringify(this.state));
+            }
 
-/* =========================
-   COMPLETE WORKOUT
-========================= */
-function completeWorkout(){
-let data=getData();
-data.workouts++;
-data.volume+=Math.floor(Math.random()*500);
+            // --- Navigation ---
+            initUI() {
+                this.switchView('view-dashboard');
+            }
 
-if(Math.random()>0.7){
-data.prs++;
-}
+            bindEvents() {
+                document.querySelectorAll('.nav-item').forEach(el => {
+                    el.addEventListener('click', (e) => {
+                        document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                        e.currentTarget.classList.add('active');
+                        this.switchView(e.currentTarget.dataset.target);
+                    });
+                });
+            }
 
-data.history.push({
-date:new Date().toLocaleDateString(),
-volume:data.volume
-});
+            switchView(viewId) {
+                document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+                document.getElementById(viewId).classList.add('active');
 
-saveData(data);
-updateUI();
-}
+                if(viewId === 'view-dashboard') this.renderDashboard();
+                if(viewId === 'view-analytics') this.renderAnalytics();
+                if(viewId === 'view-history') this.renderHistory();
+            }
 
-/* =========================
-   UPDATE UI
-========================= */
-function updateUI(){
-let data=getData();
+            // --- Domain Logic ---
+            calculate1RM(weight, reps) {
+                if (reps === 1) return weight;
+                return weight * (1 + (reps / 30)); // Epley formula
+            }
 
-document.getElementById("totalWorkouts").innerText=data.workouts;
-document.getElementById("totalPRs").innerText=data.prs;
-document.getElementById("totalVolume").innerText=data.volume;
+            checkAndSetPR(exerciseName, weight, reps) {
+                const est1RM = this.calculate1RM(weight, reps);
+                const currentPR = this.state.prs[exerciseName];
+                
+                if (!currentPR || est1RM > currentPR.est1rm) {
+                    this.state.prs[exerciseName] = {
+                        weight: parseFloat(weight),
+                        reps: parseInt(reps),
+                        est1rm: est1RM,
+                        date: new Date().toISOString()
+                    };
+                    return true;
+                }
+                return false;
+            }
 
-document.getElementById("progressBar").style.width=
-Math.min(data.workouts*10,100)+"%";
+            getPreviousPerformances(exerciseName) {
+                // Find most recent completed sets for this exact exercise
+                for (let i = this.state.history.length - 1; i >= 0; i--) {
+                    const session = this.state.history[i];
+                    if (session.exercises[exerciseName]) {
+                        return session.exercises[exerciseName];
+                    }
+                }
+                return null;
+            }
 
-let history=document.getElementById("history");
-history.innerHTML="";
+            // --- View Controllers ---
+            
+            // 1. Dashboard
+            renderDashboard() {
+                const protocol = HYPERTROPHY_PROGRAM[this.state.currentDayIndex];
+                
+                // CNS Readiness Calculation (Pseudo-scientific heuristic)
+                let readiness = 100;
+                let readText = "OPTIMAL";
+                let color = "var(--success-green)";
+                
+                if (this.state.lastWorkoutDate) {
+                    const hoursSince = (new Date() - new Date(this.state.lastWorkoutDate)) / (1000 * 60 * 60);
+                    if (hoursSince < 12) { readiness = 45; readText = "FATIGUED"; color = "var(--danger-red)"; }
+                    else if (hoursSince < 24) { readiness = 75; readText = "RECOVERING"; color = "var(--warning-yellow)"; }
+                    else if (hoursSince > 72) { readiness = 95; readText = "DETRAINING RISK"; color = "var(--warning-yellow)"; }
+                }
 
-data.history.slice(-5).forEach(h=>{
-let div=document.createElement("div");
-div.innerText=`${h.date} - ${h.volume}`;
-history.appendChild(div);
-});
-}
+                document.getElementById('dash-readiness').innerText = `${Math.round(readiness)}%`;
+                document.getElementById('dash-readiness').style.color = color;
+                document.getElementById('dash-readiness-sub').innerText = readText;
+                document.getElementById('dash-readiness-sub').style.color = color;
+                
+                const ring = document.getElementById('recovery-ring');
+                ring.style.setProperty('--progress', `${readiness}%`);
+                ring.style.background = `conic-gradient(${color} var(--progress), rgba(255,255,255,0.05) 0deg)`;
+                document.getElementById('recovery-ring-text').innerText = protocol.isRest ? "REST" : "WORK";
 
-updateUI();
+                // Weekly Volume (Last 7 days)
+                let weeklyVol = 0;
+                const oneWeekAgo = new Date(); oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+                this.state.history.forEach(log => {
+                    if (new Date(log.date) > oneWeekAgo) {
+                        weeklyVol += log.totalVolume;
+                    }
+                });
+                document.getElementById('dash-volume').innerText = Math.round(weeklyVol).toLocaleString();
 
-/* =========================
-   RESET
-========================= */
-function resetData(){
-localStorage.removeItem("eyadData");
-updateUI();
-}
-</script>
+                // Current Day
+                document.getElementById('dash-day').innerText = `Day ${protocol.day}/7`;
+                
+                // Next Protocol Card
+                document.getElementById('next-workout-title').innerText = protocol.title;
+                document.getElementById('next-workout-desc').innerText = protocol.desc;
 
+                const previewList = document.getElementById('dash-exercise-preview');
+                previewList.innerHTML = '';
+                
+                if (protocol.isRest) {
+                    previewList.innerHTML = `<li><span style="color:var(--neon-blue)">Recovery Protocol</span><span>Active Rest / Mobility Recommended</span></li>`;
+                    // Auto advance rest day capability
+                    const btn = document.querySelector('.next-workout-card .btn-primary');
+                    btn.innerHTML = `LOG REST DAY <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>`;
+                    btn.onclick = () => this.logRestDay();
+                } else {
+                    const btn = document.querySelector('.next-workout-card .btn-primary');
+                    btn.innerHTML = `INITIATE SESSION <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>`;
+                    btn.onclick = () => this.startWorkout();
+
+                    protocol.exercises.forEach(ex => {
+                        previewList.innerHTML += `<li><span>${ex.name}</span><span>${ex.sets} Sets</span></li>`;
+                    });
+                }
+            }
+
+            logRestDay() {
+                this.state.history.push({
+                    id: 'rest_' + Date.now(),
+                    date: new Date().toISOString(),
+                    title: HYPERTROPHY_PROGRAM[this.state.currentDayIndex].title,
+                    isRest: true,
+                    totalVolume: 0
+                });
+                this.state.lastWorkoutDate = new Date().toISOString();
+                this.advanceDay();
+                this.saveState();
+                this.renderDashboard();
+            }
+
+            advanceDay() {
+                this.state.currentDayIndex++;
+                if (this.state.currentDayIndex >= HYPERTROPHY_PROGRAM.length) {
+                    this.state.currentDayIndex = 0;
+                }
+            }
+
+            // 2. Workout Mode
+            startWorkout() {
+                const protocol = HYPERTROPHY_PROGRAM[this.state.currentDayIndex];
+                if (protocol.isRest) return;
+
+                this.state.activeSession = {
+                    dayIndex: this.state.currentDayIndex,
+                    startTime: new Date().toISOString(),
+                    exercises: {} // Will store completed sets: { "Bench": [{w, r}, ...] }
+                };
+
+                document.getElementById('workout-idle-state').style.display = 'none';
+                document.getElementById('workout-active-state').style.display = 'block';
+                
+                document.getElementById('active-workout-title').innerText = protocol.title;
+                document.getElementById('active-workout-desc').innerText = protocol.desc;
+
+                const container = document.getElementById('exercise-list-container');
+                container.innerHTML = '';
+
+                protocol.exercises.forEach((ex, exIndex) => {
+                    const prevData = this.getPreviousPerformances(ex.name);
+                    
+                    let tableHTML = `
+                        <div class="glass-panel exercise-container" id="container-${ex.id}">
+                            <div class="exercise-header">
+                                <div class="exercise-title">${exIndex + 1}. ${ex.name}</div>
+                            </div>
+                            <table class="sets-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 10%">Set</th>
+                                        <th style="width: 30%">Previous</th>
+                                        <th style="width: 25%">KG</th>
+                                        <th style="width: 25%">Reps</th>
+                                        <th style="width: 10%">Log</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                    `;
+
+                    for (let s = 1; s <= ex.sets; s++) {
+                        let prevStr = '-';
+                        let defaultW = '';
+                        let defaultR = '';
+                        if (prevData && prevData[s-1]) {
+                            prevStr = `${prevData[s-1].weight}kg x ${prevData[s-1].reps}`;
+                            defaultW = prevData[s-1].weight;
+                            defaultR = prevData[s-1].reps;
+                        }
+
+                        tableHTML += `
+                            <tr id="row-${ex.id}-${s}">
+                                <td>${s}</td>
+                                <td class="prev-data">${prevStr}</td>
+                                <td><input type="number" step="0.5" id="w-${ex.id}-${s}" value="${defaultW}" placeholder="0"></td>
+                                <td><input type="number" id="r-${ex.id}-${s}" value="${defaultR}" placeholder="0"></td>
+                                <td>
+                                    <input type="checkbox" class="set-checkbox" 
+                                           onchange="app.toggleSet('${ex.id}', '${ex.name}', ${s}, this)">
+                                </td>
+                            </tr>
+                        `;
+                    }
+                    tableHTML += `</tbody></table></div>`;
+                    container.innerHTML += tableHTML;
+                });
+
+                this.saveState();
+                
+                // Force navigation to active session view
+                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                document.querySelector('[data-target="view-workout"]').classList.add('active');
+                this.switchView('view-workout');
+            }
+
+            toggleSet(exId, exName, setNum, checkbox) {
+                const row = document.getElementById(`row-${exId}-${setNum}`);
+                const wInput = document.getElementById(`w-${exId}-${setNum}`);
+                const rInput = document.getElementById(`r-${exId}-${setNum}`);
+
+                if (checkbox.checked) {
+                    const w = parseFloat(wInput.value);
+                    const r = parseInt(rInput.value);
+
+                    if (isNaN(w) || isNaN(r) || w < 0 || r <= 0) {
+                        alert("Invalid parameters. Enter precise weight and reps.");
+                        checkbox.checked = false;
+                        return;
+                    }
+
+                    row.classList.add('completed');
+                    wInput.disabled = true;
+                    rInput.disabled = true;
+
+                    // Log to state
+                    if (!this.state.activeSession.exercises[exName]) {
+                        this.state.activeSession.exercises[exName] = [];
+                    }
+                    // Ensure order by using index
+                    this.state.activeSession.exercises[exName][setNum-1] = { weight: w, reps: r };
+
+                    // Check PR
+                    const isPR = this.checkAndSetPR(exName, w, r);
+                    if (isPR) {
+                        row.style.background = 'rgba(255, 183, 0, 0.1)';
+                        row.innerHTML += `<div style="position:absolute; right: -10px; margin-top:-30px;" class="pr-badge">NEW PR!</div>`;
+                    }
+
+                    // Trigger Rest Timer (90s default)
+                    this.startTimer(90);
+                } else {
+                    row.classList.remove('completed');
+                    wInput.disabled = false;
+                    rInput.disabled = false;
+                    if (this.state.activeSession.exercises[exName]) {
+                        this.state.activeSession.exercises[exName][setNum-1] = null;
+                    }
+                }
+                this.saveState();
+            }
+
+            cancelWorkout() {
+                if(confirm("Abort current protocol? Data will be lost.")) {
+                    this.state.activeSession = null;
+                    this.saveState();
+                    document.getElementById('workout-active-state').style.display = 'none';
+                    document.getElementById('workout-idle-state').style.display = 'block';
+                    this.switchView('view-dashboard');
+                }
+            }
+
+            finishWorkout() {
+                if(!this.state.activeSession) return;
+                
+                // Calculate total volume for this session
+                let volume = 0;
+                let isComplete = true;
+
+                const protocol = HYPERTROPHY_PROGRAM[this.state.activeSession.dayIndex];
+                
+                Object.values(this.state.activeSession.exercises).forEach(sets => {
+                    sets.forEach(s => {
+                        if (s) volume += (s.weight * s.reps);
+                    });
+                });
+
+                if (volume === 0) {
+                    alert("Zero volume recorded. Cannot log empty session.");
+                    return;
+                }
+
+                const endTime = new Date();
+                const durationMins = Math.round((endTime - new Date(this.state.activeSession.startTime)) / 60000);
+
+                const logEntry = {
+                    id: 'wk_' + Date.now(),
+                    date: endTime.toISOString(),
+                    title: protocol.title,
+                    duration: durationMins,
+                    totalVolume: volume,
+                    exercises: this.state.activeSession.exercises,
+                    isRest: false
+                };
+
+                this.state.history.push(logEntry);
+                this.state.lastWorkoutDate = endTime.toISOString();
+                this.state.activeSession = null;
+                
+                this.advanceDay();
+                this.saveState();
+
+                document.getElementById('workout-active-state').style.display = 'none';
+                document.getElementById('workout-idle-state').style.display = 'block';
+                
+                // Switch to history to show success
+                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                document.querySelector('[data-target="view-history"]').classList.add('active');
+                this.switchView('view-history');
+                
+                // Optional: Stop any running timer
+                this.stopTimer();
+            }
+
+            // 3. Timers
+            startTimer(seconds) {
+                this.timeLeft = seconds;
+                this.updateTimerUI();
+                document.getElementById('rest-timer-widget').classList.add('visible');
+
+                if (this.timerInterval) clearInterval(this.timerInterval);
+                
+                this.timerInterval = setInterval(() => {
+                    this.timeLeft--;
+                    this.updateTimerUI();
+                    
+                    if (this.timeLeft <= 0) {
+                        this.stopTimer();
+                        // Optional beep: Not natively supported consistently without user interaction, 
+                        // relying on visual cue
+                    }
+                }, 1000);
+            }
+
+            adjustTimer(sec) {
+                this.timeLeft += sec;
+                if (this.timeLeft < 0) this.timeLeft = 0;
+                this.updateTimerUI();
+            }
+
+            stopTimer() {
+                clearInterval(this.timerInterval);
+                document.getElementById('rest-timer-widget').classList.remove('visible');
+            }
+
+            updateTimerUI() {
+                const m = Math.floor(this.timeLeft / 60).toString().padStart(2, '0');
+                const s = (this.timeLeft % 60).toString().padStart(2, '0');
+                document.getElementById('timer-display').innerText = `${m}:${s}`;
+            }
+
+            // 4. Analytics
+            renderAnalytics() {
+                // Populate PRs
+                const prContainer = document.getElementById('pr-list');
+                prContainer.innerHTML = '';
+                
+                const prs = Object.entries(this.state.prs).sort((a, b) => b[1].est1rm - a[1].est1rm);
+                
+                if (prs.length === 0) {
+                    prContainer.innerHTML = `<p style="color:var(--text-muted)">No PRs established yet.</p>`;
+                } else {
+                    prs.forEach(([name, data]) => {
+                        const date = new Date(data.date).toLocaleDateString();
+                        prContainer.innerHTML += `
+                            <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                <span style="font-weight: 500;">${name}</span>
+                                <div style="text-align: right;">
+                                    <span style="color: var(--neon-blue); font-family: var(--font-display); font-weight: bold;">
+                                        ${Math.round(data.est1rm)} KG <span style="font-size:0.7rem; color:var(--text-muted)">EST 1RM</span>
+                                    </span>
+                                    <div style="font-size: 0.8rem; color: var(--text-secondary);">${data.weight}kg x ${data.reps} (${date})</div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+
+                // Volume Chart
+                const canvas = document.getElementById('volumeChart');
+                const ctx = canvas.getContext('2d');
+                
+                if (this.volumeChartInstance) {
+                    this.volumeChartInstance.destroy();
+                }
+
+                // Extract last 10 actual workouts (not rests)
+                const workouts = this.state.history.filter(h => !h.isRest).slice(-10);
+                const labels = workouts.map(w => new Date(w.date).toLocaleDateString(undefined, {month:'short', day:'numeric'}));
+                const data = workouts.map(w => w.totalVolume);
+
+                Chart.defaults.color = '#8a8a9e';
+                Chart.defaults.font.family = "'Inter', sans-serif";
+
+                this.volumeChartInstance = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels.length ? labels : ['No Data'],
+                        datasets: [{
+                            label: 'Session Volume (KG)',
+                            data: data.length ? data : [0],
+                            borderColor: '#00f0ff',
+                            backgroundColor: 'rgba(0, 240, 255, 0.1)',
+                            borderWidth: 3,
+                            pointBackgroundColor: '#8a2be2',
+                            pointBorderColor: '#fff',
+                            pointRadius: 5,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            y: { grid: { color: 'rgba(255,255,255,0.05)' }, beginAtZero: true },
+                            x: { grid: { display: false } }
+                        }
+                    }
+                });
+            }
+
+            // 5. History
+            renderHistory() {
+                const container = document.getElementById('history-container');
+                container.innerHTML = '';
+
+                if (this.state.history.length === 0) {
+                    container.innerHTML = `<div style="text-align:center; padding: 40px; color: var(--text-muted);">System log empty. Initiate training.</div>`;
+                    return;
+                }
+
+                // Reverse to show newest first
+                const revHistory = [...this.state.history].reverse();
+
+                revHistory.forEach(log => {
+                    const dateObj = new Date(log.date);
+                    const dateStr = dateObj.toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' });
+                    
+                    if (log.isRest) {
+                        container.innerHTML += `
+                            <div class="glass-panel history-card" style="border-left-color: var(--text-muted);">
+                                <div>
+                                    <h4 style="color: var(--text-muted);">${log.title}</h4>
+                                    <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 5px;">${dateStr}</div>
+                                </div>
+                                <div style="color: var(--success-green); font-size: 0.9rem; font-family: var(--font-display);">RECOVERED</div>
+                            </div>
+                        `;
+                    } else {
+                        container.innerHTML += `
+                            <div class="glass-panel history-card">
+                                <div>
+                                    <h4 style="color: var(--text-primary); font-family: var(--font-display);">${log.title}</h4>
+                                    <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 5px;">
+                                        ${dateStr} • ${log.duration} mins
+                                    </div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div style="color: var(--neon-blue); font-size: 1.2rem; font-weight: bold; font-family: var(--font-display);">
+                                        ${Math.round(log.totalVolume).toLocaleString()} <span style="font-size:0.8rem;">KG</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+            }
+        }
+
+        // Initialize System
+        const app = new EyadSystem();
+
+    </script>
 </body>
 </html>
