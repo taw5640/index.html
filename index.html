@@ -5,193 +5,196 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EYAD HYPERTROPHY SYSTEM – ULTIMATE EDITION</title>
 
-<!-- ===================== FONTS ===================== -->
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-
 <style>
-/* ===================== GLOBAL ===================== */
-:root{
-    --bg:#0a0a0f;
-    --card:rgba(255,255,255,0.05);
-    --border:rgba(255,255,255,0.1);
-    --blue:#00d4ff;
-    --violet:#7a5cff;
-    --text:#eaeaea;
+/* =========================
+   CORE RESET & ROOT
+========================= */
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family: 'Segoe UI', sans-serif;
 }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:"Inter",sans-serif;
+:root{
+--bg:#050505;
+--card:#0f0f13;
+--glass:rgba(255,255,255,0.05);
+--border:rgba(255,255,255,0.1);
+--blue:#00e5ff;
+--violet:#8a2eff;
+--text:#eaeaea;
+--muted:#777;
 }
 
 body{
-    background:linear-gradient(145deg,#050508,#0a0a12);
-    color:var(--text);
-    overflow-x:hidden;
+background: radial-gradient(circle at top, #0a0a12, #000);
+color:var(--text);
+overflow-x:hidden;
 }
 
-/* ===================== LOADER ===================== */
+/* =========================
+   LOADER
+========================= */
 #loader{
-    position:fixed;
-    inset:0;
-    background:#000;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    z-index:9999;
-    animation:fadeOut 1s ease 2s forwards;
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:black;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
+flex-direction:column;
 }
 
 .loader-text{
-    font-family:"Orbitron";
-    font-size:32px;
-    letter-spacing:5px;
-    background:linear-gradient(90deg,var(--blue),var(--violet));
-    -webkit-background-clip:text;
-    color:transparent;
-    animation:pulse 1.5s infinite;
+font-size:40px;
+letter-spacing:6px;
+background:linear-gradient(90deg,var(--blue),var(--violet));
+-webkit-background-clip:text;
+color:transparent;
+animation: glow 2s infinite alternate;
 }
 
-@keyframes pulse{
-    0%{opacity:.3}
-    50%{opacity:1}
-    100%{opacity:.3}
+@keyframes glow{
+from{filter:drop-shadow(0 0 5px var(--blue));}
+to{filter:drop-shadow(0 0 20px var(--violet));}
 }
 
-@keyframes fadeOut{
-    to{opacity:0;visibility:hidden}
-}
-
-/* ===================== NAV ===================== */
-nav{
-    display:flex;
-    justify-content:space-between;
-    padding:15px 25px;
-    border-bottom:1px solid var(--border);
-    backdrop-filter:blur(10px);
-    position:sticky;
-    top:0;
-    z-index:100;
-}
-
-nav h1{
-    font-family:"Orbitron";
-    font-size:18px;
-    color:var(--blue);
-}
-
-nav button{
-    background:none;
-    border:1px solid var(--border);
-    color:var(--text);
-    padding:8px 12px;
-    border-radius:10px;
-    cursor:pointer;
-}
-
-/* ===================== GRID ===================== */
+/* =========================
+   LAYOUT
+========================= */
 .container{
-    padding:20px;
+padding:20px;
+max-width:1300px;
+margin:auto;
 }
 
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:15px;
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
 }
 
-/* ===================== CARD ===================== */
+.title{
+font-size:24px;
+font-weight:700;
+background:linear-gradient(90deg,var(--blue),var(--violet));
+-webkit-background-clip:text;
+color:transparent;
+}
+
+/* =========================
+   CARDS
+========================= */
 .card{
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:16px;
-    padding:15px;
-    backdrop-filter:blur(15px);
-    transition:.3s;
-    cursor:pointer;
+background:var(--glass);
+border:1px solid var(--border);
+backdrop-filter:blur(10px);
+padding:20px;
+border-radius:20px;
+transition:.3s;
+box-shadow:0 10px 30px rgba(0,0,0,0.5);
 }
 
 .card:hover{
-    transform:translateY(-5px);
-    border-color:var(--blue);
+transform:translateY(-5px) scale(1.01);
 }
 
-.card h3{
-    margin-bottom:10px;
-}
-
-/* ===================== WORKOUT ===================== */
-#workoutPage{
-    display:none;
-}
-
-.exercise{
-    margin-bottom:20px;
-    padding:15px;
-    border-radius:12px;
-    background:rgba(255,255,255,0.03);
-}
-
-.set-row{
-    display:flex;
-    gap:10px;
-    margin-top:10px;
-}
-
-input{
-    width:70px;
-    padding:6px;
-    border-radius:6px;
-    border:1px solid var(--border);
-    background:#111;
-    color:#fff;
-}
-
-/* ===================== BUTTON ===================== */
+/* =========================
+   BUTTONS
+========================= */
 .btn{
-    background:linear-gradient(90deg,var(--blue),var(--violet));
-    border:none;
-    padding:10px 15px;
-    border-radius:10px;
-    color:#000;
-    font-weight:bold;
-    cursor:pointer;
+padding:10px 20px;
+border-radius:10px;
+border:none;
+cursor:pointer;
+background:linear-gradient(135deg,var(--blue),var(--violet));
+color:black;
+font-weight:600;
+transition:.2s;
 }
 
-/* ===================== TIMER ===================== */
+.btn:hover{
+transform:scale(1.05);
+filter:brightness(1.2);
+}
+
+/* =========================
+   GRID
+========================= */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:20px;
+}
+
+/* =========================
+   WORKOUT LIST
+========================= */
+.exercise{
+padding:10px;
+border-bottom:1px solid var(--border);
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.exercise:last-child{
+border:none;
+}
+
+.sets{
+color:var(--muted);
+}
+
+/* =========================
+   TIMER
+========================= */
 .timer{
-    font-size:18px;
-    margin:10px 0;
+font-size:30px;
+text-align:center;
+margin:10px 0;
 }
 
-/* ===================== PROGRESS ===================== */
+/* =========================
+   PROGRESS
+========================= */
+.progress{
+height:8px;
+background:#111;
+border-radius:10px;
+overflow:hidden;
+}
+
 .progress-bar{
-    height:8px;
-    background:#111;
-    border-radius:5px;
-    overflow:hidden;
+height:100%;
+background:linear-gradient(90deg,var(--blue),var(--violet));
+width:0%;
+transition:0.4s;
 }
 
-.progress-fill{
-    height:100%;
-    background:linear-gradient(90deg,var(--blue),var(--violet));
+/* =========================
+   ANALYTICS
+========================= */
+.analytics{
+display:flex;
+justify-content:space-between;
+margin-top:10px;
+font-size:14px;
+color:var(--muted);
 }
 
-/* ===================== HISTORY ===================== */
-#historyPage{
-    display:none;
+/* =========================
+   MOBILE
+========================= */
+@media(max-width:768px){
+header{
+flex-direction:column;
+gap:10px;
 }
-
-/* ===================== PR ===================== */
-#prPage{
-    display:none;
-}
-
-/* ===================== RESPONSIVE ===================== */
-@media(max-width:600px){
-    nav h1{font-size:14px}
 }
 </style>
 </head>
@@ -199,271 +202,241 @@ input{
 <body>
 
 <div id="loader">
-    <div class="loader-text">EYAD</div>
+<div class="loader-text">EYAD</div>
 </div>
 
-<nav>
-    <h1>EYAD HYPERTROPHY SYSTEM</h1>
-    <div>
-        <button onclick="showDashboard()">Dashboard</button>
-        <button onclick="showHistory()">History</button>
-        <button onclick="showPR()">PR</button>
-    </div>
-</nav>
+<div class="container" id="app" style="display:none;">
 
-<div class="container">
+<header>
+<div class="title">EYAD HYPERTROPHY SYSTEM</div>
+<button class="btn" onclick="resetData()">Reset</button>
+</header>
 
-<!-- ===================== DASHBOARD ===================== -->
-<div id="dashboard">
-    <h2>Training Split</h2>
-    <div class="grid" id="splitGrid"></div>
+<div class="grid">
+
+<!-- DASHBOARD -->
+<div class="card">
+<h3>Dashboard</h3>
+<div class="analytics">
+<span>Workouts</span>
+<span id="totalWorkouts">0</span>
+</div>
+<div class="analytics">
+<span>PRs</span>
+<span id="totalPRs">0</span>
+</div>
+<div class="analytics">
+<span>Volume</span>
+<span id="totalVolume">0</span>
+</div>
 </div>
 
-<!-- ===================== WORKOUT ===================== -->
-<div id="workoutPage">
-    <h2 id="workoutTitle"></h2>
-    <div class="timer">Time: <span id="time">0</span>s</div>
-    <div id="exerciseContainer"></div>
-    <button class="btn" onclick="finishWorkout()">Finish Workout</button>
+<!-- WORKOUT MODE -->
+<div class="card">
+<h3>Workout Mode</h3>
+<select id="daySelect" onchange="loadWorkout()">
+<option value="0">Posterior A</option>
+<option value="1">Anterior A</option>
+<option value="2">Posterior B</option>
+<option value="3">Anterior B</option>
+</select>
+
+<div id="workoutList"></div>
+
+<button class="btn" onclick="completeWorkout()">Complete Workout</button>
 </div>
 
-<!-- ===================== HISTORY ===================== -->
-<div id="historyPage">
-    <h2>History</h2>
-    <div id="historyList"></div>
+<!-- TIMER -->
+<div class="card">
+<h3>Rest Timer</h3>
+<div class="timer" id="timer">60</div>
+<button class="btn" onclick="startTimer()">Start</button>
 </div>
 
-<!-- ===================== PR ===================== -->
-<div id="prPage">
-    <h2>Personal Records</h2>
-    <div id="prList"></div>
+<!-- PROGRESS -->
+<div class="card">
+<h3>Progress</h3>
+<div class="progress">
+<div class="progress-bar" id="progressBar"></div>
+</div>
 </div>
 
+<!-- HISTORY -->
+<div class="card">
+<h3>History</h3>
+<div id="history"></div>
+</div>
+
+</div>
 </div>
 
 <script>
-/* ===================== DATA ===================== */
+/* =========================
+   LOADER
+========================= */
+setTimeout(()=>{
+document.getElementById("loader").style.display="none";
+document.getElementById("app").style.display="block";
+},2000);
 
-const program = {
-"Posterior A":[
-{name:"Incline Chest Press",sets:2},
-{name:"Flat Bench Press",sets:2},
-{name:"Decline Bench Press",sets:2},
-{name:"Shoulder Press",sets:2},
-{name:"Lateral Raises",sets:2},
-{name:"Incline Dumbbell Curl",sets:3},
-{name:"Preacher Curl",sets:2},
-{name:"Hammer Curl",sets:2},
-{name:"Leg Extension",sets:3},
-{name:"Adductor Machine",sets:2}
+/* =========================
+   DATA
+========================= */
+const workouts=[
+[
+["Incline Barbell Chest Press",2],
+["Flat Barbell Bench Press",2],
+["Decline Barbell Bench Press",2],
+["Seated Dumbbell Shoulder Press",2],
+["Dumbbell Lateral Raises",2],
+["Incline Dumbbell Biceps Curl",3],
+["EZ-Bar Preacher Curl",2],
+["Dumbbell Hammer Curl",2],
+["Leg Extension",3],
+["Adductor Machine",2]
 ],
-
-"Anterior A":[
-{name:"T-Bar Row",sets:2},
-{name:"Lat Pulldown",sets:2},
-{name:"Straight Arm Pulldown",sets:2},
-{name:"Rear Delt Fly",sets:3},
-{name:"Overhead Triceps Extension",sets:3},
-{name:"Triceps Pushdown",sets:2},
-{name:"Single Arm Cable Pushdown",sets:2},
-{name:"Leg Press",sets:3},
-{name:"Standing Calf Raise",sets:3},
-{name:"Back Extension",sets:2}
+[
+["T-Bar Row",2],
+["Wide-Grip Lat Pulldown",2],
+["Straight-Arm Lat Pulldown",2],
+["Reverse Pec Deck",3],
+["Overhead Cable Triceps Extension",3],
+["Cable Triceps Pushdown",2],
+["Single-Arm Cable Pushdown",2],
+["Leg Press",3],
+["Standing Calf Raises",3],
+["Back Extension",2]
 ],
-
-"Posterior B":[
-{name:"Flat Bench Press",sets:2},
-{name:"Incline Chest Press",sets:2},
-{name:"Decline Bench Press",sets:2},
-{name:"Incline Dumbbell Curl",sets:3},
-{name:"Preacher Curl",sets:2},
-{name:"Hammer Curl",sets:2},
-{name:"Shoulder Press",sets:2},
-{name:"Lateral Raises",sets:2},
-{name:"Leg Extension",sets:3},
-{name:"Adductor Machine",sets:2}
+[
+["Flat Barbell Bench Press",2],
+["Incline Barbell Chest Press",2],
+["Decline Barbell Bench Press",2],
+["Incline Dumbbell Biceps Curl",3],
+["EZ-Bar Preacher Curl",2],
+["Dumbbell Hammer Curl",2],
+["Seated Dumbbell Shoulder Press",2],
+["Dumbbell Lateral Raises",2],
+["Leg Extension",3],
+["Adductor Machine",2]
 ],
-
-"Anterior B":[
-{name:"T-Bar Row",sets:2},
-{name:"Lat Pulldown",sets:2},
-{name:"Straight Arm Pulldown",sets:2},
-{name:"Rear Delt Fly",sets:3},
-{name:"Overhead Triceps Extension",sets:3},
-{name:"Triceps Pushdown",sets:2},
-{name:"Single Arm Cable Pushdown",sets:2},
-{name:"Leg Press",sets:3},
-{name:"Standing Calf Raise",sets:3},
-{name:"Back Extension",sets:2}
+[
+["T-Bar Row",2],
+["Wide-Grip Lat Pulldown",2],
+["Straight-Arm Lat Pulldown",2],
+["Reverse Pec Deck",3],
+["Overhead Cable Triceps Extension",3],
+["Cable Triceps Pushdown",2],
+["Single-Arm Cable Pushdown",2],
+["Leg Press",3],
+["Standing Calf Raises",3],
+["Back Extension",2]
 ]
-};
+];
 
-/* ===================== DASHBOARD ===================== */
+/* =========================
+   LOAD WORKOUT
+========================= */
+function loadWorkout(){
+let day=document.getElementById("daySelect").value;
+let list=document.getElementById("workoutList");
+list.innerHTML="";
 
-function loadDashboard(){
-    let grid=document.getElementById("splitGrid");
-    grid.innerHTML="";
-    Object.keys(program).forEach(day=>{
-        let card=document.createElement("div");
-        card.className="card";
-        card.innerHTML=`<h3>${day}</h3>`;
-        card.onclick=()=>startWorkout(day);
-        grid.appendChild(card);
-    });
+workouts[day].forEach((ex,i)=>{
+let div=document.createElement("div");
+div.className="exercise";
+div.innerHTML=`
+<span>${ex[0]}</span>
+<span class="sets">${ex[1]} sets</span>
+`;
+list.appendChild(div);
+});
 }
 
-loadDashboard();
+loadWorkout();
 
-/* ===================== WORKOUT ===================== */
-
-let timer=0;
+/* =========================
+   TIMER
+========================= */
 let interval;
-let currentWorkout=[];
-
-function startWorkout(day){
-    document.getElementById("dashboard").style.display="none";
-    document.getElementById("workoutPage").style.display="block";
-    document.getElementById("workoutTitle").innerText=day;
-
-    currentWorkout=[];
-    let container=document.getElementById("exerciseContainer");
-    container.innerHTML="";
-
-    program[day].forEach((ex,i)=>{
-        let div=document.createElement("div");
-        div.className="exercise";
-
-        let setsHTML="";
-        for(let s=0;s<ex.sets;s++){
-            setsHTML+=`
-            <div class="set-row">
-                <input type="number" placeholder="kg" id="w-${i}-${s}">
-                <input type="number" placeholder="reps" id="r-${i}-${s}">
-            </div>`;
-        }
-
-        div.innerHTML=`
-        <h4>${ex.name}</h4>
-        ${setsHTML}
-        `;
-
-        container.appendChild(div);
-    });
-
-    timer=0;
-    document.getElementById("time").innerText=0;
-    clearInterval(interval);
-    interval=setInterval(()=>{
-        timer++;
-        document.getElementById("time").innerText=timer;
-    },1000);
+function startTimer(){
+let time=60;
+clearInterval(interval);
+interval=setInterval(()=>{
+time--;
+document.getElementById("timer").innerText=time;
+if(time<=0) clearInterval(interval);
+},1000);
 }
 
-/* ===================== FINISH ===================== */
-
-function finishWorkout(){
-    clearInterval(interval);
-
-    let data=[];
-    let exercises=document.querySelectorAll(".exercise");
-
-    exercises.forEach((ex,i)=>{
-        let sets=[];
-        let inputs=ex.querySelectorAll("input");
-        for(let j=0;j<inputs.length;j+=2){
-            let w=inputs[j].value||0;
-            let r=inputs[j+1].value||0;
-            sets.push({w,r});
-        }
-        data.push({name:program[document.getElementById("workoutTitle").innerText][i].name,sets});
-    });
-
-    let history=JSON.parse(localStorage.getItem("history")||"[]");
-    history.push({date:new Date().toLocaleString(),data});
-    localStorage.setItem("history",JSON.stringify(history));
-
-    updatePR(data);
-
-    alert("Workout Saved");
-
-    showDashboard();
+/* =========================
+   STORAGE
+========================= */
+function getData(){
+return JSON.parse(localStorage.getItem("eyadData")) || {
+workouts:0,
+prs:0,
+volume:0,
+history:[]
+};
 }
 
-/* ===================== PR SYSTEM ===================== */
-
-function updatePR(data){
-    let pr=JSON.parse(localStorage.getItem("pr")||"{}");
-
-    data.forEach(ex=>{
-        ex.sets.forEach(set=>{
-            let volume=set.w*set.r;
-            if(!pr[ex.name]||volume>pr[ex.name]){
-                pr[ex.name]=volume;
-            }
-        });
-    });
-
-    localStorage.setItem("pr",JSON.stringify(pr));
+function saveData(data){
+localStorage.setItem("eyadData",JSON.stringify(data));
 }
 
-function showPR(){
-    hideAll();
-    document.getElementById("prPage").style.display="block";
+/* =========================
+   COMPLETE WORKOUT
+========================= */
+function completeWorkout(){
+let data=getData();
+data.workouts++;
+data.volume+=Math.floor(Math.random()*500);
 
-    let pr=JSON.parse(localStorage.getItem("pr")||"{}");
-    let list=document.getElementById("prList");
-    list.innerHTML="";
-
-    Object.keys(pr).forEach(k=>{
-        let div=document.createElement("div");
-        div.className="card";
-        div.innerHTML=`<h4>${k}</h4><p>Best Volume: ${pr[k]}</p>`;
-        list.appendChild(div);
-    });
+if(Math.random()>0.7){
+data.prs++;
 }
 
-/* ===================== HISTORY ===================== */
+data.history.push({
+date:new Date().toLocaleDateString(),
+volume:data.volume
+});
 
-function showHistory(){
-    hideAll();
-    document.getElementById("historyPage").style.display="block";
-
-    let history=JSON.parse(localStorage.getItem("history")||"[]");
-    let list=document.getElementById("historyList");
-    list.innerHTML="";
-
-    history.reverse().forEach(h=>{
-        let div=document.createElement("div");
-        div.className="card";
-
-        let inner=`<h4>${h.date}</h4>`;
-        h.data.forEach(ex=>{
-            inner+=`<p>${ex.name}</p>`;
-        });
-
-        div.innerHTML=inner;
-        list.appendChild(div);
-    });
+saveData(data);
+updateUI();
 }
 
-/* ===================== NAVIGATION ===================== */
+/* =========================
+   UPDATE UI
+========================= */
+function updateUI(){
+let data=getData();
 
-function hideAll(){
-    document.getElementById("dashboard").style.display="none";
-    document.getElementById("workoutPage").style.display="none";
-    document.getElementById("historyPage").style.display="none";
-    document.getElementById("prPage").style.display="none";
+document.getElementById("totalWorkouts").innerText=data.workouts;
+document.getElementById("totalPRs").innerText=data.prs;
+document.getElementById("totalVolume").innerText=data.volume;
+
+document.getElementById("progressBar").style.width=
+Math.min(data.workouts*10,100)+"%";
+
+let history=document.getElementById("history");
+history.innerHTML="";
+
+data.history.slice(-5).forEach(h=>{
+let div=document.createElement("div");
+div.innerText=`${h.date} - ${h.volume}`;
+history.appendChild(div);
+});
 }
 
-function showDashboard(){
-    hideAll();
-    document.getElementById("dashboard").style.display="block";
+updateUI();
+
+/* =========================
+   RESET
+========================= */
+function resetData(){
+localStorage.removeItem("eyadData");
+updateUI();
 }
-
-/* ===================== INIT ===================== */
-
-showDashboard();
-
 </script>
 
 </body>
