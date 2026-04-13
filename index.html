@@ -619,6 +619,7 @@
       color: #f4f6ff;
       box-shadow: var(--shadow-glow-blue);
     }
+
 .page {
       display: none;
       animation: fadeInUp 360ms cubic-bezier(.2,.65,.25,1) both;
@@ -796,8 +797,7 @@
       gap: 8px;
       pointer-events: none;
     }
-
-.toast {
+    .toast {
       min-width: 210px;
       max-width: 300px;
       border-radius: 13px;
@@ -1210,7 +1210,8 @@
         "Back Extension (Lower Back)": { muscle: "Lower Back", type: "isolation", region: "spinal erectors" },
         "Back Extension": { muscle: "Lower Back", type: "isolation", region: "spinal erectors" }
       };
-      const PROGRAM = [
+
+const PROGRAM = [
         {
           key: "day1",
           dayIndex: 1,
@@ -1312,7 +1313,7 @@
           ]
         }
       ];
-        const dom = {};
+    const dom = {};
       const state = {
         loaded: false,
         activeTab: "dashboard",
@@ -1397,8 +1398,9 @@
 
       function getTodayProgram() {
         return PROGRAM[getTodayIndex()];
-             }
-        function getStoragePayload() {
+      }
+
+function getStoragePayload() {
         return {
           cycleStartDate: state.cycleStartDate,
           settings: state.settings,
@@ -1491,7 +1493,8 @@
           }))
         };
       }
-        function getSessionForDate(date, dayKey) {
+
+function getSessionForDate(date, dayKey) {
         const target = truncateDate(date);
         return state.data.sessions.find(session => {
           const sameDay = truncateDate(new Date(session.dateISO)) === target;
@@ -1602,7 +1605,8 @@
         state.timer.remainSec = safe;
         renderTimer();
       }
-        function startTimer() {
+
+function startTimer() {
         if (state.timer.running) return;
         state.timer.running = true;
         dom.timerStatePill.textContent = "Running";
@@ -1692,7 +1696,7 @@
           startTimer();
           toast("120s rest started.", "success");
         });
-        
+
 exercise.sets.forEach((set, setIndex) => {
           const row = document.createElement("div");
           row.className = "set-grid";
@@ -1792,7 +1796,6 @@ exercise.sets.forEach((set, setIndex) => {
         const today = getTodayProgram();
         dom.workoutDayTitle.textContent = today.name;
         dom.exerciseList.innerHTML = "";
-
 if (today.type === "rest") {
           dom.exerciseCountPill.textContent = "Rest Day";
           dom.progressPill.textContent = "Recovery";
@@ -2286,7 +2289,7 @@ entries.slice(0, 12).forEach(([name, rec]) => {
         let status = "Stable";
         let message = "Workload is in a stable zone. Continue planned progression.";
         if (sessions < 2) {
-
+          مهند حبيبي:
 status = "Insufficient Data";
           message = "Complete at least 2 sessions in the cycle for high-confidence recommendations.";
         } else if (fatigue > 75  recovery < 30) {
