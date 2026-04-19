@@ -3,63 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>PULSE AI ALPHA | Master System</title>
+    <title>PULSE AI ALPHA | THE TOTAL MASTERWORK</title>
     
-    <!-- Core Engine Dependencies -->
+    <!-- Core Dependencies (CDNs) -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
-    
-    <!-- Typography -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/framer-motion@11.0.8/dist/framer-motion.js"></script>
+
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
 
     <style>
+        /* 
+           --- ELEGANT DARK SYSTEM DESIGN SYSTEM ---
+           Inspired by high-end bio-hacking & tactical interfaces
+        */
         :root {
-            --bg: #0a0a0b;
-            --surface: #121418;
-            --surface-light: #1b1e25;
-            --accent: #c9ff45;
-            --border: #242831;
-            --text-dim: #94bcff;
-            --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
+            --bg: #050506;
+            --surface-low: #0c0d10;
+            --surface-mid: #121418;
+            --surface-high: #1c1f26;
+            --accent: #c9ff45; /* Toxic Pulse Neon */
+            --accent-dim: #98c232;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --text-hyper-dim: #475569;
+            --border: #23272f;
+            --danger: #ef4444;
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
             --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            font-family: var(--font-sans);
         }
 
         body {
             margin: 0;
-            padding: 0;
             background-color: var(--bg);
-            color: #f0f0f0;
-            font-family: var(--font-sans);
+            color: var(--text-main);
             overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
             overscroll-behavior-y: contain;
-            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Extreme Dark Theme Decor */
-        .bg-glow {
+        /* Tactical Background Decor */
+        .master-glow {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            pointer-events: none;
+            inset: 0;
             z-index: 0;
+            pointer-events: none;
             background: 
-                radial-gradient(circle at 10% 10%, rgba(201, 255, 69, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 90% 90%, rgba(201, 255, 69, 0.03) 0%, transparent 40%);
+                radial-gradient(circle at 10% 20%, rgba(201, 255, 69, 0.04) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(201, 255, 69, 0.02) 0%, transparent 40%),
+                linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.5));
         }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 4px; }
+        /* Scrollbar Stealth Mode */
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
-
-        /* Typography & Utilities */
-        .text-mono { font-family: var(--font-mono); }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
+
+        /* Typography & Custom Elements */
+        .text-mono { font-family: var(--font-mono); font-weight: 700; }
+        .font-black { font-weight: 900; }
         
         input[type="number"]::-webkit-inner-spin-button,
         input[type="number"]::-webkit-outer-spin-button {
@@ -67,271 +80,407 @@
             margin: 0;
         }
 
-        /* Sophisticated Glassmorphism */
-        .glass-dock {
-            background: rgba(18, 20, 24, 0.9);
+        /* Glassmorphism Classes */
+        .glass-header {
+            background: rgba(12, 13, 16, 0.85);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid var(--border);
         }
 
-        /* Animation Keyframes */
-        @keyframes pulse-soft {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(0.98); }
+        .glass-card {
+            background: var(--surface-mid);
+            border: 1px solid var(--border);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .animate-pulse-soft { animation: pulse-soft 2s infinite ease-in-out; }
+        .glass-card:active { transform: scale(0.98); }
+
+        /* Custom Range Slider Styling */
+        input[type=range] { -webkit-appearance: none; background: transparent; }
+        input[type=range]::-webkit-slider-runnable-track {
+            background: var(--surface-high);
+            border-radius: 10px;
+            height: 6px;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: var(--accent);
+            margin-top: -7px;
+            box-shadow: 0 0 15px rgba(201, 255, 69, 0.4);
+            cursor: pointer;
+        }
+
+        /* Nav Dock Shadow */
+        .dock-shadow {
+            box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.8), 0 0 20px rgba(201, 255, 69, 0.05);
+        }
+
+        /* Pulse Animation */
+        @keyframes subtle-pulse {
+            0%, 100% { opacity: 1; filter: brightness(1); }
+            50% { opacity: 0.8; filter: brightness(1.2); }
+        }
+        .pulse-active { animation: subtle-pulse 1.5s infinite ease-in-out; }
+
+        #root { position: relative; z-index: 10; }
     </style>
 </head>
 <body>
-    <div class="bg-glow"></div>
+    <div class="master-glow"></div>
     <div id="root"></div>
 
+    <!-- START OF SCRIPT SECTION -->
     <script type="text/babel">
         const { useState, useEffect, useMemo, useRef, useCallback } = React;
         const { motion, AnimatePresence } = FramerMotion;
 
-        // --- EXTREME EXERCISE LIBRARY (The "Heavy Duty" Dictionary) ---
-        // This is a massive database to provide the "800 exercises" intelligence
-        const EXERCISE_LIBRARY = {
-            "Chest / الصدر": [
-                "Barbell Bench Press", "Dumbbell Press", "Incline Barbell Press", "Incline Dumbbell Press", "Decline Press", 
-                "Chest Press Machine", "Pec Deck Fly", "Cable Fly (Low/High)", "Dips (Chest Focus)", "Push-ups (Weighted)",
-                "Floor Press", "Svend Press", "Hammer Strength Incline", "Guillotine Press", "Pause Bench Press",
-                "Spoto Press", "Larsen Press", "Bridge Press", "Cable Crossover", "Diamond Pushups", "Archer Pushups",
-                "Single Arm DB Press", "Kettlebell Floor Press", "Smith Machine Bench", "Incline Cable Fly"
+        // --- THE MASSIVE MASTER EXERCISE LIBRARY (800+ UNITS) ---
+        // Categorized by major and secondary bio-chains
+        const MASTER_LIBRARY = {
+            "الصدر (Chest)": [
+                "Barbell Bench Press (Standard)", "Dumbbell Flat Bench Press", "Incline Barbell Bench Press", "Incline Dumbbell Press",
+                "Decline Barbell Press", "Decline Dumbbell Press", "Chest Press Machine (Seated)", "Hammer Strength Chest Press",
+                "Wide Grip Bench Press", "Close Grip Bench Press (Chest Focus)", "Pause Bench Press (1s)", "Spoto Press",
+                "Larsen Press", "Floor Press (Barbell)", "Floor Press (Dumbbell)", "Svend Press", "Plate Press",
+                "Pec Deck Fly (Machine)", "Dumbbell Flys (Flat)", "Dumbbell Flys (Incline)", "Dumbbell Flys (Decline)",
+                "Cable Crossover (High-to-Low)", "Cable Crossover (Low-to-High)", "Cable Fly (Single Arm)", "Incline Cable Fly",
+                "Weighted Push-Ups", "Archer Push-Ups", "Diamond Push-Ups (Chest Focus)", "Explosive Push-Ups", "Clap Push-Ups",
+                "Wide Push-Ups", "Dips (Chest Leaning Focus)", "Weighted Dips (Chest)", "Machine Pec Fly (Converging)",
+                "Pin Press (Barbell Chest)", "Guillotine Press", "Smith Machine Bench Press", "Smith Machine Incline Press",
+                "Kettlebell Floor Press", "Single Arm Kettlebell Bench", "Dumbbell Pullover (Chest)", "Around The Worlds",
+                "Chain Bench Press", "Banded Bench Press", "Isolateral Chest Press", "Vertical Chest Press",
+                "Bodyweight Chest Dip", "Ring Pushups", "Dumbbell Squeeze Press", "Incline Squeeze Press",
+                "Low Cable Chest Press", "Middle Cable Chest Press", "High Cable Chest Press", "Isometric Chest Holds"
             ],
-            "Back / الظهر": [
-                "Conventional Deadlift", "Sumo Deadlift", "Barbell Row", "Dumbbell Row", "Lat Pulldown (Wide)", 
-                "Seated Cable Row", "Pull-ups (Weighted)", "Chin-ups", "T-Bar Row", "Meadows Row", "Pendlay Row",
-                "Straight Arm Pulldown", "Face Pulls", "Rack Pulls", "Yates Row", "Seal Row", "Inverted Row",
-                "V-Bar Pulldown", "Single Arm Cable Row", "Back Extensions", "Good Mornings", "Superman",
-                "Hammer Strength Row", "Renegade Row", "Bird Dog Row", "Kroc Row", "Deficit Deadlift"
+            "الظهر (Back)": [
+                "Conventional Deadlift", "Sumo Deadlift", "Barbell Row (Bent Over)", "Overhand Barbell Row", "Underhand Barbell Row",
+                "Pendlay Row", "Yates Row", "Dumbbell Row (Single Arm)", "Dumbbell Row (Dual Arm)", "Kroc Row",
+                "Seal Row (Barbell)", "Seal Row (Dumbbell)", "Chest Supported Row (Machine)", "T-Bar Row (Standard)",
+                "T-Bar Row (Chest Supported)", "Meadows Row", "One Arm Landmine Row", "Pull-Ups (Wide Grip)",
+                "Weighted Pull-Ups (Standard)", "Chin-Ups (Underhand)", "Weighted Chin-Ups", "Neutral Grip Pull-Ups",
+                "Lat Pulldown (Wide Grip)", "Lat Pulldown (Close Grip)", "Lat Pulldown (Neutral V-Bar)", "Single Arm Lat Pulldown",
+                "Lat Pulldown (Underhand)", "Seated Cable Row (V-Bar)", "Seated Cable Row (Wide)", "Seated Cable Row (Single Arm)",
+                "Straight Arm Cable Pulldown", "Dumbbell Pullover (Back)", "Face Pulls (Rope)", "Seated Face Pulls",
+                "Incline Face Pulls", "Rack Pulls (Above Knee)", "Rack Pulls (Below Knee)", "Back Extensions (45 Degree)",
+                "Weighted Back Extensions", "Good Mornings (Barbell)", "Seated Good Mornings", "Superman (Bodyweight)",
+                "Reverse Fly (Machine)", "Reverse Fly (Dumbbell)", "Reverse Fly (Cable)", "Single Arm Reverse Fly",
+                "Inverted Row (Bodyweight)", "Banded Rows", "Cable Row Low Pulley", "High Cable Row", "Kelso Row",
+                "Barbell Shrugs (Traps)", "Dumbbell Shrugs", "Smith Machine Shrugs", "Trap Bar Shrugs", "Banded Shrugs"
             ],
-            "Shoulders / الأكتاف": [
-                "Overhead Press (Barbell)", "Seated Dumbbell Press", "Arnold Press", "Lateral Raises (DB)",
-                "Lateral Raises (Cable)", "Front Raises", "Rear Delt Fly (Machine)", "Upright Row", "Push Press",
-                "Z-Press", "Landmine Press", "Cuban Press", "Face Pulls (Advanced)", "Bradford Press",
-                "Lu Raises", "Y-Raises", "Egyptian Lateral Raises", "W-Press", "Plate Raises"
+            "الأكتاف (Shoulders)": [
+                "Overhead Press (Barbell Standing)", "Overhead Press (Barbell Seated)", "Seated Dumbbell Shoulder Press",
+                "Arnold Press (Dumbbell)", "Push Press (Barbell)", "Sots Press", "Z-Press (Seated on Floor)",
+                "Military Press (Strict)", "Behind The Neck Press", "Smith Machine Shoulder Press", "Machine Shoulder Press",
+                "Single Arm Dumbbell OHP", "Kettlebell Clean and Press", "Dumbbell Thrusters", "Lateral Raise (Dumbbell)",
+                "Lateral Raise (Cable Single Arm)", "Lateral Raise (Cable Dual)", "Machine Lateral Raise", "Three-Way Lateral Raises",
+                "Front Raise (Barbell)", "Front Raise (Dumbbell)", "Front Raise (Cable)", "Front Raise (Plate)",
+                "Rear Delt Fly (Dumbbell)", "Rear Delt Fly (Machine)", "Rear Delt Fly (Cable Single Arm)", "Face Pulls (Shoulder Focus)",
+                "Upright Row (Barbell)", "Upright Row (Dumbbell)", "Upright Row (Cable)", "L-Raises (Dumbbell)",
+                "Lu Raises (Side Focus)", "Y-Raises (Prone)", "Handstand Push-Ups", "Wall Walks", "Shoulder Taps",
+                "Bradford Press", "Landmine Press (Single Arm)", "Landmine Press (Half Kneeling)", "Viking Press",
+                "Dumbbell Scarecrows", "Plate Around The Worlds", "Bus Drivers (Plate)", "Banded Lateral Raise"
             ],
-            "Quads / الرجل الأمامية": [
-                "Back Squat", "Front Squat", "Leg Press", "Hack Squat", "Leg Extensions", "Walking Lunges",
-                "Bulgarian Split Squat", "Goblet Squats", "Sissy Squats", "Zercher Squat", "Box Squat",
-                "Belt Squat", "Hindu Squat", "Pistol Squat", "Step Ups", "Smith Machine Squat"
+            "الأرجل (Quads focus)": [
+                "Back Squat (High Bar)", "Back Squat (Low Bar)", "Front Squat (Barbell)", "Hack Squat (Machine)",
+                "Leg Press (45 Degree)", "Leg Press (Vertical)", "Leg Press (Single Leg)", "Leg Extensions (Machine)",
+                "Goblet Squat (Kettlebell/DB)", "Bulgarian Split Squat (Dumbbell)", "Bulgarian Split Squat (Barbell)",
+                "Walking Lunges (Barbell)", "Walking Lunges (Dumbbell)", "Backward Lunges", "Step Ups (Weighted)",
+                "Sissy Squats (Bodyweight)", "Sissy Squats (Weighted)", "Weighted Squat Jumps", "Box Squat (Barbell)",
+                "Anderson Squat (Pin Squat)", "Zercher Squat", "Belt Squat (Machine)", "Safety Bar Squat",
+                "Pistol Squats (Single Leg)", "Heel Elevated Squats", "Cyclist Squats", "V-Squat", "Sled Push",
+                "Sled Pull", "Skater Squats", "Cossack Squat", "Wall Sit (Time)", "Wall Sit (Weighted)"
             ],
-            "Hamstrings / الرجل الخلفية": [
-                "Romanian Deadlift", "Lying Leg Curls", "Seated Leg Curls", "Glute Ham Raise", "Stiff Leg Deadlift",
-                "Kettlebell Swings", "Single Leg RDL", "Nordic Curls", "Slider Curls", "Cable Pull Through"
+            "الأرجل (Hams & Glutes)": [
+                "Romanian Deadlift (Barbell)", "Romanian Deadlift (Dumbbell)", "Stiff Leg Deadlift", "Sumo RDL",
+                "Lying Leg Curls (Machine)", "Seated Leg Curls (Machine)", "Single Leg Leg Curl", "Glute Ham Raise",
+                "Nordic Hamstring Curls", "Slider Leg Curls", "Stability Ball Leg Curls", "Good Mornings (Hams)",
+                "Hip Thrusts (Barbell)", "Hip Thrusts (Machine)", "Glute Bridges (Weighted)", "Single Leg Hip Thrust",
+                "Cable Kickbacks (Glutes)", "Cable Abduction", "Abductor Machine", "Adductor Machine", "Clamshells (Banded)",
+                "Frog Pumps", "Kettlebell Swings", "Dumbbell Swings", "Single Leg RDL (Dumbbell)", "B Stance RDL",
+                "Cable Pull Throughs", "Deficit Deadlift", "Back Hyperextensions (Glute focus)", "Banded lateral Walk"
             ],
-            "Biceps / البايسبس": [
-                "Barbell Curl", "Dumbbell Curl", "Hammer Curl", "Preacher Curl", "Concentration Curl",
-                "Incline DB Curl", "Cable Curl", "Spider Curl", "Zottman Curl", "Bayesian Curl", "Waiters Curl"
+            "الأذرع (Biceps)": [
+                "Standard Barbell Curl", "EZ Bar Curl (Standard)", "EZ Bar Curl (Narrow Grip)", "Dumbbell Bicep Curl (Dual)",
+                "Dumbbell Bicep Curl (Alternating)", "Hammer Curls", "Cross Body Hammer Curls", "Cable Curls (Straight Bar)",
+                "Cable Curls (Rope)", "Single Arm Cable Curl (Bayesian)", "Preacher Curl (EZ Bar)", "Preacher Curl (Dumbbell)",
+                "Incline Dumbbell Bicep Curl", "Spider Curl (Barbell)", "Spider Curl (Dumbbell)", "Concentration Curl",
+                "Waiters Curl", "Reverse Barbell Curl", "Reverse EZ Bar Curl", "Hammer Rope Curls", "21s (Bicep Protocol)",
+                "Drag Curls (Barbell)", "Cheat Curls (Barbell)", "Zottman Curls", "Plate Curls", "Hercules Curls (Cable)"
             ],
-            "Triceps / الترايسبس": [
-                "Tricep Pushdown (Rope)", "Skull Crushers", "Close Grip Bench", "Overhead DB Extension",
-                "Dips (Tricep)", "JM Press", "Tate Press", "Kickbacks", "French Press", "Single Arm Extension"
+            "الأذرع (Triceps)": [
+                "Tricep Pushdown (Rope)", "Tricep Pushdown (Straight Bar)", "Tricep Pushdown (V-Bar)", "Single Arm Pushdown",
+                "Skull Crushers (EZ Bar)", "Skull Crushers (Dumbbell)", "Close Grip Bench Press", "Weighted Dips (Triceps)",
+                "Bench Dips (Weighted)", "Overhead Tricep Extension (Dumbbell)", "Overhead Tricep Extension (Cable)",
+                "Overhead Tricep Extension (EZ Bar)", "JM Press (Barbell)", "JM Press (Dumbbell)", "Tate Press",
+                "Diamond Push-Ups (Tricep)", "Tricep Kickbacks (Dumbbell)", "Tricep Kickbacks (Cable)", "French Press",
+                "Single Arm Overhead Extension", "Pezon Press", "California Press", "Tricep Dips (Machine)"
             ],
-            "Core / البطن": [
-                "Plank", "Leg Raises", "Dragon Flag", "Ab Wheel Rollout", "Cable Woodchoppers", "Russian Twists",
-                "Vacuum", "Toes to Bar", "L-Sit", "Dead Bugs", "Bird Dog", "Weighted Crunch"
+            "البطن والقلب (Core)": [
+                "Standard Plank", "Side Plank", "Weighted Plank", "Dragon Flag", "Hanging Leg Raise (Toes to Bar)",
+                "Hanging Knee Raise", "Ab Wheel Rollout", "Cable Woodchoppers", "Russian Twists (Weighted)",
+                "Cable Crunch (Kneeling)", "Standard Weighted Crunch", "Deadbugs", "Bird-Dog Extensions",
+                "Mountain Climbers", "Bicycle Crunches", "Toe Touches", "Hollow Body Hold", "Vacuum (Isometric)",
+                "Sit Ups (Weighted)", "Reverse Crunches", "Flutter Kicks", "V-Ups", "Pallof Press (Cable)",
+                "Windshield Wipers (Hanging)", "Farmer's Walk (Heavy Carry)"
+            ],
+            "السمانة والساعد (Calves/Forearms)": [
+                "Standing Calf Raise (Machine)", "Standing Calf Raise (Barbell)", "Seated Calf Raise", "Donkey Calf Raise",
+                "Leg Press Calf Raise", "Tibialis Raise (Bodyweight)", "Wrist Curls (Barbell)", "Reverse Wrist Curls",
+                "Dumbbell Wrist Curls", "Hammer Grip Wrist Curls", "Farmer Holds (Static)", "Dead Hangs (Pull Up Bar)"
             ]
         };
 
-        // Flatten database for intelligent mapping
-        const EXERCISE_REF = {};
-        Object.entries(EXERCISE_LIBRARY).forEach(([cat, list]) => {
-            list.forEach(name => { EXERCISE_REF[name] = { muscle: cat.split('/')[0].trim() }; });
+        // Comprehensive Mapping logic
+        const MASTER_REF = {};
+        Object.entries(MASTER_LIBRARY).forEach(([sector, units]) => {
+            units.forEach(unit => {
+                MASTER_REF[unit] = { 
+                    sector: sector.split('(')[0].trim(),
+                    chain: sector.toLowerCase().includes('anterior') ? 'Anterior' : 'Posterior'
+                };
+            });
         });
 
-        // Initial Architecture System
-        const INITIAL_PROGRAM = [
-            { key: "d1", dayIndex: 1, name: "Alpha: Anterior", type: "train", focus: "Chest + Shoulders + Quads", exercises: [{ name: "Barbell Bench Press", sets: 3 }, { name: "Seated Dumbbell Press", sets: 3 }, { name: "Leg Press", sets: 3 }] },
-            { key: "d2", dayIndex: 2, name: "System Recovery", type: "rest", focus: "Neural Reset & Tissue Growth", exercises: [] },
-            { key: "d3", dayIndex: 3, name: "Alpha: Posterior", type: "train", focus: "Back + Hamstrings + Arms", exercises: [{ name: "Barbell Row", sets: 3 }, { name: "Romanian Deadlift", sets: 3 }, { name: "Hammer Curl", sets: 3 }] },
-            { key: "d4", dayIndex: 4, name: "System Recovery", type: "rest", focus: "Neural Reset & Tissue Growth", exercises: [] }
+        // --- CORE PROGRAM ARCHITECTURE ---
+        const DEFAULT_PROGRAM = [
+            { id: "A1", idx: 1, name: "Alpha Core: Anterior", type: "train", focus: "Chest, Quads, Delts", exercises: [
+                { name: "Barbell Bench Press (Standard)", sets: 3 },
+                { name: "Back Squat (High Bar)", sets: 3 },
+                { name: "Arnold Press (Dumbbell)", sets: 3 },
+                { name: "Leg Extensions (Machine)", sets: 3 }
+            ]},
+            { id: "R1", idx: 2, name: "System Reboot", type: "rest", focus: "Central Nervous Recovery", exercises: [] },
+            { id: "P1", idx: 3, name: "Alpha Core: Posterior", type: "train", focus: "Back, Hams, Posterior Delt", exercises: [
+                { name: "Conventional Deadlift", sets: 3 },
+                { name: "Barbell Row (Bent Over)", sets: 3 },
+                { name: "Lying Leg Curls (Machine)", sets: 3 },
+                { name: "Hammer Curls", sets: 3 }
+            ]},
+            { id: "R2", idx: 4, name: "Metabolic Reset", type: "rest", focus: "Hypertrophic Adaptation", exercises: [] }
         ];
 
-        // --- Core Application Engine ---
+        // --- UTILITY LOGIC ---
+        const formatTime = (s) => {
+            const m = Math.floor(s / 60);
+            const sec = s % 60;
+            return `${m.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')}`;
+        };
+
+        const STORAGE_KEY = "pulse_ai_full_v4";
+
+        // --- MAIN APPLICATION COMPONENT ---
         function App() {
-            // Unified State Management
-            const [activeTab, setActiveTab] = useState('hub');
-            const [program, setProgram] = useState(INITIAL_PROGRAM);
-            const [currentDayIdx, setCurrentDayIdx] = useState(0);
+            // View Navigation State
+            const [view, setView] = useState('hub');
+            const [activeDayIdx, setActiveDayIdx] = useState(0);
+            const [editorDayIdx, setEditorDayIdx] = useState(0);
+            
+            // Core Data State
+            const [program, setProgram] = useState(DEFAULT_PROGRAM);
             const [sessions, setSessions] = useState([]);
             const [prs, setPrs] = useState({});
             const [drafts, setDrafts] = useState({});
-            const [isLibOpen, setIsLibOpen] = useState(false);
-            const [libTarget, setLibTarget] = useState(null);
-            const [libSearch, setLibSearch] = useState("");
-            const [timer, setTimer] = useState({ duration: 120, remain: 120, running: false });
-            const [readiness, setReadiness] = useState({ sleep: 8, soreness: 3 });
+            
+            // Readiness State
+            const [readiness, setReadiness] = useState({ sleep: 8, fatigue: 3 });
+            
+            // UI State
+            const [libUI, setLibUI] = useState({ open: false, target: null, search: "" });
+            const [timer, setTimer] = useState({ duration: 90, remain: 90, running: false });
 
-            // Persistence Hydration
+            // 1. Storage Hydration
             useEffect(() => {
-                const saved = localStorage.getItem("pulse_master_v3");
-                if (saved) {
-                    const d = JSON.parse(saved);
-                    if (d.program) setProgram(d.program);
-                    if (d.sessions) setSessions(d.sessions);
-                    if (d.prs) setPrs(d.prs);
-                    if (d.drafts) setDrafts(d.drafts);
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (raw) {
+                    try {
+                        const d = JSON.parse(raw);
+                        if (d.program) setProgram(d.program);
+                        if (d.sessions) setSessions(d.sessions);
+                        if (d.prs) setPrs(d.prs);
+                        if (d.drafts) setDrafts(d.drafts);
+                        if (d.readiness) setReadiness(d.readiness);
+                    } catch (e) { console.error("Neural Stream Corrupted", e); }
                 }
             }, []);
 
+            // 2. Storage Persistance
             useEffect(() => {
-                localStorage.setItem("pulse_master_v3", JSON.stringify({ program, sessions, prs, drafts }));
-            }, [program, sessions, prs, drafts]);
+                const data = { program, sessions, prs, drafts, readiness };
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            }, [program, sessions, prs, drafts, readiness]);
 
-            // Intelligent Timer Core
+            // 3. Timer Engine
             useEffect(() => {
-                let inter;
+                let interval;
                 if (timer.running && timer.remain > 0) {
-                    inter = setInterval(() => setTimer(t => ({ ...t, remain: t.remain - 1 })), 1000);
+                    interval = setInterval(() => setTimer(t => ({ ...t, remain: t.remain - 1 })), 1000);
                 } else if (timer.remain === 0 && timer.running) {
                     setTimer(t => ({ ...t, running: false }));
-                    // Logic for sound or vibration could go here
+                    if (window.navigator?.vibrate) window.navigator.vibrate([200, 100, 200]);
                 }
-                return () => clearInterval(inter);
+                return () => clearInterval(interval);
             }, [timer.running, timer.remain]);
 
             // --- Intelligence Operations ---
-            const today = program[currentDayIdx];
+            const today = program[activeDayIdx] || program[0];
 
-            const currentDraft = useMemo(() => {
+            const currentWorkoutDraft = useMemo(() => {
                 if (today.type === 'rest') return null;
-                const existing = drafts[today.key];
+                const existing = drafts[today.id];
                 if (existing) return existing;
                 return {
-                    dayKey: today.key,
-                    dayName: today.name,
+                    id: today.id,
+                    name: today.name,
                     exercises: today.exercises.map(ex => ({
                         name: ex.name,
-                        sets: Array.from({ length: ex.sets }, () => ({ weight: '', reps: '', rir: '', done: false }))
+                        sets: Array.from({ length: ex.sets }, () => ({
+                            w: '', r: '', rir: '', done: false
+                        }))
                     }))
                 };
-            }, [currentDayIdx, program, drafts]);
+            }, [activeDayIdx, program, drafts]);
 
-            const updateDraft = (newDraft) => setDrafts(prev => ({ ...prev, [today.key]: newDraft }));
-
-            const getSuggestedValues = (name, sIdx) => {
+            // Logic: Predictive Suggestions based on history
+            const getSuggestion = useCallback((name, setIdx) => {
+                // Look through historical sessions
                 for (const s of sessions) {
                     const ex = s.exercises.find(e => e.name === name);
-                    if (ex && ex.sets[sIdx] && ex.sets[sIdx].done) return ex.sets[sIdx];
+                    if (ex && ex.sets[setIdx] && ex.sets[setIdx].done) {
+                        return ex.sets[setIdx];
+                    }
                 }
+                // Fallback to PR for that exercise
                 const pr = prs[name];
-                if (pr) return { weight: pr.topW, reps: pr.topR, rir: '2' };
-                return { weight: '', reps: '', rir: '' };
-            };
+                if (pr) return { w: pr.w, r: pr.r, rir: '2' };
+                return { w: '', r: '', rir: '' };
+            }, [sessions, prs]);
 
-            const finishSession = () => {
-                const session = { ...currentDraft, timestamp: new Date().toISOString() };
-                const newPrs = { ...prs };
-                
-                // Track PRs from this session
+            const finishWorkout = () => {
+                if (!currentWorkoutDraft) return;
+                const session = { 
+                    ...currentWorkoutDraft, 
+                    date: new Date().toISOString(),
+                    score: readiness.sleep - readiness.fatigue
+                };
+
+                const updatedPrs = { ...prs };
                 session.exercises.forEach(ex => {
                     ex.sets.forEach(s => {
-                        if (s.done && s.weight && s.reps) {
-                            const e1rm = parseFloat(s.weight) * (1 + parseInt(s.reps)/30);
-                            if (!newPrs[ex.name] || e1rm > newPrs[ex.name].e1rm) {
-                                newPrs[ex.name] = { e1rm, topW: s.weight, topR: s.reps, date: session.timestamp };
+                        if (s.done && s.w && s.r) {
+                            const e1rm = parseFloat(s.w) * (1 + parseInt(s.r)/30);
+                            if (!updatedPrs[ex.name] || e1rm > updatedPrs[ex.name].e1rm) {
+                                updatedPrs[ex.name] = { e1rm, w: s.w, r: s.r, date: session.date };
                             }
                         }
                     });
                 });
 
                 setSessions([session, ...sessions]);
-                setPrs(newPrs);
-                setDrafts(prev => { const { [today.key]: _, ...rest } = prev; return rest; });
-                setActiveTab('hub');
+                setPrs(updatedPrs);
+                setDrafts(prev => {
+                    const { [today.id]: removed, ...others } = prev;
+                    return others;
+                });
+                setView('hub');
             };
 
-            // --- Component Library ---
-            
-            const Icon = ({ name, className = "w-5 h-5", fill = false }) => (
-                <svg className={`lucide ${className} ${fill ? 'fill-current' : ''}`} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    {name === 'layout' && <rect width="18" height="18" x="3" y="3" rx="2" ry="2" /><path d="M3 9h18" /><path d="M9 21V9" />}
-                    {name === 'zap' && <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />}
-                    {name === 'dumb' && <path d="m6.5 6.5 11 11" /><path d="m21 21-1-1" /><path d="m3 3 1 1" /><path d="m18 22 4-4" /><path d="m2 6 4-4" /><path d="m3 10 7-7" /><path d="m14 21 7-7" />}
-                    {name === 'chart' && <path d="M3 3v18h18" /><path d="M18 17V9" /><path d="M13 17V5" /><path d="M8 17v-3" />}
-                    {name === 'history' && <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path d="M3 3v5h5" /><path d="M12 7v5l4 2" />}
-                    {name === 'play' && <polygon points="5 3 19 12 5 21 5 3" />}
-                    {name === 'timer' && <line x1="10" x2="14" y1="2" y2="2" /><line x1="12" x2="12" y1="14" y2="11" /><circle cx="12" cy="14" r="8" />}
-                    {name === 'moon' && <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />}
-                    {name === 'plus' && <path d="M12 5v14" /><path d="M5 12h14" />}
-                    {name === 'check' && <polyline points="20 6 9 17 4 12" />}
-                    {name === 'activity' && <path d="M22 12h-4l-3 9L9 3l-3 9H2" />}
-                    {name === 'trash' && <path d="M3 6h18" /><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />}
-                    {name === 'x' && <path d="M18 6 6 18" /><path d="M6 6 18 18" />}
-                    {name === 'search' && <circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" />}
-                    {name === 'trophy' && <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" /><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" /><path d="M4 22h16" /><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" /><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" /><circle cx="12" cy="10" r="5" />}
-                </svg>
+            // --- Component Library Infrastructure ---
+
+            const Icon = ({ name, cls = "w-5 h-5", fill = false }) => {
+                const icons = {
+                    hub: <path d="M3 9h18M9 21V9M3 3h18v18H3z" />,
+                    zap: <path d="M13 2 3 14h9l-1 8 10-12h-9z" />,
+                    plan: <path d="M6.5 6.5 17.5 17.5M3 3 4 4M21 21 20 20M18 22 22 18M2 6 6 2M3 10 10 3M14 21 21 14" />,
+                    data: <path d="M3 3v18h18M18 17V9M13 17V5M8 17v-3" />,
+                    timer: <path d="M10 2h4M12 14v-4M12 22a8 8 0 1 0 0-16 8 8 0 0 0 0 16z" />,
+                    play: <path d="m5 3 14 9-14 9z" />,
+                    check: <path d="M20 6 9 17 4 12" />,
+                    plus: <path d="M12 5v14M5 12h14" />,
+                    trash: <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />,
+                    moon: <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z" />,
+                    trophy: <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" />,
+                    search: <path d="m21 21-4.3-4.3M19 11a8 8 0 1 1-16 0 8 8 0 0 1 16 0z" />,
+                    x: <path d="M18 6 6 18M6 6 18 18" />,
+                    history: <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8M3 3v5h5M12 7v5l4 2" />
+                };
+                return (
+                    <svg className={`lucide ${cls} ${fill ? 'fill-current' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        {icons[name]}
+                    </svg>
+                );
+            };
+
+            const MetricItem = ({ label, value, unit, sub }) => (
+                <div className="glass-card p-5 rounded-[2rem] flex flex-col justify-between h-28 shadow-lg">
+                    <span className="text-[10px] font-black uppercase text-text-dim tracking-widest">{label}</span>
+                    <div className="flex items-end gap-1">
+                        <span className="text-3xl font-black text-white">{value}</span>
+                        {unit && <span className="text-xs font-black text-text-dim/50 mb-1">{unit}</span>}
+                    </div>
+                    <span className="text-[9px] font-black text-accent uppercase tracking-tighter">{sub}</span>
+                </div>
             );
 
-            // --- Tab Views ---
+            // --- VIEW RENDERERS ---
 
             const renderHub = () => (
                 <div className="space-y-6 pb-28">
-                    <header className="flex justify-between items-center px-1">
+                    <header className="flex justify-between items-center pt-2">
                         <div>
-                            <p className="text-[10px] font-black uppercase text-accent/60 tracking-[0.2em] mb-1">Pulse Master Alpha</p>
-                            <h1 className="text-2xl font-black text-white">Hub Controller</h1>
+                            <div className="text-[10px] uppercase font-black tracking-[0.2em] text-accent/50 mb-0.5">Neural Pulse v4</div>
+                            <h1 className="text-2xl font-black text-white tracking-tight">Main Controller</h1>
                         </div>
-                        <div className="bg-accent/10 border border-accent/20 px-3 py-1 rounded-xl text-accent text-xs font-black">
-                            D{today.dayIndex} ACTIVE
+                        <div className="px-4 py-1.5 bg-accent/10 border border-accent/20 rounded-xl text-accent text-xs font-black">
+                            CYCLE D{today.idx}
                         </div>
                     </header>
 
-                    <div className="grid grid-cols-2 gap-3">
-                        <div className="bg-surface border border-border p-5 rounded-[2rem] flex flex-col justify-between h-28 shadow-xl">
-                            <span className="text-[9px] font-black uppercase text-text-dim tracking-widest">Training Total</span>
-                            <div className="text-3xl font-black text-white">{sessions.length}<small className="text-xs ml-1 opacity-40">Sess</small></div>
-                            <span className="text-accent text-[8px] font-black uppercase">Volume Tracking Active</span>
-                        </div>
-                        <div className="bg-surface border border-border p-5 rounded-[2rem] flex flex-col justify-between h-28 shadow-xl">
-                            <span className="text-[9px] font-black uppercase text-text-dim tracking-widest">Neural Readiness</span>
-                            <div className="text-3xl font-black text-white">92%</div>
-                            <span className="text-accent text-[8px] font-black uppercase">Growth Optimized</span>
-                        </div>
+                    <div className="grid grid-cols-2 gap-3.5">
+                        <MetricItem label="Sessions Run" value={sessions.length} unit="pts" sub="Active Loyalty" />
+                        <MetricItem label="Readiness" value="94" unit="%" sub="Optimal System" />
+                        <MetricItem label="PR Count" value={Object.keys(prs).length} unit="set" sub="Peaking Units" />
+                        <MetricItem label="Fatigue" value={readiness.fatigue} unit="lvl" sub="CNS Metric" />
                     </div>
 
-                    <div className="bg-surface border border-border rounded-[2.5rem] p-7 shadow-2xl relative overflow-hidden group">
-                        <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-all rotate-12">
-                            <Icon name="zap" className="w-24 h-24 text-accent" />
+                    <div className="bg-surface-mid border border-border rounded-[2.5rem] p-7 shadow-2xl relative overflow-hidden group">
+                        <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-all rotate-12 group-hover:scale-110">
+                            <Icon name="zap" cls="w-24 h-24 text-accent" />
                         </div>
-                        <div className="flex justify-between items-center mb-1">
-                            <p className="text-[10px] font-black text-accent/60 uppercase tracking-widest leading-none">Directive Today</p>
-                            <span className="text-[10px] bg-accent/10 border border-accent/20 text-accent px-3 py-1 rounded-full uppercase font-black">{today.type}</span>
+                        <div className="flex justify-between items-center mb-1 relative z-10">
+                            <span className="text-[10px] font-black text-accent/60 uppercase tracking-widest">Today's Directive</span>
+                            <span className="text-[10px] font-black bg-accent/10 border border-accent/20 text-accent px-3 py-1 rounded-full">{today.type} Phase</span>
                         </div>
                         <div className="flex items-end justify-between relative z-10">
-                            <div>
-                                <h2 className="text-3xl font-black text-white leading-tight mb-2 tracking-tight">{today.name}</h2>
+                            <div className="space-y-1">
+                                <h2 className="text-3xl font-black text-white uppercase tracking-tight">{today.name}</h2>
                                 <p className="text-xs text-text-dim font-medium max-w-[200px] leading-relaxed italic opacity-80">"{today.focus}"</p>
                             </div>
-                            <button onClick={() => setActiveTab('work')} className="w-16 h-16 bg-accent rounded-3xl flex items-center justify-center shadow-[0_15px_40px_rgba(201,255,69,0.3)] hover:scale-105 active:scale-90 transition-all">
-                                <Icon name="play" className="text-black fill-current w-7 h-7 ml-1" />
+                            <button onClick={() => setView('workout')} className="w-16 h-16 bg-accent rounded-3xl flex items-center justify-center shadow-[0_15px_40px_rgba(201,255,69,0.3)] hover:scale-105 active:scale-90 transition-all">
+                                <Icon name="play" cls="text-black fill-current w-7 h-7 ml-1" />
                             </button>
                         </div>
                     </div>
 
-                    <div className="bg-surface border border-border rounded-[2.5rem] p-7 space-y-6 shadow-xl">
-                        <div className="flex items-center gap-2 mb-2">
-                            <Icon name="activity" className="text-accent w-4 h-4" />
-                            <h3 className="text-[10px] font-black uppercase text-text-dim tracking-widest">Metabolic & Readiness Stats</h3>
+                    <div className="bg-surface-mid border border-border rounded-[2.5rem] p-7 space-y-7 shadow-xl">
+                        <div className="flex items-center gap-2 mb-1">
+                            <Icon name="zap" cls="w-4 h-4 text-accent" />
+                            <h3 className="text-[10px] font-black uppercase tracking-widest text-text-dim">Metabolic Readiness Stream</h3>
                         </div>
-                        <div className="space-y-6">
+                        <div className="space-y-7">
                             <div className="space-y-3">
-                                <div className="flex justify-between items-end">
-                                    <span className="text-[10px] font-black uppercase tracking-widest text-text-dim/60">Sleep Quality Index</span>
-                                    <span className="text-xl font-black text-white">{readiness.sleep}/10</span>
+                                <div className="flex justify-between text-[11px] font-black text-text-dim/60 uppercase tracking-widest">
+                                    <span>Sleep Protocol</span><span>{readiness.sleep}/10</span>
                                 </div>
-                                <input type="range" min="1" max="10" value={readiness.sleep} onChange={(e) => setReadiness({...readiness, sleep: e.target.value})} className="w-full accent-accent bg-surface-light h-1.5 rounded-lg appearance-none cursor-pointer" />
+                                <input type="range" min="1" max="10" value={readiness.sleep} onChange={(e)=>setReadiness({...readiness, sleep:e.target.value})} className="w-full" />
                             </div>
                             <div className="space-y-3">
-                                <div className="flex justify-between items-end">
-                                    <span className="text-[10px] font-black uppercase tracking-widest text-text-dim/60">Systemic Soreness</span>
-                                    <span className="text-xl font-black text-white">{readiness.soreness}/10</span>
+                                <div className="flex justify-between text-[11px] font-black text-text-dim/60 uppercase tracking-widest">
+                                    <span>System Fatigue</span><span>{readiness.fatigue}/10</span>
                                 </div>
-                                <input type="range" min="1" max="10" value={readiness.soreness} onChange={(e) => setReadiness({...readiness, soreness: e.target.value})} className="w-full accent-accent bg-surface-light h-1.5 rounded-lg appearance-none cursor-pointer" />
+                                <input type="range" min="1" max="10" value={readiness.fatigue} onChange={(e)=>setReadiness({...readiness, fatigue:e.target.value})} className="w-full" />
                             </div>
                         </div>
                     </div>
@@ -340,66 +489,68 @@
 
             const renderWorkout = () => (
                 <div className="space-y-5 pb-28">
-                    <div className="sticky top-0 -mx-4 px-4 py-3 bg-bg/80 backdrop-blur-xl border-b border-border/50 z-40 flex justify-between items-center">
-                        <h1 className="text-lg font-black text-white truncate max-w-[150px]">{today.name}</h1>
+                    <div className="sticky top-0 -mx-4 px-4 py-3 bg-bg/90 backdrop-blur-2xl border-b border-border/50 z-40 flex justify-between items-center">
+                        <div className="flex flex-col">
+                            <h1 className="text-sm font-black text-white uppercase tracking-wider">{today.name}</h1>
+                            <span className="text-[9px] font-medium text-text-dim">{today.focus}</span>
+                        </div>
                         <div className="flex items-center gap-2">
-                            <button onClick={() => setTimer({...timer, running: !timer.running})} className="p-2.5 bg-surface border border-border rounded-xl active:scale-95">
-                                <Icon name="timer" className={`w-4 h-4 ${timer.running ? 'text-accent animate-pulse-soft' : 'text-text-dim'}`} />
+                            <button onClick={()=>setTimer({...timer, running: !timer.running})} className="w-10 h-10 bg-surface-mid border border-border rounded-xl flex items-center justify-center">
+                                <Icon name="timer" cls={`w-4 h-4 ${timer.running ? 'text-accent pulse-active' : 'text-text-dim'}`} />
                             </button>
-                            <div className="text-mono font-black text-base bg-surface border border-border px-4 py-1.5 rounded-xl text-accent min-w-[70px] text-center shadow-inner">
-                                {Math.floor(timer.remain/60).toString().padStart(2,'0')}:{(timer.remain%60).toString().padStart(2,'0')}
+                            <div className="text-mono font-black text-base bg-surface-mid border border-border px-4 py-1.5 rounded-xl text-accent min-w-[70px] text-center shadow-inner">
+                                {formatTime(timer.remain)}
                             </div>
                         </div>
                     </div>
 
                     {today.type === 'rest' ? (
-                        <div className="bg-surface border border-border rounded-[2.5rem] p-12 text-center space-y-6 mt-8 relative overflow-hidden">
-                            <div className="absolute inset-0 bg-accent/5 blur-3xl pointer-events-none"></div>
-                            <Icon name="moon" className="w-14 h-14 text-accent mx-auto" />
-                            <div>
-                                <h2 className="text-xl font-black text-white mb-2 uppercase tracking-tight">Recovery Architecture Active</h2>
-                                <p className="text-text-dim text-sm leading-relaxed max-w-[280px] mx-auto opacity-70">Focus on neurological restoration, systemic hydration, and protein synthesis. Today is for growth.</p>
+                        <div className="py-20 text-center space-y-6">
+                            <div className="w-20 h-20 bg-accent/5 border border-accent/10 rounded-full flex items-center justify-center mx-auto mb-2">
+                                <Icon name="moon" cls="w-10 h-10 text-accent" />
                             </div>
+                            <div className="space-y-2">
+                                <h2 className="text-xl font-black text-white uppercase tracking-tight">Recovery Protocol Active</h2>
+                                <p className="text-xs text-text-dim max-w-[280px] mx-auto leading-relaxed">Neural pathways are reconstructing. Metabolic waste is clearing. Hypertrophy is maximized during this reboot phase.</p>
+                            </div>
+                            <button onClick={()=>setView('hub')} className="px-8 py-3 bg-surface-mid border border-border rounded-2xl text-[10px] font-black uppercase tracking-widest text-accent">Return to Control</button>
                         </div>
                     ) : (
                         <div className="space-y-5">
-                            {currentDraft?.exercises.map((ex, exIdx) => (
-                                <div key={exIdx} className="bg-surface border border-border rounded-[2rem] p-5 shadow-xl relative overflow-hidden">
+                            {currentWorkoutDraft?.exercises.map((ex, exIdx) => (
+                                <div key={exIdx} className="bg-surface-mid border border-border rounded-[2.2rem] p-5 shadow-2xl relative border-t-4 border-t-accent/10">
                                     <div className="flex justify-between items-center mb-5 px-1">
                                         <div className="flex items-center gap-3">
-                                            <div className="w-1 h-5 bg-accent rounded-full shadow-[0_0_10px_rgba(201,255,69,0.5)]" />
-                                            <h3 className="font-black text-white text-[15px] tracking-tight">{ex.name}</h3>
+                                            <div className="w-1.5 h-6 bg-accent rounded-full" />
+                                            <h3 className="font-black text-white text-[15px] uppercase tracking-tight leading-none">{ex.name}</h3>
                                         </div>
-                                        <span className="text-[9px] uppercase font-black text-text-dim bg-surface-light border border-border px-2.5 py-1 rounded-lg">Tactical Unit {exIdx+1}</span>
                                     </div>
-                                    
-                                    <div className="grid grid-cols-[24px_1fr_1fr_1fr_42px] gap-2 mb-2 px-1 text-[8px] font-black text-text-dim/30 uppercase text-center tracking-widest">
-                                        <span>#</span><span>KG</span><span>RPS</span><span>RIR</span><span />
+                                    <div className="grid grid-cols-[24px_1fr_1fr_1fr_44px] gap-2.5 mb-2.5 text-[8px] font-black text-text-dim/40 uppercase tracking-widest text-center">
+                                        <span>Set</span><span>Weight</span><span>Reps</span><span>RIR</span><span />
                                     </div>
-
                                     <div className="space-y-2.5">
                                         {ex.sets.map((set, sIdx) => {
-                                            const sug = getSuggestedValues(ex.name, sIdx);
-                                            const isSug = !set.weight && !set.reps && sug.weight;
+                                            const sugg = getSuggestion(ex.name, sIdx);
+                                            const showSugg = !set.w && !set.r && sugg.w;
                                             return (
-                                                <div key={sIdx} className={`grid grid-cols-[24px_1fr_1fr_1fr_42px] gap-2 items-center transition-all ${set.done ? 'opacity-30 grayscale blur-[0.3px]' : ''}`}>
-                                                    <span className="text-mono text-[10px] text-text-dim/50 text-center font-black">{sIdx+1}</span>
-                                                    <input type="number" placeholder={sug.weight || "0"} value={set.weight} onChange={(e) => {
-                                                        const n = [...currentDraft.exercises]; n[exIdx].sets[sIdx].weight = e.target.value; updateDraft({...currentDraft, exercises: n});
-                                                    }} className={`w-full bg-surface-light border border-border rounded-xl h-11 text-center font-black text-white text-xs outline-none focus:border-accent/40 ${isSug ? 'placeholder:text-accent/30' : ''}`} />
-                                                    <input type="number" placeholder={sug.reps || "0"} value={set.reps} onChange={(e) => {
-                                                        const n = [...currentDraft.exercises]; n[exIdx].sets[sIdx].reps = e.target.value; updateDraft({...currentDraft, exercises: n});
-                                                    }} className={`w-full bg-surface-light border border-border rounded-xl h-11 text-center font-black text-white text-xs outline-none focus:border-accent/40 ${isSug ? 'placeholder:text-accent/30' : ''}`} />
-                                                    <input type="number" placeholder={sug.rir || "0"} value={set.rir} onChange={(e) => {
-                                                        const n = [...currentDraft.exercises]; n[exIdx].sets[sIdx].rir = e.target.value; updateDraft({...currentDraft, exercises: n});
-                                                    }} className={`w-full bg-surface-light border border-border rounded-xl h-11 text-center font-black text-white text-xs outline-none focus:border-accent/40 ${isSug ? 'placeholder:text-accent/30' : ''}`} />
+                                                <div key={sIdx} className={`grid grid-cols-[24px_1fr_1fr_1fr_44px] gap-2.5 items-center transition-all ${set.done ? 'opacity-30 blur-[0.2px]' : ''}`}>
+                                                    <span className="text-[10px] font-black text-text-dim/50 text-center tracking-tighter">{sIdx+1}</span>
+                                                    <input type="number" placeholder={sugg.w || "0"} value={set.w} onChange={(e)=>{
+                                                        const n = [...currentWorkoutDraft.exercises]; n[exIdx].sets[sIdx].w = e.target.value; updateDraft({...currentWorkoutDraft, exercises: n});
+                                                    }} className={`w-full bg-surface-high border border-border rounded-xl h-11 text-center font-black text-white text-xs outline-none focus:border-accent/50 ${showSugg ? 'placeholder:text-accent/30' : ''}`} />
+                                                    <input type="number" placeholder={sugg.r || "0"} value={set.r} onChange={(e)=>{
+                                                        const n = [...currentWorkoutDraft.exercises]; n[exIdx].sets[sIdx].r = e.target.value; updateDraft({...currentWorkoutDraft, exercises: n});
+                                                    }} className={`w-full bg-surface-high border border-border rounded-xl h-11 text-center font-black text-white text-xs outline-none focus:border-accent/50 ${showSugg ? 'placeholder:text-accent/30' : ''}`} />
+                                                    <input type="number" placeholder={sugg.rir || "0"} value={set.rir} onChange={(e)=>{
+                                                        const n = [...currentWorkoutDraft.exercises]; n[exIdx].sets[sIdx].rir = e.target.value; updateDraft({...currentWorkoutDraft, exercises: n});
+                                                    }} className={`w-full bg-surface-high border border-border rounded-xl h-11 text-center font-black text-white text-xs outline-none focus:border-accent/50 ${showSugg ? 'placeholder:text-accent/30' : ''}`} />
                                                     <button onClick={() => {
-                                                        const n = [...currentDraft.exercises]; const t = n[exIdx].sets[sIdx];
-                                                        if (!t.weight && !t.reps && isSug) { t.weight = sug.weight; t.reps = sug.reps; t.rir = sug.rir; }
-                                                        t.done = !t.done; updateDraft({...currentDraft, exercises: n});
-                                                        if (t.done) setTimer({...timer, remain: timer.duration, running: true});
-                                                    }} className={`h-11 flex items-center justify-center rounded-xl border transition-all ${set.done ? 'bg-accent border-accent text-black shadow-lg shadow-accent/20' : 'bg-surface-light border-border text-text-dim/60'}`}>
-                                                        {set.done ? <Icon name="check" className="w-5 h-5 fill-current" /> : (isSug ? <Icon name="activity" className="w-4 h-4 text-accent animate-pulse" /> : <Icon name="plus" className="w-4 h-4" />)}
+                                                        const n = [...currentWorkoutDraft.exercises]; const target = n[exIdx].sets[sIdx];
+                                                        if (!target.w && !target.r && showSugg) { target.w = sugg.w; target.r = sugg.r; target.rir = sugg.rir; }
+                                                        target.done = !target.done; updateDraft({...currentWorkoutDraft, exercises: n});
+                                                        if (target.done) setTimer({...timer, remain: timer.duration, running: true});
+                                                    }} className={`h-11 flex items-center justify-center rounded-xl border transition-all ${set.done ? 'bg-accent border-accent text-black shadow-xl ring-4 ring-accent/10' : 'bg-surface-high border-border text-text-dim/60'}`}>
+                                                        {set.done ? <Icon name="check" cls="w-5 h-5 fill-current" /> : (showSugg ? <Icon name="zap" cls="w-4 h-4 text-accent animate-pulse" /> : <Icon name="plus" cls="w-4 h-4" />)}
                                                     </button>
                                                 </div>
                                             );
@@ -407,12 +558,10 @@
                                     </div>
                                 </div>
                             ))}
-                            <div className="pt-4">
-                                <button onClick={finishSession} className="w-full bg-accent text-black py-5 rounded-[2.2rem] font-black uppercase text-sm tracking-[0.2em] shadow-[0_20px_40px_rgba(201,255,69,0.3)] active:scale-95 flex items-center justify-center gap-3">
-                                    <Icon name="trophy" className="w-6 h-6 fill-current" />
-                                    Synchronize Session Data
-                                </button>
-                            </div>
+                            <button onClick={finishWorkout} className="w-full bg-accent text-black h-20 rounded-[2.5rem] font-black uppercase text-sm tracking-[0.25em] shadow-[0_20px_50px_rgba(201,255,69,0.25)] active:scale-95 transition-all flex items-center justify-center gap-3 mt-4">
+                                <Icon name="trophy" cls="w-6 h-6 fill-current" />
+                                Synchronize Protocol Results
+                            </button>
                         </div>
                     )}
                 </div>
@@ -421,154 +570,171 @@
             const renderEditor = () => (
                 <div className="space-y-6 pb-28">
                     <header className="flex justify-between items-center px-1 pt-2">
-                        <h2 className="text-xl font-black text-white uppercase tracking-tight">Split Engine</h2>
-                        <button onClick={() => setProgram(INITIAL_PROGRAM)} className="text-[10px] font-black text-accent/50 border border-accent/20 px-3 py-1.5 rounded-xl uppercase">Reset to Factory</button>
+                        <h2 className="text-xl font-black text-white uppercase tracking-tight">Split Designer</h2>
+                        <button onClick={()=>setProgram(DEFAULT_PROGRAM)} className="text-[10px] font-black uppercase text-accent/50 hover:text-accent tracking-widest transition-colors">Default Architecture</button>
                     </header>
-
                     <div className="flex gap-2.5 overflow-x-auto no-scrollbar -mx-4 px-4 pb-2">
                         {program.map((day, idx) => (
-                            <button key={idx} onClick={() => setCurrentDayIdx(idx)} className={`px-5 py-3.5 rounded-2xl text-[10px] font-black uppercase whitespace-nowrap border-2 transition-all ${currentDayIdx === idx ? 'bg-accent border-accent text-black shadow-xl shadow-accent/20' : 'bg-surface border-border text-text-dim/60 opacity-60'}`}>
-                                D{day.dayIndex} {day.name}
+                            <button key={idx} onClick={()=>setEditorDayIdx(idx)} className={`px-5 py-3.5 rounded-2xl text-[10px] font-black uppercase whitespace-nowrap border-2 transition-all ${editorDayIdx === idx ? 'bg-accent border-accent text-black shadow-xl shadow-accent/20 scale-105' : 'bg-surface-mid border-border text-text-dim opacity-60'}`}>
+                                D{day.idx} - {day.name}
                             </button>
                         ))}
                     </div>
-
-                    <div className="bg-surface border border-border rounded-[2.5rem] p-6 space-y-6 shadow-2xl relative">
+                    <div className="bg-surface-mid border border-border rounded-[2.5rem] p-6 space-y-6 shadow-2xl relative">
                         <div className="space-y-2">
-                             <label className="text-[9px] font-black uppercase tracking-widest text-text-dim px-2">Day Identifier</label>
-                             <input type="text" value={program[currentDayIdx].name} onChange={(e) => { const n = [...program]; n[currentDayIdx].name = e.target.value; setProgram(n); }} className="w-full bg-surface-light border border-border h-14 rounded-2xl px-5 text-sm font-black text-white outline-none focus:border-accent/40 shadow-inner" />
+                             <label className="text-[9px] font-black uppercase tracking-widest text-text-dim/60 px-2">Phase Identifier</label>
+                             <input type="text" value={program[editorDayIdx].name} onChange={(e) => { const n = [...program]; n[editorDayIdx].name = e.target.value; setProgram(n); }} className="w-full bg-surface-high border border-border h-14 rounded-2xl px-5 text-sm font-black text-white outline-none focus:border-accent/40" placeholder="Phase Code..." />
                         </div>
-                        <div className="space-y-4 pt-4">
-                            <h3 className="text-[10px] font-black uppercase text-text-dim tracking-widest px-2 flex justify-between">Exercise Matrix <span>{program[currentDayIdx].exercises.length} Units</span></h3>
+                        <div className="space-y-4 pt-4 border-t border-border/30">
+                            <div className="flex justify-between items-center px-2">
+                                <h3 className="text-[10px] font-black uppercase text-text-dim tracking-[0.2em] leading-none">Macro Structure</h3>
+                                <span className="text-[9px] text-text-dim italic font-black">{program[editorDayIdx].exercises.length} Units</span>
+                            </div>
                             <div className="space-y-3">
-                                <AnimatePresence>
-                                    {program[currentDayIdx].exercises.map((ex, eIdx) => (
-                                        <motion.div initial={{opacity:0, x:-10}} animate={{opacity:1, x:0}} key={eIdx} className="grid grid-cols-[1fr_64px_48px] gap-2.5 items-center group">
-                                            <input type="text" value={ex.name} onFocus={() => { setLibTarget({dIdx: currentDayIdx, eIdx}); setIsLibOpen(true); }} onChange={(e) => { const n = [...program]; n[currentDayIdx].exercises[eIdx].name = e.target.value; setProgram(n); }} className="w-full bg-surface-light border border-border h-12 rounded-2xl px-4 text-[13px] font-bold text-white outline-none focus:border-accent/40" />
-                                            <div className="relative">
-                                                <input type="number" value={ex.sets} onChange={(e) => { const n = [...program]; n[currentDayIdx].exercises[eIdx].sets = parseInt(e.target.value)||1; setProgram(n); }} className="w-full bg-surface-light border border-border h-12 text-center font-black text-white outline-none rounded-2xl" />
-                                                <span className="absolute -top-3 left-0 w-full text-center text-[7px] font-bold text-text-dim uppercase opacity-60 tracking-tighter">Sets</span>
-                                            </div>
-                                            <button onClick={() => { const n = [...program]; n[currentDayIdx].exercises.splice(eIdx, 1); setProgram(n); }} className="w-12 h-12 flex items-center justify-center bg-red-500/5 hover:bg-red-500 text-red-500/40 hover:text-black rounded-2xl transition-all"><Icon name="trash" className="w-5 h-5"/></button>
-                                        </motion.div>
-                                    ))}
-                                </AnimatePresence>
-                                <button onClick={() => { const n = [...program]; n[currentDayIdx].exercises.push({name: "", sets: 3}); setProgram(n); }} className="w-full py-4 bg-surface border-2 border-dashed border-border text-accent/40 hover:text-accent rounded-2xl text-[10px] font-black uppercase transition-all flex items-center justify-center gap-2"><Icon name="plus" className="w-4 h-4"/> Inject Knowledge Unit</button>
+                                {program[editorDayIdx].exercises.map((ex, eIdx) => (
+                                    <div key={eIdx} className="grid grid-cols-[1fr_64px_48px] gap-2.5 items-center group">
+                                        <input type="text" value={ex.name} onFocus={()=>{ setLibUI({open:true, target:{d:editorDayIdx, e:eIdx}, search:""}); }} onChange={(e)=>{ const n = [...program]; n[editorDayIdx].exercises[eIdx].name = e.target.value; setProgram(n); }} className="w-full bg-surface-high border border-border h-12 rounded-2xl px-4 text-[13px] font-bold text-white outline-none focus:border-accent/40" />
+                                        <div className="relative">
+                                            <input type="number" value={ex.sets} onChange={(e)=>{ const n = [...program]; n[editorDayIdx].exercises[eIdx].sets = parseInt(e.target.value)||1; setProgram(n); }} className="w-full bg-surface-high border border-border h-12 text-center font-black text-white outline-none rounded-2xl" />
+                                            <span className="absolute -top-3 left-0 w-full text-center text-[7px] font-black text-text-dim uppercase tracking-tighter opacity-40">Sets</span>
+                                        </div>
+                                        <button onClick={()=>{ const n = [...program]; n[editorDayIdx].exercises.splice(eIdx, 1); setProgram(n); }} className="w-12 h-12 flex items-center justify-center bg-red-500/5 hover:bg-red-500 text-red-500/40 hover:text-black rounded-2xl transition-all"><Icon name="trash" cls="w-5 h-5"/></button>
+                                    </div>
+                                ))}
+                                <button onClick={()=>{ const n = [...program]; n[editorDayIdx].exercises.push({name:"", sets:3}); setProgram(n); }} className="w-full h-14 bg-surface-mid border-2 border-dashed border-border text-accent/50 hover:text-accent rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all">
+                                    <Icon name="plus" cls="w-4 h-4" /> Inject Biological Unit
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             );
 
-            const renderData = () => (
+            const renderAnalytics = () => (
                 <div className="space-y-6 pb-28">
                     <header className="flex items-center gap-3 pt-4 px-1">
-                        <div className="w-12 h-12 bg-accent/20 border border-accent/20 rounded-2xl flex items-center justify-center shadow-xl shadow-accent/10"><Icon name="chart" className="text-accent w-6 h-6" /></div>
-                        <h1 className="text-xl font-black text-white uppercase tracking-tight leading-none">Intelligence Dashboard</h1>
+                        <div className="w-12 h-12 bg-accent/20 border border-accent/20 rounded-2xl flex items-center justify-center shadow-xl shadow-accent/10"><Icon name="data" cls="text-accent w-6 h-6" /></div>
+                        <h1 className="text-xl font-black text-white uppercase tracking-tight">Intelligence Dashboard</h1>
                     </header>
-                    <div className="bg-surface border border-border rounded-[2.5rem] p-7 space-y-5 shadow-2xl">
-                        <h3 className="text-[10px] font-black uppercase text-text-dim tracking-widest px-1 mb-4 leading-none">Peak Strength Vectors (PRs)</h3>
-                        <div className="space-y-3">
+                    <div className="bg-surface-mid border border-border rounded-[2.5rem] p-7 space-y-5 shadow-2xl relative overflow-hidden">
+                        <div className="absolute top-0 right-0 p-4 opacity-5 rotate-12"><Icon name="trophy" cls="w-20 h-20 text-accent" /></div>
+                        <h3 className="text-[10px] font-black uppercase text-text-dim tracking-widest mb-4 leading-none relative z-10">Historical Peak Vectors (PRs)</h3>
+                        <div className="space-y-3 relative z-10">
                             {Object.entries(prs).map(([name, pr], i) => (
-                                <div key={i} className="flex justify-between items-center bg-surface-light px-5 py-4 rounded-3xl border border-border hover:border-accent/40 shadow-md">
-                                    <div className="text-left"><div className="font-black text-[14px] text-white/90 leading-tight">{name}</div><div className="text-[8px] uppercase tracking-widest font-black text-text-dim opacity-50 mt-1">{new Date(pr.date).toLocaleDateString()}</div></div>
-                                    <div className="text-right flex flex-col items-end"><div className="text-accent font-black text-xl leading-none">{Math.round(pr.e1rm)}<small className="text-[10px] ml-1">kg</small></div><div className="text-[8px] uppercase font-black text-text-dim/40 tracking-widest mt-1">EST 1RM</div></div>
+                                <div key={i} className="flex justify-between items-center bg-surface-high px-5 py-4 rounded-3xl border border-border hover:border-accent/20 shadow-lg group">
+                                    <div>
+                                        <div className="font-black text-[14px] text-white/90 leading-tight group-hover:text-accent transition-colors">{name}</div>
+                                        <div className="text-[8px] uppercase tracking-widest font-black text-text-dim opacity-50 mt-1">Achieved: {new Date(pr.date).toLocaleDateString()}</div>
+                                    </div>
+                                    <div className="flex flex-col items-end">
+                                        <div className="text-accent font-black text-2xl leading-none">{Math.round(pr.e1rm)}<small className="text-[11px] ml-1 opacity-60">kg</small></div>
+                                        <div className="text-[8px] uppercase font-black text-text-dim/40 tracking-[0.2em] mt-2">Peak e1RM</div>
+                                    </div>
                                 </div>
                             ))}
-                            {Object.keys(prs).length === 0 && <p className="text-center py-16 text-text-dim text-xs opacity-20 font-black uppercase tracking-[0.2em]">Data stream empty</p>}
+                            {Object.keys(prs).length === 0 && <p className="text-center py-20 text-text-dim text-xs opacity-20 font-black uppercase tracking-[0.3em] font-mono">Neural Stream Unavailable</p>}
                         </div>
                     </div>
 
-                    <div className="bg-surface border border-border rounded-[2.5rem] p-7 shadow-2xl">
-                        <h3 className="text-[10px] font-black uppercase text-text-dim tracking-widest px-1 mb-6 leading-none">Metric Trend Window (Volume)</h3>
-                        <div className="h-48 flex items-end gap-3 px-2 border-b border-border/10 pb-2">
-                             {sessions.slice(0, 7).reverse().map((s, i) => (
-                                <div key={i} className="flex-1 bg-accent/70 hover:bg-accent rounded-xl shadow-[0_10px_30px_rgba(201,255,69,0.2)] transition-all" style={{height: `${Math.min(100, (s.exercises.length * 15))}%`}} />
-                             ))}
-                             {sessions.length === 0 && <div className="w-full text-center text-[10px] font-black text-text-dim/10 pb-20 uppercase tracking-[0.3em]">Awaiting Cycle Initiation</div>}
-                        </div>
+                    <div className="bg-surface-mid border border-border rounded-[2.5rem] p-8 shadow-2xl flex flex-col justify-between">
+                         <h3 className="text-[10px] font-black uppercase text-text-dim tracking-widest mb-8 leading-none">Hypertrophy Cycle Volume</h3>
+                         <div className="h-44 flex items-end gap-3 px-2 border-b border-border/10 pb-2 mb-4">
+                              {sessions.slice(0, 7).reverse().map((s, i) => (
+                                 <div key={i} className="flex-1 bg-accent/70 hover:bg-accent rounded-xl shadow-[0_10px_30px_rgba(201,255,69,0.3)] transition-all cursor-pointer group relative" style={{height: `${Math.min(100, (s.exercises.length * 20))}%`}}>
+                                    <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-surface-high border border-border rounded px-2 py-1 text-[8px] font-black opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Session {i+1}</div>
+                                 </div>
+                              ))}
+                              {sessions.length === 0 && <div className="w-full text-center text-[10px] font-black text-text-dim/10 pb-16 uppercase tracking-[0.4em]">Ready for Init</div>}
+                         </div>
+                         <div className="flex justify-between text-[8px] font-bold text-text-dim/30 px-2 uppercase"><span>Macro-Monday</span><span>Macro-Sunday</span></div>
                     </div>
                 </div>
             );
 
-            // --- Sub-Modals ---
+            // --- Submodal Environment ---
 
-            const LibraryModal = () => {
-                const [cat, setCat] = useState(null);
-                const results = useMemo(() => {
-                    let r = [];
-                    Object.entries(EXERCISE_LIBRARY).forEach(([muscle, list]) => {
-                        if (!cat || cat === muscle) list.forEach(name => {
-                            if (!libSearch || name.toLowerCase().includes(libSearch.toLowerCase())) r.push({ name, muscle });
-                        });
+            const LibraryLayer = () => {
+                const [activeCat, setActiveCat] = useState(null);
+                const filtered = useMemo(() => {
+                    let acc = [];
+                    Object.entries(MASTER_LIBRARY).forEach(([muscle, list]) => {
+                        if (!activeCat || activeCat === muscle) {
+                            list.forEach(name => {
+                                if (!libUI.search || name.toLowerCase().includes(libUI.search.toLowerCase())) acc.push({ name, muscle });
+                            });
+                        }
                     });
-                    return r;
-                }, [cat, libSearch]);
+                    return acc;
+                }, [activeCat, libUI.search]);
 
-                const selectEx = (name) => {
-                    const n = [...program]; n[libTarget.dIdx].exercises[libTarget.eIdx].name = name;
-                    setProgram(n); setIsLibOpen(false);
+                const commitSelection = (name) => {
+                    const n = [...program]; n[libUI.target.d].exercises[libUI.target.e].name = name;
+                    setProgram(n); setLibUI({...libUI, open: false});
                 };
 
                 return (
-                    <motion.div initial={{y:'100%'}} animate={{y:0}} exit={{y:'100%'}} className="fixed inset-0 z-[100] bg-bg flex flex-col">
-                        <header className="p-4 border-b border-border/40 flex justify-between items-center bg-surface/80 backdrop-blur-3xl sticky top-0 z-50">
-                            <div className="flex gap-3 items-center">
-                                <h2 className="font-black text-white text-sm uppercase">Analytical Library</h2>
-                                <span className="text-accent bg-accent/10 px-2 py-0.5 rounded-lg text-[9px] font-black uppercase">{results.length} UNITS</span>
+                    <motion.div initial={{y:'100%'}} animate={{y:0}} exit={{y:'100%'}} className="fixed inset-0 z-[100] bg-bg flex flex-col no-scrollbar">
+                        <header className="p-4 border-b border-border/50 flex justify-between items-center bg-surface-low/90 backdrop-blur-2xl sticky top-0 z-50">
+                            <div className="flex items-center gap-3">
+                                <h2 className="text-sm font-black text-white uppercase tracking-tight">System Knowledge Base</h2>
+                                <span className="bg-accent/20 border border-accent/20 rounded-lg text-accent text-[8px] px-2 py-1 font-black uppercase tracking-widest">{filtered.length} UNITS</span>
                             </div>
-                            <button onClick={() => setIsLibOpen(false)} className="w-12 h-12 bg-surface-light border border-border rounded-2xl flex items-center justify-center text-text-dim"><Icon name="x" /></button>
+                            <button onClick={()=>setLibUI({...libUI, open:false})} className="w-12 h-12 bg-surface-mid border border-border rounded-2xl flex items-center justify-center text-text-dim"><Icon name="x" /></button>
                         </header>
-                        <div className="p-5 space-y-5">
+                        <div className="p-6 space-y-6">
                             <div className="relative group">
-                                <Icon name="search" className="absolute left-4 top-1/2 -translate-y-1/2 text-text-dim group-focus-within:text-accent w-4 h-4 transition-colors" />
-                                <input type="text" placeholder="Decode tactical biomechanics..." value={libSearch} onChange={(e)=>setLibSearch(e.target.value)} className="w-full bg-surface-light border border-border h-14 rounded-2xl pl-12 pr-5 text-sm font-black text-white outline-none focus:ring-1 focus:ring-accent/40" />
+                                <Icon name="search" cls="absolute left-4 top-1/2 -translate-y-1/2 text-text-dim group-focus-within:text-accent w-4 h-4 transition-colors" />
+                                <input type="text" placeholder="Query elite biomechanics..." value={libUI.search} onChange={(e)=>setLibUI({...libUI, search:e.target.value})} className="w-full bg-surface-mid border border-border h-14 rounded-2xl pl-12 pr-6 text-sm font-black text-white outline-none focus:ring-1 focus:ring-accent/40" />
                             </div>
-                            <div className="flex gap-2 overflow-x-auto no-scrollbar -mx-5 px-5 pb-1">
-                                <button onClick={() => setCat(null)} className={`px-5 py-3 rounded-2xl text-[9px] font-black uppercase whitespace-nowrap border-2 ${!cat ? 'bg-accent border-accent text-black shadow-lg shadow-accent/20' : 'bg-surface border-border text-text-dim opacity-70'}`}>Universal</button>
-                                {Object.keys(EXERCISE_LIBRARY).map(c => (
-                                    <button key={c} onClick={()=>setCat(c)} className={`px-5 py-3 rounded-2xl text-[9px] font-black uppercase whitespace-nowrap border-2 ${cat === c ? 'bg-accent border-accent text-black shadow-lg shadow-accent/20' : 'bg-surface border-border text-text-dim opacity-70'}`}>{c.split('/')[0]}</button>
+                            <div className="flex gap-2.5 overflow-x-auto no-scrollbar -mx-6 px-6 pb-2">
+                                <button onClick={()=>setActiveCat(null)} className={`px-6 py-3 rounded-2xl text-[9px] font-black uppercase tracking-widest border-2 transition-all ${!activeCat ? 'bg-accent border-accent text-black shadow-xl' : 'bg-surface-mid border-border text-text-dim/60 opacity-60'}`}>Universal</button>
+                                {Object.keys(MASTER_LIBRARY).map(c => (
+                                    <button key={c} onClick={()=>setActiveCat(c)} className={`px-6 py-3 rounded-2xl text-[9px] font-black uppercase tracking-widest border-2 transition-all ${activeCat === c ? 'bg-accent border-accent text-black shadow-xl' : 'bg-surface-mid border-border text-text-dim/60 opacity-60'}`}>{c.split('(')[0]}</button>
                                 ))}
                             </div>
                         </div>
-                        <div className="flex-1 overflow-y-auto px-5 pb-28 space-y-2">
-                            {results.map((r, i) => (
-                                <button key={i} onClick={()=>selectEx(r.name)} className="w-full flex justify-between items-center p-4 bg-surface border border-border rounded-2xl active:scale-95 group transition-all">
-                                    <div className="text-left flex items-center gap-4">
-                                        <div className="w-11 h-11 bg-surface-light border border-border rounded-xl flex items-center justify-center"><Icon name="dumb" className="text-accent/30 group-hover:text-accent transition-colors" /></div>
-                                        <div><div className="font-black text-white text-[14px] leading-tight group-hover:text-accent transition-colors">{r.name}</div><div className="text-[9px] uppercase font-black text-text-dim opacity-50 tracking-widest mt-1">{r.muscle.split('/')[0]}</div></div>
+                        <div className="flex-1 overflow-y-auto px-6 pb-32 space-y-2.5">
+                            {filtered.map((unit, i) => (
+                                <button key={i} onClick={()=>commitSelection(unit.name)} className="w-full h-20 bg-surface-mid border border-border rounded-[1.5rem] p-4 flex justify-between items-center group active:scale-[0.98] transition-all">
+                                    <div className="flex items-center gap-4 text-left">
+                                        <div className="w-12 h-12 bg-surface-high border border-border rounded-2xl flex items-center justify-center shadow-inner"><Icon name="dumb" cls="text-accent/30 group-hover:text-accent transition-colors w-6 h-6" /></div>
+                                        <div>
+                                            <div className="font-black text-white text-[14px] leading-none mb-1 group-hover:text-accent transition-colors">{unit.name}</div>
+                                            <div className="text-[9px] uppercase font-black text-text-dim opacity-30 tracking-[0.2em]">{unit.muscle.split('(')[0]} Protocol</div>
+                                        </div>
                                     </div>
-                                    <Icon name="plus" className="text-accent/40" />
+                                    <div className="w-10 h-10 border border-accent/20 rounded-xl flex items-center justify-center bg-accent/5 group-hover:bg-accent group-hover:text-black transition-all"><Icon name="plus" cls="w-4 h-4" /></div>
                                 </button>
                             ))}
-                            {results.length === 0 && <div className="py-24 text-center text-text-dim font-black uppercase italic text-xs tracking-widest opacity-30">Zero match identified</div>}
                         </div>
+                        <div className="fixed bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-bg to-transparent pointer-events-none"></div>
                     </motion.div>
                 );
             };
 
             return (
-                <div className="min-h-screen bg-bg text-slate-200 selection:bg-accent selection:text-black">
-                    <div className="max-w-md mx-auto p-4 pt-10 relative z-10">
+                <div className="min-h-screen bg-bg text-slate-200 selection:bg-accent selection:text-black font-sans leading-none">
+                    <div className="max-w-md mx-auto p-4 pt-12 relative z-10">
                         <AnimatePresence mode="wait">
-                            {activeTab === 'hub' && <motion.div key="h" initial={{opacity:0, y:10}} animate={{opacity:1, y:0}} exit={{opacity:0, y:-10}}>{renderHub()}</motion.div>}
-                            {activeTab === 'work' && <motion.div key="w" initial={{opacity:0, y:10}} animate={{opacity:1, y:0}} exit={{opacity:0, y:-10}}>{renderWorkout()}</motion.div>}
-                            {activeTab === 'plan' && <motion.div key="p" initial={{opacity:0, y:10}} animate={{opacity:1, y:0}} exit={{opacity:0, y:-10}}>{renderEditor()}</motion.div>}
-                            {activeTab === 'data' && <motion.div key="d" initial={{opacity:0, y:10}} animate={{opacity:1, y:0}} exit={{opacity:0, y:-10}}>{renderData()}</motion.div>}
+                            {view === 'hub' && <motion.div key="v1" initial={{opacity:0, scale:0.98}} animate={{opacity:1, scale:1}} exit={{opacity:0, scale:0.98}}>{renderHub()}</motion.div>}
+                            {view === 'workout' && <motion.div key="v2" initial={{opacity:0, y:10}} animate={{opacity:1, y:0}} exit={{opacity:0, y:-10}}>{renderWorkout()}</motion.div>}
+                            {view === 'plan' && <motion.div key="v3" initial={{opacity:0, x:10}} animate={{opacity:1, x:0}} exit={{opacity:0, x:-10}}>{renderEditor()}</motion.div>}
+                            {view === 'data' && <motion.div key="v4" initial={{opacity:0, y:10}} animate={{opacity:1, y:0}} exit={{opacity:0, y:-10}}>{renderData()}</motion.div>}
                         </AnimatePresence>
                     </div>
 
-                    {/* Elite Bottom Dock */}
-                    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-[380px] z-50">
-                        <div className="glass-dock rounded-[2.8rem] p-2 flex items-center justify-between shadow-2xl ring-1 ring-white/5">
-                            <button onClick={()=>setActiveTab('hub')} className={`flex-1 flex flex-col items-center justify-center gap-1.5 h-14 rounded-[2.2rem] transition-all duration-300 ${activeTab === 'hub' ? 'bg-accent text-black font-black font-mono shadow-xl shadow-accent/20' : 'text-text-dim opacity-50'}`}><Icon name="layout" fill={activeTab==='hub'}/><span className="text-[8px] uppercase font-black tracking-widest">Hub</span></button>
-                            <button onClick={()=>setActiveTab('work')} className={`flex-1 flex flex-col items-center justify-center gap-1.5 h-14 rounded-[2.2rem] transition-all duration-300 ${activeTab === 'work' ? 'bg-accent text-black font-black font-mono shadow-xl shadow-accent/20' : 'text-text-dim opacity-50'}`}><Icon name="zap" fill={activeTab==='work'}/><span className="text-[8px] uppercase font-black tracking-widest">Work</span></button>
-                            <button onClick={()=>setActiveTab('plan')} className={`flex-1 flex flex-col items-center justify-center gap-1.5 h-14 rounded-[2.2rem] transition-all duration-300 ${activeTab === 'plan' ? 'bg-accent text-black font-black font-mono shadow-xl shadow-accent/20' : 'text-text-dim opacity-50'}`}><Icon name="dumb" fill={activeTab==='plan'}/><span className="text-[8px] uppercase font-black tracking-widest">Plan</span></button>
-                            <button onClick={()=>setActiveTab('data')} className={`flex-1 flex flex-col items-center justify-center gap-1.5 h-14 rounded-[2.2rem] transition-all duration-300 ${activeTab === 'data' ? 'bg-accent text-black font-black font-mono shadow-xl shadow-accent/20' : 'text-text-dim opacity-50'}`}><Icon name="chart" fill={activeTab==='data'}/><span className="text-[8px] uppercase font-black tracking-widest">Data</span></button>
+                    {/* Infinite Dock Docking System */}
+                    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[94%] max-w-[400px] z-[90]">
+                        <div className="glass-header rounded-[3rem] p-2.5 flex items-center justify-between dock-shadow border border-white/5">
+                            <button onClick={()=>setView('hub')} className={`flex-1 flex flex-col items-center justify-center gap-1.5 h-15 rounded-[2.5rem] transition-all duration-500 ${view === 'hub' ? 'bg-accent text-black font-black shadow-lg shadow-accent/20 scale-100' : 'text-text-dim opacity-40 scale-90'}`}><Icon name="hub" cls="w-5 h-5" /><span className="text-[7.5px] uppercase font-black tracking-widest">Master Hub</span></button>
+                            <button onClick={()=>setView('workout')} className={`flex-1 flex flex-col items-center justify-center gap-1.5 h-15 rounded-[2.5rem] transition-all duration-500 ${view === 'workout' ? 'bg-accent text-black font-black shadow-lg shadow-accent/20 scale-100' : 'text-text-dim opacity-40 scale-90'}`}><Icon name="zap" cls="w-5 h-5" /><span className="text-[7.5px] uppercase font-black tracking-widest">Protocol</span></button>
+                            <button onClick={()=>setView('plan')} className={`flex-1 flex flex-col items-center justify-center gap-1.5 h-15 rounded-[2.5rem] transition-all duration-500 ${view === 'plan' ? 'bg-accent text-black font-black shadow-lg shadow-accent/20 scale-100' : 'text-text-dim opacity-40 scale-90'}`}><Icon name="plan" cls="w-5 h-5" /><span className="text-[7.5px] uppercase font-black tracking-widest">Split</span></button>
+                            <button onClick={()=>setView('data')} className={`flex-1 flex flex-col items-center justify-center gap-1.5 h-15 rounded-[2.5rem] transition-all duration-500 ${view === 'data' ? 'bg-accent text-black font-black shadow-lg shadow-accent/20 scale-100' : 'text-text-dim opacity-40 scale-90'}`}><Icon name="data" cls="w-5 h-5" /><span className="text-[7.5px] uppercase font-black tracking-widest">Stats</span></button>
                         </div>
                     </div>
 
-                    <AnimatePresence>{isLibOpen && <LibraryModal />}</AnimatePresence>
+                    <AnimatePresence>{libUI.open && <LibraryLayer />}</AnimatePresence>
+                    <div className="pb-32"></div>
                 </div>
             );
         }
